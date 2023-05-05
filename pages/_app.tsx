@@ -1,15 +1,19 @@
+import { AppLayout } from "@/components/layouts/AppLayout";
 import "@/styles/globals.css";
-import lightThemeOptions from "@/styles/theme/lightThemeOptions";
+import { createTheme } from "@/theme";
+import { MyNextPage } from "@/types";
 import createEmotionCache from "@/utils/createEmotionCache";
 import { CacheProvider, EmotionCache } from "@emotion/react";
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { RecoilRoot } from "recoil";
+import "react-toastify/dist/ReactToastify.css";
 
 interface MyAppProps extends AppProps {
+  Component: MyNextPage;
   emotionCache?: EmotionCache;
 }
 
@@ -17,22 +21,24 @@ const queryClient = new QueryClient();
 
 const clientSideEmotionCache = createEmotionCache();
 
-const lightTheme = createTheme(lightThemeOptions);
+const theme = createTheme();
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
   emotionCache = clientSideEmotionCache,
 }: MyAppProps) {
+  const { layout = AppLayout } = Component;
+
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <CacheProvider value={emotionCache}>
-            <ThemeProvider theme={lightTheme}>
+            <ThemeProvider theme={theme}>
               <CssBaseline />
-              <Component {...pageProps} />
-              <ToastContainer />
+              {layout(<Component {...pageProps} />)}
+              <ToastContainer theme="light" />
             </ThemeProvider>
           </CacheProvider>
         </RecoilRoot>

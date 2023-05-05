@@ -1,0 +1,122 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  IMAGE_NAME: $CI_REGISTRY_IMAGE
+  KUBE_TOOL_IMAGE: $KUBE_TOOL_IMAGE
+
+### TEST ###
+helm_lint:
+  stage: test
+  image: ${KUBE_TOOL_IMAGE}
+  script:
+    - cd deploy/$CI_PROJECT_NAME
+    - helm lint -f values-production.yaml
+    - helm lint -f values-staging.yaml
+  only:
+    - main
+    - develop
+
+### BUILD ###
+.build_script: &build_script |
+  docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  docker build --no-cache --pull -f Dockerfile.prod -t $IMAGE_NAME:$IMAGE_TAG .
+  docker push $IMAGE_NAME:$IMAGE_TAG
+
+.build_job:
+  stage: build
+  image: docker:20.10.17
+  services:
+    - name: docker:20.10.17-dind
+      command: ['--tls=false']
+  script:
+    - *build_script
+
+build_stg:
+  extends: .build_job
+  before_script:
+    - cat $ENV_STG > .env
+    - export IMAGE_TAG=$CI_COMMIT_SHORT_SHA
+  rules:
+    - if: ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop")
+      when: always
+    - when: manual
+
+build_prod:
+  extends: .build_job
+  before_script:
+    - cat $ENV_PROD > .env
+    - export IMAGE_TAG=$CI_COMMIT_SHORT_SHA-prod
+  when: manual
+  only:
+    - main
+    - develop
+
+### DEPLOY ###
+.init_func: &init_func |
+  set -eo pipefail
+  [[ "$TRACE" ]] && set -x
+
+  init_kube_config() {
+    echo "init kube config"
+    export KUBECONFIG=$KUBE_CONFIG:$KUBE_CONFIG_PRD
+    echo "$KUBE_HOSTS" > /etc/hosts
+    kubectl config use-context $CI_ENVIRONMENT_NAME
+  }
+
+.deploy_script: &deploy_script |
+  echo "deploy $CI_PROJECT_NAME to $CI_ENVIRONMENT_NAME environment on namespace $NAMESPACE"
+  cd deploy/$CI_PROJECT_NAME
+  helm upgrade --install $CI_PROJECT_NAME . \
+    -f values-$CI_ENVIRONMENT_NAME.yaml \
+    --namespace $NAMESPACE \
+    --set image.tag="$IMAGE_TAG" \
+    --atomic --wait
+
+.deploy_job:
+  stage: deploy
+  image: ${KUBE_TOOL_IMAGE}
+  script:
+    - init_kube_config
+    - *deploy_script
+
+deploy_production:
+  extends: .deploy_job
+  environment:
+    name: production
+  before_script:
+    - *init_func
+    - export NAMESPACE=lumyri
+    - export IMAGE_TAG=$CI_COMMIT_SHORT_SHA-prod
+  when: manual
+  only:
+    - main
+    - develop
+
+deploy_staging:
+  extends: .deploy_job
+  environment:
+    name: staging
+  before_script:
+    - *init_func
+    - export NAMESPACE=staging
+    - export IMAGE_TAG=$CI_COMMIT_SHORT_SHA
+  when: manual
+  only:
+    - main
+    - develop
+
+deploy_zinza:
+  extends: .deploy_job
+  environment:
+    name: zinza
+  before_script:
+    - *init_func
+    - export NAMESPACE=lumyri
+    - export IMAGE_TAG=$CI_COMMIT_SHORT_SHA
+  rules:
+    - if: ($CI_SERVER_HOST == "lab.zinza.com.vn" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"))
+      when: always
+    - when: manual

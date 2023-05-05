@@ -1,11 +1,12 @@
 import { LoginDto, RegisterDto } from "@/types";
 import { httpClient } from "@/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { log } from "console";
 
 const endPoint = "/auth/local";
 
 export const authLocal = async (payload: LoginDto) => {
-  const { data } = await httpClient().post(`/auth/local`, payload);
+  const { data } = await httpClient().post(`/users/login`, payload);
   return data;
 };
 
@@ -17,11 +18,9 @@ export const refreshToken = async () => {
   const res = await httpClient().get(`/auth/refresh-token`);
 };
 
-export const useGetUserProfile = (isFetching: boolean) => {
-  const queryClient = useQueryClient();
-
-  return useQuery([endPoint, isFetching], async () => {
-    const res = await httpClient().get(endPoint);
+export const useGetUserProfile = () => {
+  return useQuery(["/payments/cards"], async () => {
+    const res = await httpClient().get("/payments/cards");
     const { data } = res.data;
 
     return data;

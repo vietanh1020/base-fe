@@ -1,38 +1,119 @@
-import { authLocal } from "@/services";
-import { LoginDto } from "@/types";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, RequestInternal } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+interface User {
+  id: string;
+  name: string;
+  accessToken: string;
+  refreshToken: string;
+}
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "Email" },
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "email@domain.com",
+        },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
+      async authorize(
+        credentials: Record<"email" | "password", string> | undefined,
+        req: Pick<RequestInternal, "body" | "query" | "headers" | "method">
+      ): Promise<User | null> {
         const { email, password } = credentials as any;
-        const { data: userData } = await authLocal({ email, password });
+        // const { access_token, refresh_token } = await authLocal({
+        //   email,
+        //   password,
+        // });
 
-        if (userData) {
-          // Any object returned will be saved in `user` property of the JWT
-          return userData;
+        const user = {
+          id: "123",
+          name: "AnhVV",
+          accessToken: "access_token",
+          refreshToken: "refresh_token",
+        };
+
+        if (!!email && !!password) {
+          return user;
         } else {
-          // If you return null then an error will be displayed advising the user to check their details.
           return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
     }),
   ],
+
+  callbacks: {
+    // Nó được gọi lại khi useSession + getSession + getServerSession
+
+    async jwt({ token, user, account }) {
+      return {
+        ...user,
+        ...token,
+      };
+
+      // if (Date.now() < token.accessTokenExpires) {
+      //   return token;
+      // }
+
+      // const updatedToken = await refreshAccessToken(token);
+
+      // return updatedToken;
+    },
+
+    async session({ session, token }) {
+      return { ...session, ...token };
+    },
+  },
+
+  session: {
+    strategy: "jwt",
+  },
+
+  pages: {
+    signIn: "/auth/sign-in",
+    error: "/auth/sign-in",
+  },
 };
+
+const refreshAccessToken = async (token: {
+  accessToken: string;
+  refreshToken: string;
+}) => {
+  try {
+    const cookie = `Authentication=${token.accessToken}; Refresh=${token.refreshToken}; `;
+    const response = await fetch(
+      process.env.NEXTAUTH_API_URL + "/auth/refresh",
+      { method: "POST", headers: { cookie } }
+    );
+
+    const refreshedTokens = await response.json();
+
+    if (!response.ok) {
+      throw refreshedTokens;
+    }
+
+    const { accessToken, accessTokenExpirationTime, refreshToken } =
+      refreshedTokens.metadata;
+
+    const updatedToken = {
+      ...token,
+      accessToken,
+      accessTokenExpires: Date.now() + accessTokenExpirationTime,
+      refreshToken: refreshToken ?? token.refreshToken, // Fall back to old refresh token
+    };
+
+    return updatedToken;
+  } catch (error) {
+    return {
+      ...token,
+      error: "RefreshAccessTokenError",
+    };
+  }
+};
+
 export default NextAuth(authOptions);

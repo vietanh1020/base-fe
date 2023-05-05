@@ -9,3 +9,9 @@ export type RegisterDto = {
   firstName: string;
   lastName: string;
 };
+
+export type AuthType = {
+  roles?: string[];
+  required?: boolean;
+  redirect?: string;
+};
