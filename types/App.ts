@@ -5,4 +5,5 @@ import { AuthType } from ".";
 export type MyNextPage = NextPage & {
   layout?: (page: ReactElement) => JSX.Element;
   auth?: AuthType;
+  author?: string[];
 };

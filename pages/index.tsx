@@ -9,10 +9,11 @@ import { OverviewTasksProgress } from "@/components/overview/TasksProgress";
 import { OverviewTotalCustomers } from "@/components/overview/TotalCustomers";
 import { OverviewTotalProfit } from "@/components/overview/TotalProfit";
 import { OverviewTraffic } from "@/components/overview/Traffic";
+import { MyNextPage } from "@/types";
 
 const now = new Date();
 
-const Page = () => (
+const Page: MyNextPage = () => (
   <Box
     component="main"
     sx={{
