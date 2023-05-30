@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 interface User {
   id: string;
   name: string;
+  role: string;
   accessToken: string;
   refreshToken: string;
 }
@@ -34,6 +35,7 @@ export const authOptions: NextAuthOptions = {
         const user = {
           id: "123",
           name: "AnhVV",
+          role: "admin",
           accessToken: "access_token",
           refreshToken: "refresh_token",
         };
