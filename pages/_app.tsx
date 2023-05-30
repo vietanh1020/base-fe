@@ -28,7 +28,7 @@ export default function App({
   pageProps: { session, ...pageProps },
   emotionCache = clientSideEmotionCache,
 }: MyAppProps) {
-  const { layout = AppLayout } = Component;
+  const { layout = AppLayout, author = [] } = Component;
 
   return (
     <SessionProvider session={session}>
