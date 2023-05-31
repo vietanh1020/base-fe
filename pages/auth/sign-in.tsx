@@ -133,9 +133,24 @@ const SignIn = () => {
                 </Link>
               </Grid>
             </Grid>
+
+            <Button
+              type="button"
+              onClick={() => {
+                signIn("google", {
+                  callbackUrl: "/",
+                  redirect: true,
+                });
+              }}
+              fullWidth
+              color="secondary"
+              variant="contained"
+              sx={{ mt: 8, mb: 2 }}
+            >
+              Sign In With Google
+            </Button>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
