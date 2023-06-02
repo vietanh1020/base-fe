@@ -1,161 +1,135 @@
 import { EmptyLayout } from "@/components/layouts/EmptyLayout";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import { MyNextPage } from "@/types";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import * as React from "react";
-import { useState } from "react";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-    </Typography>
-  );
-}
+const validationSchema = Yup.object({
+  email: Yup.string().email("Invalid email address"),
+  password: Yup.string().required("Required"),
+});
 
-const theme = createTheme();
-
-const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const LoginForm: MyNextPage = () => {
   const router = useRouter();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const { handleSubmit, values, errors, touched, handleChange, handleBlur } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      validationSchema: validationSchema,
+      onSubmit: async (values) => {
+        const result = await signIn("credentials", {
+          email: values.email,
+          password: values.password,
+          redirect: false,
+        });
 
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
+        if (result?.error) {
+          toast.error("error");
+        }
+        if (result?.ok) router.push("/");
+      },
     });
 
-    if (result?.error) {
-      toast.error("error");
-    }
-    if (result?.ok) router.push("/");
-  };
+  console.log(errors);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/auth/sign-up" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+    <form onSubmit={handleSubmit}>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar> */}
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
 
-            <Button
-              type="button"
-              onClick={() => {
-                signIn("google", {
-                  callbackUrl: "/",
-                  redirect: true,
-                });
-              }}
-              fullWidth
-              color="secondary"
-              variant="contained"
-              sx={{ mt: 8, mb: 2 }}
-            >
-              Sign In With Google
-            </Button>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        <TextField
+          margin="normal"
+          fullWidth
+          value={values.email}
+          error={!!errors?.email && touched.email}
+          label="Email Address"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          name="email"
+          autoComplete="off"
+        />
+        <TextField
+          margin="normal"
+          value={values.password}
+          fullWidth
+          error={!!errors?.password && touched.password}
+          name="password"
+          label="Password"
+          type="password"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          autoComplete="off"
+        />
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="Remember me"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Sign In
+        </Button>
+        {/* <Grid container>
+          <Grid item xs>
+            <Link href="#" variant="body2">
+              Forgot password?
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link href="/auth/sign-up" variant="body2">
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Grid>
+        </Grid> */}
+
+        <Button
+          type="button"
+          onClick={() => {
+            signIn("google", {
+              callbackUrl: "/",
+              redirect: true,
+            });
+          }}
+          fullWidth
+          color="secondary"
+          variant="contained"
+          sx={{ mt: 8, mb: 2 }}
+        >
+          Sign In With Google
+        </Button>
+      </Box>
+    </form>
   );
 };
 
-SignIn.layout = EmptyLayout;
+LoginForm.layout = EmptyLayout;
 
-export default SignIn;
+export default LoginForm;

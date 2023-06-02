@@ -7,9 +7,11 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
+  Rating,
   TextField,
 } from "@mui/material";
-import Head from "next/head";
+import { Loading } from "mdi-material-ui";
+import { Suspense } from "react";
 import styled from "styled-components";
 
 const Div = styled.div`
@@ -70,7 +72,13 @@ const Page = () => {
         </Alert>
       </Div>
 
+      <Rating name="half-rating" defaultValue={2.6} precision={1} />
+
       <CustomizedDialogs></CustomizedDialogs>
+
+      <Suspense fallback={<Loading />}>
+        <Rating name="half-rating" defaultValue={2.6} precision={1} />
+      </Suspense>
     </>
   );
 };

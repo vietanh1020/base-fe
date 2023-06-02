@@ -48,4 +48,13 @@ export const ItemsSideLink: ItemLink[] = [
       </SvgIcon>
     ),
   },
+  {
+    title: "Theme",
+    path: "/theme",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
+      </SvgIcon>
+    ),
+  },
 ];
