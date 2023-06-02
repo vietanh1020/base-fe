@@ -7,10 +7,10 @@ import { SvgIcon } from "@mui/material";
 type ItemLink = {
   title: string;
   path: string;
-  icon: any;
+  icon: JSX.Element;
 };
 
-export const ItemsSideLink: ItemLink[] = [
+export const AdminSideLink: ItemLink[] = [
   {
     title: "Overview",
     path: "/",
@@ -51,6 +51,36 @@ export const ItemsSideLink: ItemLink[] = [
   {
     title: "Theme",
     path: "/theme",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
+      </SvgIcon>
+    ),
+  },
+];
+
+export const UserSideLink: ItemLink[] = [
+  {
+    title: "Overview",
+    path: "/",
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Account",
+    path: "/account",
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Settings",
+    path: "/settings",
     icon: (
       <SvgIcon fontSize="small">
         <CogIcon />

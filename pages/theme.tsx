@@ -42,17 +42,6 @@ const Page = () => {
           />
 
           <FormControlLabel disabled control={<Checkbox />} label="Disabled" />
-
-          {/* <Checkbox
-            {...label}
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-          />
-          <Checkbox
-            {...label}
-            icon={<BookmarkBorderIcon />}
-            checkedIcon={<BookmarkIcon />}
-          /> */}
         </FormGroup>
       </Div>
 

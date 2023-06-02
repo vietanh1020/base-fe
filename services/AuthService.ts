@@ -32,9 +32,11 @@ export const useRegister = () => {
   return useMutation(
     ["/auth/signup"],
     async (data: RegisterDto) => {
-      const res = await httpClient().post(`auth/signup`, data);
-      const access_token = res.data.data.access_token;
-      return res.data;
+      // const res = await httpClient().post(`auth/signup`, data);
+      // const access_token = res.data.data.access_token;
+      // return res.data;
+
+      return true;
     },
     {
       onSuccess: async () => {

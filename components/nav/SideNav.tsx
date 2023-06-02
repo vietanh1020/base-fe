@@ -2,15 +2,16 @@ import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import PropTypes from "prop-types";
 
-import { ItemsSideLink } from "@/utils/config";
+import { AdminSideLink, UserSideLink } from "@/utils/config";
 import { Box, Divider, Drawer, Stack } from "@mui/material";
+import { useSession } from "next-auth/react";
 import { Logo } from "../commons/Logo";
 import { Scrollbar } from "./ScrollBar";
 import { SideNavItem } from "./SideNavItem";
 
-export const SideNav = (props: any) => {
-  const { open, onClose } = props;
+export const SideNav = () => {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const content = (
     <Scrollbar
@@ -62,7 +63,10 @@ export const SideNav = (props: any) => {
               m: 0,
             }}
           >
-            {ItemsSideLink.map((item) => {
+            {(session?.user.role === "admin"
+              ? AdminSideLink
+              : UserSideLink
+            ).map((item) => {
               const active = item.path ? pathname === item.path : false;
 
               return (

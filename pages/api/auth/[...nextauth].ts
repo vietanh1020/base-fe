@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
         const user = {
           id: "123",
           name: "AnhVV",
-          role: "admin",
+          role: email.includes("admin") ? "admin" : "user",
           accessToken: "access_token",
           refreshToken: "refresh_token",
         };
@@ -80,7 +80,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      return { ...session, ...token };
+      const { accessToken, refreshToken, ...res } = token;
+      return { ...session, accessToken, refreshToken, user: res };
     },
   },
 

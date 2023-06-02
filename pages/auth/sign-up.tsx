@@ -1,49 +1,70 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { EmptyLayout } from "@/components/layouts/EmptyLayout";
+import { useRegister } from "@/services";
+import { MyNextPage } from "@/types";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import Container from "@mui/material/Container";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { useFormik } from "formik";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 
-function Copyright(props: any) {
+const validationSchema = Yup.object({
+  firstName: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email address"),
+  password: Yup.string().required("Required"),
+  terms: Yup.bool().oneOf(
+    [true],
+    "You need to accept the terms and conditions"
+  ),
+});
+
+const SignUp: MyNextPage = () => {
+  const { mutateAsync: register } = useRegister();
+  const router = useRouter();
+
+  const { handleSubmit, values, errors, touched, handleChange, handleBlur } =
+    useFormik({
+      initialValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        terms: false,
+      },
+      validationSchema: validationSchema,
+      onSubmit: async () => {
+        const res = await register(values);
+        let result;
+        if (res) {
+          result = await signIn("credentials", {
+            email: values.email,
+            password: values.password,
+            redirect: false,
+          });
+        }
+
+        if (result?.error) {
+          toast.error("error");
+        }
+
+        if (result?.ok) router.push("/");
+      },
+    });
+
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
-
-const SignUp = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-  };
-
-  return (
-    <ThemeProvider theme={theme}>
+    <form onSubmit={handleSubmit}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -58,59 +79,58 @@ const SignUp = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
                   name="firstName"
-                  required
                   fullWidth
-                  id="firstName"
                   label="First Name"
-                  autoFocus
+                  value={values.firstName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   fullWidth
-                  id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="family-name"
+                  value={values.lastName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
-                  id="email"
                   label="Email Address"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   name="email"
-                  autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   label="Password"
                   type="password"
-                  id="password"
-                  autoComplete="new-password"
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
+                    <Checkbox
+                      name="terms"
+                      value={values.terms}
+                      onChange={handleChange}
+                      color="primary"
+                    />
                   }
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
@@ -133,9 +153,8 @@ const SignUp = () => {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
+    </form>
   );
 };
 
