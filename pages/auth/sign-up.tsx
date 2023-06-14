@@ -19,10 +19,10 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email address"),
-  password: Yup.string().required("Required"),
+  firstName: Yup.string().required(),
+  lastName: Yup.string().required(),
+  email: Yup.string().email(),
+  password: Yup.string().required(),
   terms: Yup.bool().oneOf(
     [true],
     "You need to accept the terms and conditions"
@@ -62,6 +62,8 @@ const SignUp: MyNextPage = () => {
       },
     });
 
+  console.log(errors);
+
   return (
     <form onSubmit={handleSubmit}>
       <Container component="main" maxWidth="xs">
@@ -86,6 +88,7 @@ const SignUp: MyNextPage = () => {
                   name="firstName"
                   fullWidth
                   label="First Name"
+                  error={!!errors.firstName}
                   value={values.firstName}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -96,6 +99,7 @@ const SignUp: MyNextPage = () => {
                   fullWidth
                   label="Last Name"
                   name="lastName"
+                  error={!!errors.lastName}
                   value={values.lastName}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -104,6 +108,7 @@ const SignUp: MyNextPage = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
+                  error={!!errors.email}
                   label="Email Address"
                   value={values.email}
                   onChange={handleChange}
@@ -115,6 +120,7 @@ const SignUp: MyNextPage = () => {
                 <TextField
                   fullWidth
                   name="password"
+                  error={!!errors.password}
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -127,6 +133,9 @@ const SignUp: MyNextPage = () => {
                   control={
                     <Checkbox
                       name="terms"
+                      sx={{
+                        color: "red",
+                      }}
                       value={values.terms}
                       onChange={handleChange}
                       color="primary"

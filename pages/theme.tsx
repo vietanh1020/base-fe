@@ -1,4 +1,5 @@
 import CustomizedDialogs from "@/components/modals/Modal";
+import styled from "@emotion/styled";
 import { FavoriteBorder } from "@mui/icons-material";
 import {
   Alert,
@@ -12,11 +13,10 @@ import {
 } from "@mui/material";
 import { Loading } from "mdi-material-ui";
 import { Suspense } from "react";
-import styled from "styled-components";
 
-const Div = styled.div`
-  margin: 40px;
-`;
+const Div = styled("div")({
+  margin: 40,
+});
 
 const Page = () => {
   return (
