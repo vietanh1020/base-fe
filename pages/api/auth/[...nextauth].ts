@@ -28,6 +28,9 @@ export const authOptions: NextAuthOptions = {
         req: Pick<RequestInternal, "body" | "query" | "headers" | "method">
       ): Promise<User | null> {
         const { email, password } = credentials as any;
+
+        // TODO  call api login
+
         // const { access_token, refresh_token } = await authLocal({
         //   email,
         //   password,
@@ -69,7 +72,7 @@ export const authOptions: NextAuthOptions = {
         ...user,
         ...token,
       };
-
+      //  TODO: code refresh token
       // if (Date.now() < token.accessTokenExpires) {
       //   return token;
       // }

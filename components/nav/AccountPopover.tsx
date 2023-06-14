@@ -1,6 +1,3 @@
-import { useCallback } from "react";
-import { useRouter } from "next/navigation";
-import PropTypes from "prop-types";
 import {
   Box,
   Divider,
@@ -9,16 +6,14 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import PropTypes from "prop-types";
 
 export const AccountPopover = (props: any) => {
   const { anchorEl, onClose, open } = props;
-  const router = useRouter();
 
-  const handleSignOut = useCallback(() => {
-    onClose?.();
-    router.push("/auth/sign-in");
-  }, [onClose, router]);
+  const { data: session } = useSession();
 
   return (
     <Popover
@@ -39,7 +34,7 @@ export const AccountPopover = (props: any) => {
       >
         <Typography variant="overline">Account</Typography>
         <Typography color="text.secondary" variant="body2">
-          Anika Visser
+          {session?.user.name}
         </Typography>
       </Box>
       <Divider />

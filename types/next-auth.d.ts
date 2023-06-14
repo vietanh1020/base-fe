@@ -15,6 +15,7 @@ declare module "next-auth" {
       address: string;
       zip: string;
       role: string;
+      image: string;
       accessToken: string;
       refreshToken: string;
     };

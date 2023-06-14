@@ -14,11 +14,13 @@ import {
 import { alpha } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { AccountPopover } from "./AccountPopover";
+import { useSession } from "next-auth/react";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
 
-export const TopNav = (props: any) => {
+export const TopNav = () => {
+  const { data: session } = useSession();
   const accountPopover = usePopover();
 
   return (
@@ -84,7 +86,7 @@ export const TopNav = (props: any) => {
                 height: 40,
                 width: 40,
               }}
-              src="/assets/avatars/avatar-anika-visser.png"
+              src={session?.user.image}
             />
           </Stack>
         </Stack>

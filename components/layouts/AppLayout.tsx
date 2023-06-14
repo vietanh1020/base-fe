@@ -5,13 +5,10 @@ import styled from "styled-components";
 import { SideNav } from "../nav/SideNav";
 import { TopNav } from "../nav/TopNav";
 
-const SIDE_NAV_WIDTH = 280;
-
-const LayoutRoot = styled("div")(({ theme }) => ({
+const LayoutRoot = styled("div")(() => ({
   display: "flex",
   flex: "1 1 auto",
   maxWidth: "100%",
-  paddingLeft: SIDE_NAV_WIDTH,
 }));
 
 const LayoutContainer = styled("div")({
@@ -48,7 +45,7 @@ export const AppLayout = (page: ReactElement) => {
         <TopNav onNavOpen={() => setOpenNav(true)} />
 
         <SideNav onClose={() => setOpenNav(false)} open={openNav} />
-        <LayoutRoot>
+        <LayoutRoot style={{ paddingLeft: "280px" }}>
           <LayoutContainer>{page}</LayoutContainer>
         </LayoutRoot>
       </>
