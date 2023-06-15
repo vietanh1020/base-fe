@@ -39,6 +39,7 @@ export const OverviewLatestProducts = (props: any) => {
                       borderRadius: 1,
                       height: 48,
                       width: 48,
+                      objectFit: "cover",
                     }}
                   />
                 ) : (
