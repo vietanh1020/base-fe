@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
 export const httpClient = () => {
@@ -12,10 +13,10 @@ export const httpClient = () => {
   });
 
   client.interceptors.request.use(async (request) => {
-    const session: any = await getSession();
+    const session = (await getSession()) as Session;
 
     if (session) {
-      request.headers["Authorization"] = `Bearer ${session.access_token}`;
+      request.headers["Authorization"] = `Bearer ${session.user.accessToken}`;
     }
     return request;
   });

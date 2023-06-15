@@ -9,18 +9,27 @@ import {
   Typography,
 } from "@mui/material";
 import { useSession } from "next-auth/react";
-
-const user = {
-  avatar: "/assets/avatars/avatar-anika-visser.png",
-  city: "Los Angeles",
-  country: "USA",
-  jobTitle: "Senior Developer",
-  name: "Anika Visser",
-  timezone: "GTM-7",
-};
+import { useRef, useState } from "react";
+import UpdateAvatar from "../modals/UpdateAvatar";
 
 export const Profile = () => {
   const { data: session } = useSession();
+  const [show, setShow] = useState(false);
+  const [file, setFile] = useState(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handlePreviewAvatar = (e: any) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setFile(file);
+      setShow(true);
+    }
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
 
   return (
     <Card>
@@ -44,15 +53,23 @@ export const Profile = () => {
             {session?.user.name}
           </Typography>
           <Typography color="text.secondary" variant="body2">
-            {user.timezone}
+            GMT + 7
           </Typography>
         </Box>
       </CardContent>
       <Divider />
       <CardActions>
-        <Button fullWidth variant="text">
-          Upload picture
+        <Button variant="text" fullWidth component="label">
+          Upload
+          <input
+            hidden
+            ref={fileRef}
+            onChange={handlePreviewAvatar}
+            accept=".jpg, .jpeg, .png"
+            type="file"
+          />
         </Button>
+        {file && <UpdateAvatar file={file} show={show} onClose={handleClose} />}
       </CardActions>
     </Card>
   );
