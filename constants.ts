@@ -1,8 +1,9 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyBMTC6k9fuSw-gdA-Oa-crUXpDTMs98BXQ",
-  authDomain: "phamacy-7af65.firebaseapp.com",
-  projectId: "phamacy-7af65",
-  storageBucket: "phamacy-7af65.appspot.com",
-  messagingSenderId: "274148783943",
-  appId: "1:274148783943:web:ce3e2b4c95fd91fa113e62",
+  apiKey: "AIzaSyA5kjF31z1CpgvkcQtUEDy95UXC7xc4fs0",
+  authDomain: "zinza-ffdb1.firebaseapp.com",
+  projectId: "zinza-ffdb1",
+  storageBucket: "zinza-ffdb1.appspot.com",
+  messagingSenderId: "395299467259",
+  appId: "1:395299467259:web:5d74d79f0b1644ce1e255e",
+  measurementId: "G-7G8HH1SV55",
 };
