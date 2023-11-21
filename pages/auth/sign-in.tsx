@@ -9,12 +9,12 @@ import {
   Container,
   FormControlLabel,
   Grid,
-  Link,
   TextField,
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -103,12 +103,10 @@ const LoginForm: MyNextPage = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+              <Link href="#">Forgot password?</Link>
             </Grid>
             <Grid item>
-              <Link href="/auth/sign-up" variant="body2">
+              <Link href="/auth/sign-up">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
