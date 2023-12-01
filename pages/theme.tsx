@@ -1,75 +1,54 @@
-import CustomizedDialogs from "@/components/modals/Modal";
-import styled from "@emotion/styled";
-import { FavoriteBorder } from "@mui/icons-material";
-import {
-  Alert,
-  AlertTitle,
-  Autocomplete,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Rating,
-  TextField,
-} from "@mui/material";
-import { Loading } from "mdi-material-ui";
-import { Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
+import io from "socket.io-client";
 
-const Div = styled("div")({
-  margin: 40,
-});
+const Chat = () => {
+  // State to store the messages
+  const [messages, setMessages] = useState<any>([]);
+  // State to store the current message
+  const [currentMessage, setCurrentMessage] = useState("");
+  const socketRef = useRef<any>();
 
-const Page = () => {
+  useEffect(() => {
+    // Create a socket connection
+    socketRef.current = io("http://localhost:3000");
+
+    // Listen for incoming messages
+    socketRef.current.on("recMessage", (message: any) => {
+      setMessages((prevMessages: any) => [...prevMessages, message]);
+    });
+
+    // Clean up the socket connection on unmount
+    return () => {
+      socketRef.current.disconnect();
+      socketRef.current.close();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    // Send the message to the server
+    socketRef.current.emit("sendMessage", currentMessage);
+    // Clear the currentMessage state
+    setCurrentMessage("");
+  };
+
   return (
-    <>
-      <Autocomplete
-        disablePortal
-        id="combo-box-demo"
-        options={["The Godfather", "Pulp Fiction"]}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Movie" />}
+    <div>
+      {/* Display the messages */}
+      {messages.map((message: string, index: number) => (
+        <p key={index}>{message}</p>
+      ))}
+
+      {/* Input field for sending new messages */}
+      <input
+        type="text"
+        value={currentMessage}
+        onChange={(e) => setCurrentMessage(e.target.value)}
       />
 
-      <Div>
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox defaultChecked />}
-            label="Label"
-          />
-          <FormControlLabel
-            required
-            control={<FavoriteBorder />}
-            label="Required"
-          />
-
-          <FormControlLabel disabled control={<Checkbox />} label="Disabled" />
-        </FormGroup>
-      </Div>
-
-      <Div>
-        <Alert severity="error">This is an error alert — check it out!</Alert>
-        <Alert severity="warning">
-          This is a warning alert — check it out!
-        </Alert>
-        <Alert severity="info">This is an info alert — check it out!</Alert>
-        <Alert severity="success">
-          This is a success alert — check it out!
-        </Alert>
-
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          This is an error alert — <strong>check it out!</strong>
-        </Alert>
-      </Div>
-
-      <Rating name="half-rating" defaultValue={2.6} precision={1} />
-
-      <CustomizedDialogs></CustomizedDialogs>
-
-      <Suspense fallback={<Loading />}>
-        <Rating name="half-rating" defaultValue={2.6} precision={1} />
-      </Suspense>
-    </>
+      {/* Button to submit the new message */}
+      <button onClick={sendMessage}>Send</button>
+    </div>
   );
 };
 
-export default Page;
+export default Chat;
