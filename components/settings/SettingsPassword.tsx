@@ -30,7 +30,7 @@ export const SettingsPassword = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Card>
-        <CardHeader subheader="Update password" title="Password" />
+        <CardHeader title="Password" />
         <Divider />
         <CardContent>
           <Stack spacing={3} sx={{ maxWidth: 400 }}>
