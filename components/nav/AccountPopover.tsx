@@ -6,14 +6,19 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
+import { setCookie } from "cookies-next";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 export const AccountPopover = (props: any) => {
   const { anchorEl, onClose, open } = props;
 
-  const { data: session } = useSession();
+  const { data: session } = useSession() as any;
+
+  useEffect(() => {
+    if (session?.accessToken) setCookie("token", session?.accessToken);
+  }, [session?.accessToken]);
 
   return (
     <Popover

@@ -10,10 +10,11 @@ import {
   TextField,
 } from "@mui/material";
 
-export const SettingsPassword = () => {
+export const SettingCompany = () => {
   const [values, setValues] = useState({
-    password: "",
-    confirm: "",
+    name: "",
+    description: "",
+    coverImage: "",
   });
 
   const handleChange = useCallback((event: any) => {
@@ -30,26 +31,31 @@ export const SettingsPassword = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Card>
-        <CardHeader title="Password" />
+        <CardHeader title="Company" />
         <Divider />
         <CardContent>
           <Stack spacing={3} sx={{ maxWidth: 400 }}>
             <TextField
               fullWidth
-              label="Password"
-              name="password"
+              label="Company Name"
+              name="name"
               onChange={handleChange}
-              type="password"
-              value={values.password}
+              type="text"
+              value={values.name}
             />
             <TextField
               fullWidth
-              label="Password (Confirm)"
-              name="confirm"
+              label="Company Description"
+              name="description"
               onChange={handleChange}
-              type="password"
-              value={values.confirm}
+              type="text"
+              value={values.description}
             />
+
+            <Button variant="contained" component="label">
+              Upload File
+              <input type="file" hidden />
+            </Button>
           </Stack>
         </CardContent>
         <Divider />

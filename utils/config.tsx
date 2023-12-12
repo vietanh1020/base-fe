@@ -2,7 +2,9 @@ import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
 import CogIcon from "@heroicons/react/24/solid/CogIcon";
 import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
+import { MenuBook, MenuBookOutlined } from "@mui/icons-material";
 import { SvgIcon } from "@mui/material";
+import { CreditCard } from "mdi-material-ui";
 
 type ItemLink = {
   title: string;
@@ -49,11 +51,20 @@ export const AdminSideLink: ItemLink[] = [
     ),
   },
   {
-    title: "Theme",
-    path: "/theme",
+    title: "Menu",
+    path: "/menu",
     icon: (
       <SvgIcon fontSize="small">
-        <CogIcon />
+        <MenuBookOutlined />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Payment",
+    path: "/payment",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CreditCard />
       </SvgIcon>
     ),
   },

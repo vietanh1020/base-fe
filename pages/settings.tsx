@@ -1,3 +1,4 @@
+import { SettingCompany } from "@/components/settings/SettingCompany";
 import { SettingsPassword } from "@/components/settings/SettingsPassword";
 import { Box, Container, Stack, Typography } from "@mui/material";
 
@@ -12,6 +13,7 @@ const Page = () => (
     <Container maxWidth="lg">
       <Stack spacing={3}>
         <Typography variant="h4">Settings</Typography>
+        <SettingCompany />
         <SettingsPassword />
       </Stack>
     </Container>
