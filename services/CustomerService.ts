@@ -8,8 +8,7 @@ export function applyPagination(documents: any, page: any, rowsPerPage: any) {
 const endpoint = "/users";
 export const useGetUser = () => {
   return useQuery([endpoint], async () => {
-    const res = await httpClient().get(endpoint);
-    const { data } = res.data;
+    const { data } = await httpClient().get(endpoint);
 
     return data;
   });

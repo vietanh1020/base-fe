@@ -1,7 +1,6 @@
 import { CustomersSearch } from "@/components/customers/CustomerSearch";
 import { CustomersTable } from "@/components/customers/CustomerTable";
-import { useSelection } from "@/hooks/useSelection";
-import { applyPagination, useGetUser } from "@/services/CustomerService";
+import { useGetUser } from "@/services/CustomerService";
 import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
 import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
@@ -13,23 +12,10 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import { subDays, subHours } from "date-fns";
-import { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 
 const Customer = () => {
-  const [page, setPage] = useState(0);
-
   const { data: users } = useGetUser();
-
-  const handlePageChange = useCallback((event: any, value: any) => {
-    setPage(value);
-  }, []);
-
-  const handleRowsPerPageChange = useCallback((event: any) => {
-    setRowsPerPage(event.target.value);
-  }, []);
-
-  const [data, setData] = useState([]);
 
   return (
     <Box
@@ -81,13 +67,7 @@ const Customer = () => {
             </div>
           </Stack>
           <CustomersSearch />
-          {/* <CustomersTable
-            count={data.length}
-            items={customers}
-            onPageChange={handlePageChange}
-            onRowsPerPageChange={handleRowsPerPageChange}
-            page={page}
-          /> */}
+          <CustomersTable items={users || []} />
         </Stack>
       </Container>
     </Box>
