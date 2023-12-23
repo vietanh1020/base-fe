@@ -1,5 +1,7 @@
 import Food from "@/components/menu/Food";
+import CustomizedDialogs from "@/components/modals/Modal";
 import { Box, Grid } from "@mui/material";
+import { useState } from "react";
 
 export default function ActionAreaCard() {
   return (
