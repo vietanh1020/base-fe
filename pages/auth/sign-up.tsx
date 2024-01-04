@@ -9,11 +9,11 @@ import Checkbox from "@mui/material/Checkbox";
 import Container from "@mui/material/Container";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -21,7 +21,12 @@ import * as Yup from "yup";
 const validationSchema = Yup.object({
   firstName: Yup.string().required(),
   lastName: Yup.string().required(),
-  email: Yup.string().email(),
+  email: Yup.string().email().required(),
+  phone: Yup.string()
+    .matches(/^\+?[0-9]\d{1,20}$/)
+    .min(10)
+    .max(12)
+    .required(),
   password: Yup.string().required(),
   terms: Yup.bool().oneOf(
     [true],
@@ -39,12 +44,21 @@ const SignUp: MyNextPage = () => {
         firstName: "",
         lastName: "",
         email: "",
+        phone: "",
         password: "",
         terms: false,
       },
       validationSchema: validationSchema,
       onSubmit: async () => {
-        const res = await register(values);
+        console.log(1222);
+
+        let res;
+        try {
+          res = await register(values);
+        } catch (error) {
+          console.log(error);
+        }
+
         let result;
         if (res) {
           result = await signIn("credentials", {
@@ -61,8 +75,6 @@ const SignUp: MyNextPage = () => {
         if (result?.ok) router.push("/");
       },
     });
-
-  console.log(errors);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -88,7 +100,7 @@ const SignUp: MyNextPage = () => {
                   name="firstName"
                   fullWidth
                   label="First Name"
-                  error={!!errors.firstName}
+                  error={!!errors.firstName && !!touched.firstName}
                   value={values.firstName}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -99,7 +111,7 @@ const SignUp: MyNextPage = () => {
                   fullWidth
                   label="Last Name"
                   name="lastName"
-                  error={!!errors.lastName}
+                  error={!!errors.lastName && !!touched.lastName}
                   value={values.lastName}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -108,7 +120,7 @@ const SignUp: MyNextPage = () => {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  error={!!errors.email}
+                  error={!!errors.email && !!touched.email}
                   label="Email Address"
                   value={values.email}
                   onChange={handleChange}
@@ -120,12 +132,25 @@ const SignUp: MyNextPage = () => {
                 <TextField
                   fullWidth
                   name="password"
-                  error={!!errors.password}
+                  error={!!errors.password && !!touched.password}
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   label="Password"
                   type="password"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  name="phone"
+                  error={!!errors.phone && !!touched.phone}
+                  value={values.phone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  label="Phone Number"
+                  type="phone"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -155,7 +180,7 @@ const SignUp: MyNextPage = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/auth/sign-in" variant="body2">
+                <Link href="/auth/sign-in">
                   Already have an account? Sign in
                 </Link>
               </Grid>

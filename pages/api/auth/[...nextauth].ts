@@ -1,3 +1,5 @@
+import { authLocal, loginGoogle } from "@/services";
+import { Logout } from "mdi-material-ui";
 import NextAuth, { NextAuthOptions, RequestInternal } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -31,20 +33,12 @@ export const authOptions: NextAuthOptions = {
 
         // TODO  call api login
 
-        // const { access_token, refresh_token } = await authLocal({
-        //   email,
-        //   password,
-        // });
+        const user: any = await authLocal({
+          email,
+          password,
+        });
 
-        const user = {
-          id: "123",
-          name: "AnhVV",
-          role: email.includes("admin") ? "admin" : "user",
-          accessToken: "access_token",
-          refreshToken: "refresh_token",
-        };
-
-        if (!!email && !!password) {
+        if (user) {
           return user;
         } else {
           return null;
@@ -67,11 +61,16 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     // Nó được gọi lại khi useSession + getSession + getServerSession
 
-    async jwt({ token, user, account }) {
-      return {
-        ...user,
-        ...token,
-      };
+    async jwt({ token, account }) {
+      if (account?.provider === "google" && account.id_token) {
+        try {
+          const data = await loginGoogle(account.id_token);
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      return token;
       //  TODO: code refresh token
       // if (Date.now() < token.accessTokenExpires) {
       //   return token;

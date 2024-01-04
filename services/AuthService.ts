@@ -1,12 +1,17 @@
 import { LoginDto, RegisterDto } from "@/types";
 import { httpClient } from "@/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { log } from "console";
-
-const endPoint = "/auth/local";
 
 export const authLocal = async (payload: LoginDto) => {
-  const { data } = await httpClient().post(`/users/login`, payload);
+  const { data } = await httpClient().post(`/auth/login`, payload);
+
+  return data;
+};
+
+export const loginGoogle = async (idToken: string) => {
+  const { data } = await httpClient().post(`/auth/google`, {
+    token: idToken,
+  });
   return data;
 };
 
@@ -30,13 +35,10 @@ export const useGetUserProfile = () => {
 export const useRegister = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["/auth/signup"],
+    ["/auth/admin"],
     async (data: RegisterDto) => {
-      // const res = await httpClient().post(`auth/signup`, data);
-      // const access_token = res.data.data.access_token;
-      // return res.data;
-
-      return true;
+      const res = await httpClient().post(`auth/admin`, data);
+      return res.data;
     },
     {
       onSuccess: async () => {

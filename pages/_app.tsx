@@ -11,6 +11,8 @@ import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { RecoilRoot } from "recoil";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import { getMessagingToken, onMessageListener } from "@/firebase";
 
 interface MyAppProps extends AppProps {
   Component: MyNextPage;
@@ -29,6 +31,15 @@ export default function App({
   emotionCache = clientSideEmotionCache,
 }: MyAppProps) {
   const { layout = AppLayout, author = [] } = Component;
+
+  useEffect(() => {
+    getMessagingToken();
+  }, []);
+  useEffect(() => {
+    onMessageListener().then((data) => {
+      console.log("Receive foreground: ", data);
+    });
+  }, []);
 
   return (
     <SessionProvider session={session}>

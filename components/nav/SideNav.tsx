@@ -63,7 +63,7 @@ export const SideNav = () => {
               m: 0,
             }}
           >
-            {(session?.user.role === "admin"
+            {(session?.user.role === "owner"
               ? AdminSideLink
               : UserSideLink
             ).map((item) => {

@@ -16,7 +16,6 @@ export const middleware = async (request: NextRequest) => {
   });
 
   const role = token?.role;
-
   const { pathname } = request.nextUrl;
 
   // ignore API & static files
@@ -42,7 +41,7 @@ export const middleware = async (request: NextRequest) => {
   // private pages
   if (
     allPages.includes(pathname) &&
-    ((role === "admin" && !adminPages.includes(pathname)) ||
+    ((role === "owner" && !adminPages.includes(pathname)) ||
       (role === "user" && !userPages.includes(pathname)))
   ) {
     return NextResponse.redirect(new URL("/503", request.url));
