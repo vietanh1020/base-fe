@@ -6,9 +6,9 @@ import Typography from "@mui/material/Typography";
 import CustomizedDialogs from "../modals/Modal";
 import { useState } from "react";
 
-export default function Food() {
+export default function Food(food: any) {
   const [show, setShow] = useState(false);
-
+  const { price, name, image } = food;
   const handleShow = () => {
     setShow(true);
   };
@@ -22,13 +22,13 @@ export default function Food() {
         <CardActionArea>
           <CardMedia
             component="img"
-            image="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/387841119_1769731203545112_6124233819149364047_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=4TQgDO1XZE4AX9FQqMY&_nc_ht=scontent.fhan9-1.fna&oh=00_AfC8ksGjgUr7gtlNaYns5_LUssvV-6WA60myJZ-p1HtURA&oe=658C63AA"
+            image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
             alt="green iguana"
             sx={{ objectFit: "cover" }}
           />
           <CardContent sx={{ mb: 2, py: 1, px: 1 }}>
             <Typography variant="body2" color="text.secondary" pb={1}>
-              Cam dứa
+              {name}
             </Typography>
 
             <Typography
@@ -40,7 +40,7 @@ export default function Food() {
                 fontWeight: 700,
               }}
             >
-              40.000
+              {price}
             </Typography>
 
             <span
@@ -63,7 +63,9 @@ export default function Food() {
         </CardActionArea>
       </Card>
 
-      {show && <CustomizedDialogs handleClose={handleClose} show={show} />}
+      {show && (
+        <CustomizedDialogs handleClose={handleClose} food={food} show={show} />
+      )}
     </Grid>
   );
 }

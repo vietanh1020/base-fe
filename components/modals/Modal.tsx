@@ -2,7 +2,7 @@ import {
   Box,
   CardContent,
   CardMedia,
-  FormControl,
+  FormControlLabel,
   FormLabel,
   Radio,
   RadioGroup,
@@ -10,10 +10,11 @@ import {
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
+import { styles } from "./style";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -32,7 +33,19 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-export default function CustomizedDialogs({ handleClose, show, content }: any) {
+export default function CustomizedDialogs({ handleClose, show, food }: any) {
+  const { price, name, image, description, options } = food;
+
+  const [count, setCount] = useState(0);
+
+  const decrease = () => {
+    if (count > 0) setCount(count - 1);
+  };
+
+  const increase = () => {
+    setCount(count + 1);
+  };
+
   return (
     <Modal
       onClose={handleClose}
@@ -42,8 +55,8 @@ export default function CustomizedDialogs({ handleClose, show, content }: any) {
       <DialogContent dividers sx={{ p: 0 }}>
         <CardMedia
           component="img"
-          image="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/387841119_1769731203545112_6124233819149364047_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=dd5e9f&_nc_ohc=4TQgDO1XZE4AX9FQqMY&_nc_ht=scontent.fhan9-1.fna&oh=00_AfC8ksGjgUr7gtlNaYns5_LUssvV-6WA60myJZ-p1HtURA&oe=658C63AA"
-          alt="green iguana"
+          image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
+          alt={name}
           sx={{ objectFit: "cover" }}
         />
         <CardContent>
@@ -55,48 +68,70 @@ export default function CustomizedDialogs({ handleClose, show, content }: any) {
             }}
           >
             <Typography variant="body2" color="text.secondary" pb={1}>
-              Cam dứa
+              {name}
             </Typography>
 
             <Typography gutterBottom variant="body2" component="h1">
-              40.000
+              {price}
             </Typography>
           </Box>
 
-          <Typography>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text .
-          </Typography>
+          <Typography>{description}</Typography>
 
           <div>
-            <FormControl>
-              <FormLabel sx={{ mt: 2, fontSize: 18 }}>
-                Loại cốc (Chọn 1)
-              </FormLabel>
-              <RadioGroup defaultValue="outlined" name="radio-buttons-group">
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Radio value="outlined" />
-                  <Typography>Size M+ (Ly giấy cao cấp)</Typography>
-                </Box>
+            {options.map(({ data, label, id }: any) => {
+              return (
+                <div key={id}>
+                  <FormLabel sx={{ mt: 2, fontSize: 18 }}>{label}</FormLabel>
+                  <RadioGroup defaultValue="outlined">
+                    {data.map((item: any) => {
+                      return (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "between",
+                          }}
+                        >
+                          <FormControlLabel
+                            value={item.label}
+                            control={<Radio />}
+                            label={item.label}
+                          />
+                          <Box>{item.price}</Box>
+                        </Box>
+                      );
+                    })}
+                  </RadioGroup>
+                </div>
+              );
+            })}
 
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Radio value="outlined" />
-                  <Typography>Size M+ (Ly nhựa)</Typography>
-                </Box>
-              </RadioGroup>
-            </FormControl>
+            <FormLabel sx={{ mt: 2, fontSize: 18 }}>
+              Thêm lưu ý cho quán(Không bắt buộc)
+            </FormLabel>
+            <TextareaAutosize
+              style={{ width: "100%", padding: "6px 12px" }}
+              placeholder="Type anything…"
+            />
 
-            <TextareaAutosize placeholder="Type anything…" />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "12px auto",
+              }}
+            >
+              <Box sx={styles.btnAddFood} onClick={decrease}>
+                -
+              </Box>
+
+              <Box sx={styles.btnAddFood}>{count}</Box>
+
+              <Box sx={styles.btnAddFood} onClick={increase}>
+                +
+              </Box>
+            </Box>
 
             <div
               style={{
@@ -107,21 +142,8 @@ export default function CustomizedDialogs({ handleClose, show, content }: any) {
             </div>
           </div>
         </CardContent>
-        <Button
-          autoFocus
-          onClick={handleClose}
-          sx={{
-            py: 1,
-            display: "flex",
-            marginX: "auto",
-            color: "#fff",
-            my: 1,
-            fontWeight: "400",
-            fontSize: "16px",
-            backgroundColor: "#43dc5c",
-          }}
-        >
-          Thêm vào giỏ hàng - 50.000
+        <Button autoFocus onClick={handleClose} sx={styles.btnSubmit}>
+          Thêm vào giỏ hàng
         </Button>
       </DialogContent>
     </Modal>
