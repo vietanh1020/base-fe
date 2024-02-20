@@ -34,9 +34,9 @@ export const middleware = async (request: NextRequest) => {
   }
 
   // require login
-  if (!token) {
-    return NextResponse.redirect(new URL("/auth/sign-in", request.url));
-  }
+  // if (!token) {
+  //   return NextResponse.redirect(new URL("/auth/sign-in", request.url));
+  // }
 
   // private pages
   if (

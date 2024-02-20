@@ -1,5 +1,3 @@
-export const allPages = ["/", "/customers", "/account", "/settings", "/theme"];
-
 export const adminPages = [
   "/",
   "/customers",
@@ -10,4 +8,19 @@ export const adminPages = [
 
 export const userPages = ["/", "/account", "/settings"];
 
-export const publicPages = ["/auth/sign-in", "/auth/sign-up", "/about", "/503"];
+export const publicPages = [
+  "/auth/sign-in",
+  "/auth/sign-up",
+  "/about",
+  "/503",
+  "/menu",
+];
+
+export const allPages = [
+  "/",
+  "/customers",
+  "/account",
+  "/settings",
+  "/theme",
+  ...publicPages,
+];

@@ -1,20 +1,29 @@
-import * as React from "react";
+import {
+  Box,
+  CardContent,
+  CardMedia,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextareaAutosize,
+} from "@mui/material";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import { useState } from "react";
+import { styles } from "./style";
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+const Modal = styled(Dialog)(({ theme }) => ({
+  margin: 0,
   "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
+    margin: 0,
+    // padding: theme.spacing(2),
   },
   "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
+    // padding: theme.spacing(1),
   },
 }));
 
@@ -24,79 +33,119 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-function BootstrapDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
+export default function CustomizedDialogs({ handleClose, show, food }: any) {
+  const { price, name, image, description, options } = food;
 
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-}
+  const [count, setCount] = useState(0);
 
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const decrease = () => {
+    if (count > 0) setCount(count - 1);
   };
-  const handleClose = () => {
-    setOpen(false);
+
+  const increase = () => {
+    setCount(count + 1);
   };
 
   return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-        >
-          Modal title
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
-    </div>
+    <Modal
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={show}
+    >
+      <DialogContent dividers sx={{ p: 0 }}>
+        <CardMedia
+          component="img"
+          image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
+          alt={name}
+          sx={{ objectFit: "cover" }}
+        />
+        <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              fontWeight: 700,
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="body2" color="text.secondary" pb={1}>
+              {name}
+            </Typography>
+
+            <Typography gutterBottom variant="body2" component="h1">
+              {price}
+            </Typography>
+          </Box>
+
+          <Typography>{description}</Typography>
+
+          <div>
+            {options.map(({ data, label, id }: any) => {
+              return (
+                <div key={id}>
+                  <FormLabel sx={{ mt: 2, fontSize: 18 }}>{label}</FormLabel>
+                  <RadioGroup defaultValue="outlined">
+                    {data.map((item: any) => {
+                      return (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "between",
+                          }}
+                        >
+                          <FormControlLabel
+                            value={item.label}
+                            control={<Radio />}
+                            label={item.label}
+                          />
+                          <Box>{item.price}</Box>
+                        </Box>
+                      );
+                    })}
+                  </RadioGroup>
+                </div>
+              );
+            })}
+
+            <FormLabel sx={{ mt: 2, fontSize: 18 }}>
+              Thêm lưu ý cho quán(Không bắt buộc)
+            </FormLabel>
+            <TextareaAutosize
+              style={{ width: "100%", padding: "6px 12px" }}
+              placeholder="Type anything…"
+            />
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "12px auto",
+              }}
+            >
+              <Box sx={styles.btnAddFood} onClick={decrease}>
+                -
+              </Box>
+
+              <Box sx={styles.btnAddFood}>{count}</Box>
+
+              <Box sx={styles.btnAddFood} onClick={increase}>
+                +
+              </Box>
+            </Box>
+
+            <div
+              style={{
+                fontSize: "12px",
+              }}
+            >
+              Việc thực hiện order còn phụ thuộc vào khả năng của quán!
+            </div>
+          </div>
+        </CardContent>
+        <Button autoFocus onClick={handleClose} sx={styles.btnSubmit}>
+          Thêm vào giỏ hàng
+        </Button>
+      </DialogContent>
+    </Modal>
   );
 }
