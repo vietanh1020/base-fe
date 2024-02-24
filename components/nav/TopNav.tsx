@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 import { AccountPopover } from "./AccountPopover";
 import { useSession } from "next-auth/react";
 
-const SIDE_NAV_WIDTH = 0;
+const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
 
 export const TopNav = () => {

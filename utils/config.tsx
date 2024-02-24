@@ -72,6 +72,15 @@ export const AdminSideLink: ItemLink[] = [
 
 export const UserSideLink: ItemLink[] = [
   {
+    title: "Menu",
+    path: "/menu",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Overview",
     path: "/",
     icon: (

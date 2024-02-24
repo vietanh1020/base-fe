@@ -4,9 +4,10 @@ export const adminPages = [
   "/account",
   "/settings",
   "/theme",
+  "/menu",
 ];
 
-export const userPages = ["/", "/account", "/settings"];
+export const userPages = ["/", "/account", "/settings", "/menu"];
 
 export const publicPages = [
   "/auth/sign-in",

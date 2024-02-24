@@ -1,4 +1,4 @@
-import CustomizedDialogs from "@/components/modals/Modal";
+import CreateOrder from "@/components/modals/CreateOrder";
 import styled from "@emotion/styled";
 import { FavoriteBorder } from "@mui/icons-material";
 import {
@@ -63,7 +63,7 @@ const Page = () => {
 
       <Rating name="half-rating" defaultValue={2.6} precision={1} />
 
-      <CustomizedDialogs></CustomizedDialogs>
+      <CreateOrder></CreateOrder>
 
       <Suspense fallback={<Loading />}>
         <Rating name="half-rating" defaultValue={2.6} precision={1} />

@@ -33,7 +33,7 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-export default function CustomizedDialogs({ handleClose, show, food }: any) {
+export default function CreateOrder({ handleClose, show, food }: any) {
   const { price, name, image, description, options } = food;
 
   const [count, setCount] = useState(0);

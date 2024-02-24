@@ -94,7 +94,7 @@ export const SideNav = () => {
         sx: {
           backgroundColor: "neutral.800",
           color: "common.white",
-          width: 0,
+          width: 280,
         },
       }}
       variant="permanent"

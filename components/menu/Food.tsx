@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import CustomizedDialogs from "../modals/Modal";
+import CreateOrder from "../modals/CreateOrder";
 import { useState } from "react";
 
 export default function Food(food: any) {
@@ -64,7 +64,7 @@ export default function Food(food: any) {
       </Card>
 
       {show && (
-        <CustomizedDialogs handleClose={handleClose} food={food} show={show} />
+        <CreateOrder handleClose={handleClose} food={food} show={show} />
       )}
     </Grid>
   );

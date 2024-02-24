@@ -44,10 +44,10 @@ export const AppLayout = (page: ReactElement) => {
       <>
         <TopNav onNavOpen={() => setOpenNav(true)} />
 
-        {/* <SideNav onClose={() => setOpenNav(false)} open={openNav} /> */}
-        {/* <LayoutRoot style={{ paddingLeft: "0" }}>
-        </LayoutRoot> */}
-        <LayoutContainer>{page}</LayoutContainer>
+        <SideNav onClose={() => setOpenNav(false)} open={openNav} />
+        <LayoutRoot style={{ paddingLeft: "280px" }}>
+          <LayoutContainer>{page}</LayoutContainer>
+        </LayoutRoot>
       </>
     </>
   );
