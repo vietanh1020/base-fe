@@ -5,9 +5,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CreateOrder from "../modals/CreateOrder";
 import { useState } from "react";
+import { useDeleteFood } from "@/services/MenuService";
 
 export default function Food(food: any) {
   const [show, setShow] = useState(false);
+  const { mutateAsync: deleteFood } = useDeleteFood();
   const { price, name, image } = food;
   const handleShow = () => {
     setShow(true);
@@ -22,7 +24,7 @@ export default function Food(food: any) {
         <CardActionArea>
           <CardMedia
             component="img"
-            image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
+            image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
             alt="green iguana"
             sx={{ objectFit: "cover" }}
           />
@@ -47,7 +49,7 @@ export default function Food(food: any) {
               onClick={handleShow}
               style={{
                 position: "absolute",
-                top: 80,
+                top: 120,
                 right: 10,
                 lineHeight: "24px",
                 padding: "0px 6px",
@@ -58,6 +60,23 @@ export default function Food(food: any) {
               }}
             >
               +
+            </span>
+
+            <span
+              onClick={() => deleteFood(food.id)}
+              style={{
+                position: "absolute",
+                top: 80,
+                right: 10,
+                lineHeight: "24px",
+                padding: "0px 6px",
+                fontSize: "20px",
+                borderRadius: "50%",
+                background: "pink",
+                color: "#fff",
+              }}
+            >
+              X
             </span>
           </CardContent>
         </CardActionArea>

@@ -12,7 +12,6 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 
 const Customer = () => {
   const { data: users } = useGetUser();

@@ -22,6 +22,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { CleaningServices } from "@mui/icons-material";
+import { useCreateFood, useUploadFoodImg } from "@/services/MenuService";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -40,16 +41,6 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-const initialOption = {
-  label: "",
-  price: "",
-};
-
-const initialFoodOption = {
-  label: "",
-  data: [initialOption],
-};
-
 export default function CreateFood({ handleClose, show, food = {} }: any) {
   const {
     price = 10000,
@@ -61,7 +52,8 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
 
   const router = useRouter();
 
-  const [count, setCount] = useState(0);
+  const { mutateAsync } = useUploadFoodImg();
+  const { mutateAsync: createFood } = useCreateFood();
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Tên không được để trống"),
@@ -121,7 +113,17 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
         description: "",
       },
       validationSchema: validationSchema,
-      onSubmit: async (values) => {},
+      onSubmit: async (values) => {
+        const imageUrl = await handleSaveImage();
+        const data = {
+          ...values,
+          image: imageUrl,
+          foodOption: foodOptions,
+        };
+
+        const res = await createFood(data);
+        if (res) handleClose();
+      },
     });
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -133,23 +135,12 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
 
   const handleSaveImage = async () => {
     try {
-      if (!selectedImage) {
-        console.error("No image selected.");
-        return;
-      }
+      if (!selectedImage) return;
 
-      // Tạo FormData để chứa dữ liệu hình ảnh
       const formData = new FormData();
-      formData.append("image", selectedImage);
-
-      // Gọi API "/save-img" sử dụng thư viện axios
-      const response = await axios.post("/save-img", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      // Thực hiện các hành động khác sau khi gọi API thành công, nếu cần
+      formData.append("file", selectedImage);
+      const response = await mutateAsync(formData);
+      return response;
     } catch (error) {
       console.error("Error saving image:", error);
     }
@@ -161,11 +152,6 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
     setFoodOptions(updatedOptions);
   };
 
-  const handleSend = () => {
-    console.log(values);
-    console.log(foodOptions);
-  };
-
   return (
     <Modal
       onClose={handleClose}
@@ -175,14 +161,13 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
       <DialogContent dividers sx={{ p: 0 }}>
         <CardMedia
           component="img"
-          image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
+          image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
           alt={name}
           sx={{ objectFit: "cover" }}
         />
 
         <CardContent>
           <form action="" onSubmit={handleSubmit}>
-            <h1>Thêm mới món</h1>
             <TextField
               margin="normal"
               fullWidth
@@ -270,14 +255,14 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
                       <label>
                         Giá:
                         <input
-                          type="text"
+                          type="number"
                           value={dataItem.price}
                           onChange={(e) =>
                             handleDataChange(
                               optionIndex,
                               dataIndex,
                               "price",
-                              e.target.value
+                              +e.target.value
                             )
                           }
                         />
@@ -299,7 +284,7 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
           </form>
         </CardContent>
 
-        <Button autoFocus onClick={handleSend} sx={styles.btnSubmit}>
+        <Button autoFocus onClick={handleSubmit} sx={styles.btnSubmit}>
           Lưu
         </Button>
       </DialogContent>

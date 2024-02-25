@@ -1,5 +1,5 @@
 import Food from "@/components/menu/Food";
-import { useGetMenu } from "@/services/OrderService";
+import { useGetMenu } from "@/services/MenuService";
 import { Box, Grid } from "@mui/material";
 
 export default function ActionAreaCard() {

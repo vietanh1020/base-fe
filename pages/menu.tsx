@@ -1,13 +1,13 @@
 import Food from "@/components/menu/Food";
 import CreateFood from "@/components/modals/CreateFood";
-import { useGetMenu } from "@/services/OrderService";
-import { Box, Grid } from "@mui/material";
+import { useAdminGetMenu } from "@/services/MenuService";
+import { Box, Button, Grid } from "@mui/material";
 import { useState } from "react";
 
 export default function Menu() {
   const [toggle, setToggle] = useState(false);
 
-  const { data } = useGetMenu("8a92cae3-72e6-4958-adb7-26f6d0a01efb");
+  const { data } = useAdminGetMenu();
 
   const handleClick = () => {
     setToggle(!toggle);
@@ -18,10 +18,23 @@ export default function Menu() {
       <h1
         style={{
           textAlign: "center",
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
         Đây là menu
-        <button onClick={handleClick}> Thêm món +</button>
+        <Button
+          sx={{
+            border: "1px solid #F95E07",
+            color: "#F95E07",
+            fontSize: "14px",
+            fontWeight: "500",
+            borderRadius: "8px",
+          }}
+          onClick={handleClick}
+        >
+          Thêm món +
+        </Button>
       </h1>
 
       <Grid container spacing={{ xs: 2, md: 3 }}>

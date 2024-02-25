@@ -21,6 +21,7 @@ const TOP_NAV_HEIGHT = 64;
 
 export const TopNav = () => {
   const { data: session } = useSession();
+
   const accountPopover = usePopover();
 
   return (

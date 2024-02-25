@@ -61,25 +61,32 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     // Nó được gọi lại khi useSession + getSession + getServerSession
 
-    async jwt({ token, account }) {
-      if (account?.provider === "google" && account.id_token) {
-        try {
-          const data = await loginGoogle(account.id_token);
-          return data;
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      return token;
-      //  TODO: code refresh token
-      // if (Date.now() < token.accessTokenExpires) {
-      //   return token;
-      // }
-
-      // const updatedToken = await refreshAccessToken(token);
-
-      // return updatedToken;
+    async jwt({ token, user, account }) {
+      return {
+        ...user,
+        ...token,
+      };
     },
+
+    // async jwt({ token, account }) {
+    //   if (account?.provider === "google" && account.id_token) {
+    //     try {
+    //       const data = await loginGoogle(account.id_token);
+    //       return data;
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   }
+    //   return token;
+    //    TODO: code refresh token
+    //   if (Date.now() < token.accessTokenExpires) {
+    //     return token;
+    //   }
+
+    //   const updatedToken = await refreshAccessToken(token);
+
+    //   return updatedToken;
+    // },
 
     async session({ session, token }) {
       const { accessToken, refreshToken, ...res } = token;

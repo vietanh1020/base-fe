@@ -1,6 +1,5 @@
 import Head from "next/head";
-import { usePathname } from "next/navigation";
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import styled from "styled-components";
 import { SideNav } from "../nav/SideNav";
 import { TopNav } from "../nav/TopNav";
@@ -19,32 +18,15 @@ const LayoutContainer = styled("div")({
 });
 
 export const AppLayout = (page: ReactElement) => {
-  const pathname = usePathname();
-  const [openNav, setOpenNav] = useState(false);
-
-  const handlePathnameChange = useCallback(() => {
-    if (openNav) {
-      setOpenNav(false);
-    }
-  }, [openNav]);
-
-  useEffect(
-    () => {
-      handlePathnameChange();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [pathname]
-  );
-
   return (
     <>
       <Head>
         <title>Lumyri</title>
       </Head>
       <>
-        <TopNav onNavOpen={() => setOpenNav(true)} />
+        <TopNav onNavOpen={() => {}} />
 
-        <SideNav onClose={() => setOpenNav(false)} open={openNav} />
+        <SideNav onClose={() => {}} open={true} />
         <LayoutRoot style={{ paddingLeft: "280px" }}>
           <LayoutContainer>{page}</LayoutContainer>
         </LayoutRoot>

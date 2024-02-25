@@ -55,7 +55,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
       <DialogContent dividers sx={{ p: 0 }}>
         <CardMedia
           component="img"
-          image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
+          image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
           alt={name}
           sx={{ objectFit: "cover" }}
         />

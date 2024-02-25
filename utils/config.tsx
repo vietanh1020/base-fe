@@ -80,6 +80,16 @@ export const UserSideLink: ItemLink[] = [
       </SvgIcon>
     ),
   },
+
+  {
+    title: "Order",
+    path: "/order",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
+      </SvgIcon>
+    ),
+  },
   {
     title: "Overview",
     path: "/",
