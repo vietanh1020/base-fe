@@ -22,7 +22,7 @@ export default function Menu() {
           justifyContent: "space-between",
         }}
       >
-        Đây là menu
+        Menu
         <Button
           sx={{
             border: "1px solid #F95E07",
