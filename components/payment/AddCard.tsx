@@ -19,7 +19,7 @@ export const ModalCardAdd = ({ handleClose, ...props }: ModalCardAddProps) => {
           <div onClick={handleClose}>
             <IconMultiply />
           </div>
-          <ModalTitle>addNewACard</ModalTitle>
+          <ModalTitle>Add new card</ModalTitle>
         </ModalHeader>
 
         <ModalBody>

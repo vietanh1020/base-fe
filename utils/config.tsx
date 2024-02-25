@@ -51,6 +51,15 @@ export const AdminSideLink: ItemLink[] = [
     ),
   },
   {
+    title: "Order",
+    path: "/order",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Menu",
     path: "/menu",
     icon: (
