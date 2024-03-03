@@ -4,6 +4,7 @@ import { Button, DialogActions, DialogTitle, Slider } from "@mui/material";
 import { useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import styled from "@emotion/styled";
+import { useChangeAvt } from "@/services/CustomerService";
 
 type Props = {
   file: File;
@@ -23,6 +24,8 @@ export default function UpdateAvatar({ file, show, onClose }: Props) {
   const [scale, setScale] = useState<number>(1);
   const editorRef = useRef<any>(file);
 
+  const { mutateAsync: changeAvatar } = useChangeAvt();
+
   const handleScaleChange = (value: number | number[]) => {
     setScale(value as number);
   };
@@ -34,9 +37,8 @@ export default function UpdateAvatar({ file, show, onClose }: Props) {
 
     canvas.toBlob(async (blob: Blob) => {
       const formData: FormData = new FormData();
-      await formData.append("upload", blob, `vietanh.png`);
-      console.log(formData);
-      // const { url: avtUrl } = await changeAvatar(formData);
+      formData.append("file", blob, `vietanh.png`);
+      const { url: avtUrl } = await changeAvatar(formData);
     }, "image/png");
     onClose();
   };

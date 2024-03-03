@@ -1,28 +1,14 @@
-import {
-  Box,
-  CardContent,
-  CardMedia,
-  FormControlLabel,
-  FormLabel,
-  Input,
-  Radio,
-  RadioGroup,
-  TextField,
-  TextareaAutosize,
-} from "@mui/material";
+import { useCreateFood, useUploadFoodImg } from "@/services/MenuService";
+import { CardContent, CardMedia, Input, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
-import { styles } from "./style";
-import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import axios from "axios";
-import { CleaningServices } from "@mui/icons-material";
-import { useCreateFood, useUploadFoodImg } from "@/services/MenuService";
+import { useState } from "react";
+import * as Yup from "yup";
+import { styles } from "./style";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -53,7 +39,7 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
   const router = useRouter();
 
   const { mutateAsync } = useUploadFoodImg();
-  const { mutateAsync: createFood } = useCreateFood();
+  const { mutateAsync: createFood, data: foodData } = useCreateFood();
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Tên không được để trống"),
@@ -122,6 +108,7 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
         };
 
         const res = await createFood(data);
+
         if (res) handleClose();
       },
     });
@@ -166,42 +153,45 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
           sx={{ objectFit: "cover" }}
         />
 
-        <CardContent>
+        <CardContent sx={{ width: "600px" }}>
+          <h2 style={{ textAlign: "center", margin: 0 }}>Thêm món ăn mới</h2>
           <form action="" onSubmit={handleSubmit}>
-            <TextField
-              margin="normal"
-              fullWidth
-              value={values.name}
-              error={!!errors?.name && touched.name}
-              label="Tên món ăn"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              name="name"
-              autoComplete="off"
-            />
-            <TextField
-              margin="normal"
-              value={values.price}
-              fullWidth
-              error={!!errors?.price && touched.price}
-              name="price"
-              label="Giá  (đồng)"
-              type="number"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              autoComplete="off"
-            />
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <TextField
+                margin="normal"
+                value={values.name}
+                style={{ flex: 1 }}
+                error={!!errors?.name && touched.name}
+                label="Tên món ăn"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                name="name"
+                autoComplete="off"
+              />
 
-            <div>
+              <TextField
+                margin="normal"
+                value={values.price}
+                sx={{
+                  width: "100px",
+                }}
+                error={!!errors?.price && touched.price}
+                name="price"
+                label="Giá  (đồng)"
+                type="number"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                autoComplete="off"
+              />
               <Input
                 type="file"
                 inputProps={{ accept: "image/*" }}
                 onChange={handleImageChange}
-                // style={{ display: "none" }}
+                style={{ display: "none" }}
                 id="file-input"
               />
               <label htmlFor="file-input">
-                <Button component="span">Tải lên Tệp</Button>
+                <Button component="span">Ảnh</Button>
               </label>
             </div>
 
@@ -219,74 +209,124 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
             />
 
             <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: "10px",
+                  alignItems: "center",
+                }}
+              >
+                <h3 style={{ margin: 0 }}>Danh sách lựa chọn</h3>
+                <Button onClick={handleAddOption}>Thêm nhóm</Button>
+              </div>
               {foodOptions.map((option, optionIndex) => (
                 <div key={optionIndex}>
-                  <label>
-                    Nhóm {optionIndex}
-                    <input
-                      type="text"
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "10px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <h4 sx={{ margin: 0 }}>Nhóm lựa chọn {optionIndex + 1}</h4>
+                    <TextField
+                      margin="normal"
                       value={option.label}
+                      sx={{ flex: 1, margin: 0 }}
+                      label="Nhãn lựa chọn"
+                      type="text"
                       onChange={(e) =>
                         handleLabelChange(optionIndex, e.target.value)
                       }
+                      autoComplete="off"
                     />
-                  </label>
-                  {option.data.map((dataItem, dataIndex) => (
-                    <div key={dataIndex}>
-                      <label>
-                        Nhãn lựa chọn:
-                        <input
-                          type="text"
-                          value={dataItem.label}
-                          onChange={(e) =>
-                            handleDataChange(
-                              optionIndex,
-                              dataIndex,
-                              "label",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </label>
 
-                      <button onClick={() => handleDeleteOption(optionIndex)}>
-                        Xóa Lựa Chọn
-                      </button>
-                      <label>
-                        Giá:
-                        <input
-                          type="number"
-                          value={dataItem.price}
-                          onChange={(e) =>
-                            handleDataChange(
-                              optionIndex,
-                              dataIndex,
-                              "price",
-                              +e.target.value
-                            )
-                          }
-                        />
-                      </label>
-                      <button
+                    <Button
+                      color="error"
+                      onClick={() => handleDeleteOption(optionIndex)}
+                    >
+                      X
+                    </Button>
+                  </div>
+                  {option.data.map((dataItem, dataIndex) => (
+                    <div
+                      style={{
+                        marginLeft: "20px",
+                        display: "flex",
+                        gap: "10px",
+                        alignItems: "center",
+                      }}
+                      key={dataIndex}
+                    >
+                      <h4>Lựa chọn {dataIndex + 1}</h4>
+                      <TextField
+                        margin="normal"
+                        value={dataItem.label}
+                        sx={{ flex: 1, margin: 0 }}
+                        label="Nhãn lựa chọn"
+                        type="text"
+                        onChange={(e) =>
+                          handleDataChange(
+                            optionIndex,
+                            dataIndex,
+                            "label",
+                            e.target.value
+                          )
+                        }
+                        autoComplete="off"
+                      />
+
+                      <TextField
+                        margin="normal"
+                        value={dataItem.price}
+                        label="Giá"
+                        sx={{
+                          width: "100px ",
+                          margin: 0,
+                        }}
+                        type="number"
+                        onChange={(e) =>
+                          handleDataChange(
+                            optionIndex,
+                            dataIndex,
+                            "price",
+                            +e.target.value
+                          )
+                        }
+                        autoComplete="off"
+                      />
+                      <Button
+                        color="error"
                         onClick={() => handleDeleteData(optionIndex, dataIndex)}
                       >
                         X
-                      </button>
+                      </Button>
                     </div>
                   ))}
-                  <button onClick={() => handleAddData(optionIndex)}>
+
+                  <Button onClick={() => handleAddData(optionIndex)}>
                     Thêm Lựa Chọn
-                  </button>
+                  </Button>
                 </div>
               ))}
-              <button onClick={handleAddOption}>Thêm Lựa Chọn</button>
             </div>
+            <Button
+              variant="contained"
+              sx={{
+                borderRadius: "4px",
+                margin: "0 auto",
+                padding: "4px 30px ",
+                display: "flex",
+              }}
+              autoFocus
+              onClick={handleSubmit}
+            >
+              Lưu
+            </Button>
           </form>
         </CardContent>
-
-        <Button autoFocus onClick={handleSubmit} sx={styles.btnSubmit}>
-          Lưu
-        </Button>
       </DialogContent>
     </Modal>
   );

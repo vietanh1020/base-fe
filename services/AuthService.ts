@@ -23,15 +23,6 @@ export const refreshToken = async () => {
   const res = await httpClient().get(`/auth/refresh-token`);
 };
 
-export const useGetUserProfile = () => {
-  return useQuery(["/payments/cards"], async () => {
-    const res = await httpClient().get("/payments/cards");
-    const { data } = res.data;
-
-    return data;
-  });
-};
-
 export const useRegister = () => {
   const queryClient = useQueryClient();
   return useMutation(

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -11,34 +11,18 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 
-const states = [
-  {
-    value: "alabama",
-    label: "Alabama",
-  },
-  {
-    value: "new-york",
-    label: "New York",
-  },
-  {
-    value: "san-francisco",
-    label: "San Francisco",
-  },
-  {
-    value: "los-angeles",
-    label: "Los Angeles",
-  },
-];
-
-export const ProfileDetails = () => {
+export const ProfileDetails = ({ user }: any) => {
   const [values, setValues] = useState({
-    firstName: "Anika",
-    lastName: "Visser",
-    email: "demo@devias.io",
+    firstName: "",
+    lastName: "",
+    email: "",
     phone: "",
-    state: "los-angeles",
-    country: "USA",
+    address: "",
   });
+
+  useEffect(() => {
+    if (user) setValues(user);
+  }, [user]);
 
   const handleChange = useCallback((event: any) => {
     setValues((prevState) => ({
@@ -102,37 +86,18 @@ export const ProfileDetails = () => {
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label="Country"
-                  name="country"
+                  label="Address"
+                  name="address"
                   onChange={handleChange}
                   required
-                  value={values.country}
+                  value={values.address}
                 />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
-                >
-                  {states.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
               </Grid>
             </Grid>
           </Box>
         </CardContent>
-        <Divider />
-        <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button variant="contained">Save details</Button>
+        <CardActions sx={{ justifyContent: "flex-end", marginRight: "2px" }}>
+          <Button variant="contained">Lưu</Button>
         </CardActions>
       </Card>
     </form>

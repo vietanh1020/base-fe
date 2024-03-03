@@ -10,7 +10,7 @@ import { useDeleteFood } from "@/services/MenuService";
 export default function Food(food: any) {
   const [show, setShow] = useState(false);
   const { mutateAsync: deleteFood } = useDeleteFood();
-  const { price, name, image } = food;
+  const { price, name, image, description } = food;
   const handleShow = () => {
     setShow(true);
   };
@@ -18,32 +18,66 @@ export default function Food(food: any) {
     setShow(false);
   };
 
+  function formatNumber(number = 0) {
+    return number
+      .toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 3,
+      })
+      .replace(/,/g, ".");
+  }
+
   return (
-    <Grid item xs={6} md={4}>
+    <Grid item xs={6} md={3}>
       <Card sx={{ bg: "transparent", border: "none", position: "relative" }}>
         <CardActionArea>
           <CardMedia
             component="img"
             image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
             alt="green iguana"
-            sx={{ objectFit: "cover" }}
+            sx={{ objectFit: "cover", height: "300px" }}
           />
-          <CardContent sx={{ mb: 2, py: 1, px: 1 }}>
-            <Typography variant="body2" color="text.secondary" pb={1}>
-              {name}
-            </Typography>
-
-            <Typography
-              gutterBottom
-              variant="body2"
-              component="h1"
-              sx={{
-                py: 0,
-                fontWeight: 700,
+          <CardContent
+            sx={{
+              mb: 2,
+              py: 1,
+              px: 1,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
               }}
             >
-              {price}
-            </Typography>
+              <Typography
+                sx={{
+                  py: 0,
+                  fontWeight: 700,
+                  fontSize: "20px",
+                }}
+                variant="body2"
+                color="text.secondary"
+                pb={1}
+              >
+                {name}
+              </Typography>
+
+              <Typography
+                gutterBottom
+                variant="body2"
+                component="h4"
+                sx={{
+                  py: 0,
+                  fontSize: "20px",
+                  fontWeight: 700,
+                }}
+              >
+                {formatNumber(price)}đ
+              </Typography>
+            </div>
+
+            <div style={{ fontSize: "18px" }}>Mô tả: {description}</div>
 
             <span
               onClick={handleShow}

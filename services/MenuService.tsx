@@ -1,5 +1,6 @@
 import { httpClient } from "@/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const endpoint = "/menu";
 
@@ -28,6 +29,9 @@ export const useCreateFood = () => {
     {
       onSuccess: async () => {
         queryClient.invalidateQueries(["/menu"]);
+      },
+      onError: async (error: any) => {
+        toast.error(error?.response.data?.message[0]);
       },
     }
   );
