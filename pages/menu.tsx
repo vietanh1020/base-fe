@@ -43,11 +43,7 @@ export default function Menu() {
         })}
       </Grid>
 
-      <CreateFood
-        handleClose={handleClick}
-        show={toggle}
-        food={{}}
-      ></CreateFood>
+      <CreateFood handleClose={handleClick} show={toggle} food={{}} />
     </Box>
   );
 }

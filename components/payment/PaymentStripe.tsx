@@ -1,14 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCreateCard } from "@/services/CardService";
-import {
-  CardInfo,
-  CardInputWrapper,
-  FormLabel,
-  Info,
-  InputName,
-} from "../commons/Stripe";
+import { CardInfo, CardInputWrapper, FormLabel } from "../commons/Stripe";
 
-import styles from "@/styles/Auth.module.scss";
+import { Button, TextField } from "@mui/material";
 import {
   CardCvcElement,
   CardExpiryElement,
@@ -23,9 +17,8 @@ import {
   loadStripe,
 } from "@stripe/stripe-js";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-import { Button, Col, Form, Image, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { IconCvc } from "../icons/IconCvc";
@@ -39,34 +32,15 @@ const Footer = styled(Row)`
   margin-bottom: 31px;
 `;
 
-const Checkbox = styled(Form.Check)`
-  .form-check-input {
-    width: 20px;
-    height: 21px;
-    border-radius: 3px;
-    margin-right: 12px;
-  }
-  .form-check-label {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 24px;
-    color: #092c4c;
-    margin-left: 0;
-    margin-top: 4px;
-    margin-right: 6px;
-  }
-`;
-
 type UserJwtDto = {
   userId: string;
   companyId: string;
   email: string;
 };
 
-const CheckoutForm = ({ footer, onClose }: CheckoutFormProps) => {
+const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const router = useRouter();
 
   const [isDefault, setIsDefault] = useState(false);
   const [stripeErr, setStripeErr] = useState("");
@@ -142,17 +116,13 @@ const CheckoutForm = ({ footer, onClose }: CheckoutFormProps) => {
       </CardInputWrapper>
 
       <FormLabel htmlFor="cardName">Cardholder Name</FormLabel>
-      <InputName
-        type="text"
+      <TextField
+        fullWidth
+        label="Cardholder Name"
         name="cardName"
-        value={cardName}
-        className={error ? "is-invalid" : ""}
-        placeholder="CARD HOLDER"
-        onFocus={() => {
-          setError(false);
-          setFocus("");
-        }}
         onChange={(e: any) => setCardName(e.target.value)}
+        required
+        value={cardName}
       />
 
       <CardInfo>
@@ -188,47 +158,11 @@ const CheckoutForm = ({ footer, onClose }: CheckoutFormProps) => {
         </div>
       </CardInfo>
 
-      <Info>
-        <Col xs={1}>
-          <Image
-            src="/icons/info-icon.png"
-            alt="info-icon"
-            width="23px"
-            height="23px"
-          />
+      <Footer className="mt-5 mb-5">
+        <Col md={7} className="text-end">
+          <Button>Submit</Button>
         </Col>
-        <div className="col">
-          <span>infoSummary</span>
-        </div>
-      </Info>
-
-      {footer && (
-        <Row className="mt-5 gx-0">
-          <Col xs={4}>
-            <Button className={`mb-3 ${styles.ButtonCancel}`}>back</Button>
-          </Col>
-          <Col xs={8}>
-            <Button
-              type="submit"
-              disabled={!stripe || !elements || loadState}
-              className={`mb-3 ${styles.ButtonSubmit}`}
-            >
-              savePaymentMethod
-            </Button>
-          </Col>
-        </Row>
-      )}
-
-      {!footer && (
-        <Footer className="mt-5 mb-5">
-          <Col md={5} className="d-flex align-items-center">
-            <Checkbox type="checkbox" label="setAsDefaultCard" />
-          </Col>
-          <Col md={7} className="text-end">
-            <Button>Submit</Button>
-          </Col>
-        </Footer>
-      )}
+      </Footer>
     </Form>
   );
 };
@@ -240,7 +174,8 @@ type PaymentStripeProps = {
 
 const PaymentStripe = ({ footer = true, handleClose }: PaymentStripeProps) => {
   const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_PUBLISHABLE_KEY || ""
+    process.env.NEXT_PUBLIC_PUBLISHABLE_KEY ||
+      "pk_test_51OnhRCJzOnOMQCJ1EVU16Dh7wttSuaVVnmu5zbWKG8VqAOQVAGJeeKCsaADUkgS5qT2jZNsgNQA7w3E91k29T9km00ESFP6mEX"
   );
 
   const options: StripeElementsOptions = {

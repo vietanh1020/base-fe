@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 import UpdateAvatar from "../modals/UpdateAvatar";
 
-export const Profile = () => {
+export const Profile = ({ user }: any) => {
   const { data: session } = useSession();
   const [show, setShow] = useState(false);
   const [file, setFile] = useState(null);
@@ -44,9 +44,9 @@ export const Profile = () => {
           <Avatar
             src={session?.user.image}
             sx={{
-              height: 80,
+              height: 250,
               mb: 2,
-              width: 80,
+              width: 250,
             }}
           />
           <Typography gutterBottom variant="h5">

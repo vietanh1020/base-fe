@@ -1,5 +1,6 @@
 import { CustomersSearch } from "@/components/customers/CustomerSearch";
 import { CustomersTable } from "@/components/customers/CustomerTable";
+import InviteUser from "@/components/modals/InviteUser";
 import { useGetUser } from "@/services/CustomerService";
 import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
 import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
@@ -12,9 +13,15 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 const Customer = () => {
   const { data: users } = useGetUser();
+  const [toggle, setToggle] = useState(false);
+
+  const handleClick = () => {
+    setToggle(!toggle);
+  };
 
   return (
     <Box
@@ -59,6 +66,7 @@ const Customer = () => {
                     <PlusIcon />
                   </SvgIcon>
                 }
+                onClick={handleClick}
                 variant="contained"
               >
                 Add
@@ -69,6 +77,8 @@ const Customer = () => {
           <CustomersTable items={users || []} />
         </Stack>
       </Container>
+
+      <InviteUser handleClose={handleClick} show={toggle} />
     </Box>
   );
 };

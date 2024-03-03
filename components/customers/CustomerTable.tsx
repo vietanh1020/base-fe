@@ -31,7 +31,7 @@ export const CustomersTable = ({ items }: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer: any, index: number) => {
+              {items?.map((customer: any, index: number) => {
                 return (
                   <TableRow key={index}>
                     <TableCell padding="checkbox">

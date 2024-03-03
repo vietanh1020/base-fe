@@ -22,6 +22,16 @@ export const AdminSideLink: ItemLink[] = [
       </SvgIcon>
     ),
   },
+
+  {
+    title: "Card",
+    path: "/card",
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    ),
+  },
   {
     title: "Customers",
     path: "/customers",

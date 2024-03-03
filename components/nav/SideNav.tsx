@@ -16,6 +16,8 @@ export const SideNav = () => {
   const content = (
     <Scrollbar
       sx={{
+        maxHeight: "100vh",
+        overflow: "hidden",
         height: "100%",
         "& .simplebar-content": {
           height: "100%",
