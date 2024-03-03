@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { httpClient } from "@/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -13,6 +14,22 @@ export const useGetUser = () => {
 
     return data;
   });
+};
+
+export const useCreateStaff = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ["/auth/staff"],
+    async (data: any) => {
+      const res = await httpClient().post("/auth/staff", data);
+      return res.data;
+    },
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([endpoint]);
+      },
+    }
+  );
 };
 
 export const useGetProfile = () => {
