@@ -25,6 +25,7 @@ export type CardDto = {
 export type CreateCardDto = {
   cardName: string;
   isDefault?: boolean;
+  method: string;
   email?: string;
   userId?: string;
   companyId?: string;

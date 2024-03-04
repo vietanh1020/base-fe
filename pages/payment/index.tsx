@@ -10,28 +10,11 @@ import {
   Paper,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import { useGetInvoice } from "@/services/PaymentService";
 
 const PaymentHistoryApp = () => {
+  const { data: paymentHistory } = useGetInvoice();
   // Replace this data with your payment history
-  const paymentHistory = [
-    {
-      id: 1,
-      date: "2024-03-20",
-      amount: 100.0,
-      content: "Phí sử dụng dịch vụ T2",
-      cardNumber: "**** **** 4242",
-      status: "Paid",
-    },
-    {
-      id: 2,
-      date: "2024-02-24",
-      amount: 50.0,
-      content: "Phí sử dụng dịch vụ T2",
-      cardNumber: "**** **** 4242",
-      status: "Pending",
-    },
-    // Add more payment history items as needed
-  ];
 
   const router = useRouter();
 
@@ -41,7 +24,7 @@ const PaymentHistoryApp = () => {
 
   return (
     <div style={{ margin: "0 24px" }}>
-      <h1>Payment History</h1>
+      <h1>Lịch sử thanh toán </h1>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -55,17 +38,17 @@ const PaymentHistoryApp = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paymentHistory.map((payment) => (
+            {paymentHistory.map((payment: any) => (
               <TableRow
                 key={payment.id}
                 onClick={() => handleClick(payment.id)}
               >
                 <TableCell>{payment.id}</TableCell>
-                <TableCell>{payment.date}</TableCell>
                 <TableCell>{payment.cardNumber}</TableCell>
                 <TableCell>{payment.content}</TableCell>
-                <TableCell>${payment.amount.toFixed(2)}</TableCell>
+                <TableCell>${payment.amount.toFixed(2)}$</TableCell>
                 <TableCell>{payment.status}</TableCell>
+                <TableCell>{payment.createdAt}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -51,7 +51,6 @@ const CheckoutForm = () => {
   const [loadState, setLoadState] = useState<boolean>();
 
   const { mutateAsync: createCard } = useCreateCard();
-  const { user: userAuth } = useSession() as any;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.stopPropagation();
@@ -78,6 +77,7 @@ const CheckoutForm = () => {
 
     const card = await createCard({
       cardName,
+      method: paymentMethod.id,
       isDefault,
       ...userValid,
       metadata: { ...paymentMethod },
@@ -160,7 +160,7 @@ const CheckoutForm = () => {
 
       <Footer className="mt-5 mb-5">
         <Col md={7} className="text-end">
-          <Button>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </Col>
       </Footer>
     </Form>
@@ -185,7 +185,7 @@ const PaymentStripe = ({ footer = true, handleClose }: PaymentStripeProps) => {
 
   return (
     <Elements stripe={stripePromise} options={options}>
-      <CheckoutForm footer={footer} onClose={handleClose} />
+      <CheckoutForm />
     </Elements>
   );
 };

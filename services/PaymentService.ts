@@ -7,3 +7,10 @@ export const useGetOrder = (orderId: string) => {
     return res.data;
   });
 };
+
+export const useGetInvoice = () => {
+  return useQuery(["/payment/invoice"], async () => {
+    const res = await httpClient().get(`/payment/invoice`);
+    return res.data;
+  });
+};

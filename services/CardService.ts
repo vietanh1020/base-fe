@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { CardDto, CreateCardDto, UpdateCardDto } from "@/types/Card";
 
-const endPoint = `/payments/cards`;
+const endPoint = `/payment/card`;
 
 export const useGetAllCards = () => {
   return useQuery<CardDto[]>([endPoint], async () => {

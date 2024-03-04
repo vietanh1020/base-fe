@@ -21,7 +21,7 @@ export const AppLayout = (page: ReactElement) => {
   return (
     <>
       <Head>
-        <title>Lumyri</title>
+        <title>Zoder</title>
       </Head>
       <>
         <TopNav onNavOpen={() => {}} />

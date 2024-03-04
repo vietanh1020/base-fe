@@ -33,7 +33,7 @@ export const SettingsPassword = () => {
         <CardHeader title="Password" />
         <Divider />
         <CardContent>
-          <Stack spacing={3} sx={{ maxWidth: 400 }}>
+          <div style={{ display: "flex", gap: 40 }}>
             <TextField
               fullWidth
               label="Password"
@@ -50,11 +50,13 @@ export const SettingsPassword = () => {
               type="password"
               value={values.confirm}
             />
-          </Stack>
+          </div>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button variant="contained">Update</Button>
+          <Button style={{ marginRight: "16px" }} variant="contained">
+            Update
+          </Button>
         </CardActions>
       </Card>
     </form>
