@@ -6,6 +6,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  TextField,
   TextareaAutosize,
 } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -15,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { styles } from "./style";
+import { formatNumber } from "@/utils/format";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -36,7 +38,19 @@ export interface DialogTitleProps {
 export default function CreateOrder({ handleClose, show, food }: any) {
   const { price, name, image, description, options } = food;
 
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
+
+  const [selectedOptions, setSelectedOptions] = useState<any>({});
+
+  console.log(selectedOptions);
+
+  const handleRadioChange = (label: any, value: any) => {
+    // Update the state with the selected value for the corresponding label
+    setSelectedOptions((prevSelectedOptions: any) => ({
+      ...prevSelectedOptions,
+      [label]: value,
+    }));
+  };
 
   const decrease = () => {
     if (count > 0) setCount(count - 1);
@@ -57,7 +71,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
           component="img"
           image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
           alt={name}
-          sx={{ objectFit: "cover" }}
+          sx={{ objectFit: "cover", height: "300px" }}
         />
         <CardContent>
           <Box
@@ -72,47 +86,58 @@ export default function CreateOrder({ handleClose, show, food }: any) {
             </Typography>
 
             <Typography gutterBottom variant="body2" component="h1">
-              {price}
+              <strong>{formatNumber(price)} đ</strong>
             </Typography>
           </Box>
 
-          <Typography>{description}</Typography>
+          <Typography>
+            <strong>Mô tả:</strong> {description}
+          </Typography>
 
           <div>
-            {options.map(({ data, label, id }: any) => {
-              return (
-                <div key={id}>
-                  <FormLabel sx={{ mt: 2, fontSize: 18 }}>{label}</FormLabel>
-                  <RadioGroup defaultValue="outlined">
-                    {data.map((item: any) => {
-                      return (
+            {options.map(({ data, label, id }: any) => (
+              <div key={id}>
+                <FormLabel sx={{ fontSize: 14 }}>{label}</FormLabel>
+                <RadioGroup
+                  value={selectedOptions[label] || ""}
+                  onChange={(e) => handleRadioChange(label, e.target.value)}
+                >
+                  {data.map((item: any) => (
+                    <FormControlLabel
+                      key={item.id}
+                      value={JSON.stringify(item) || ""}
+                      control={<Radio />}
+                      label={
                         <Box
                           sx={{
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: "between",
+                            justifyContent: "space-between",
                           }}
                         >
-                          <FormControlLabel
-                            value={item.label}
-                            control={<Radio />}
-                            label={item.label}
-                          />
-                          <Box>{item.price}</Box>
+                          {item.label}
+                          <strong style={{ marginBottom: "4px" }}>
+                            {formatNumber(item.price)} đ
+                          </strong>
                         </Box>
-                      );
-                    })}
-                  </RadioGroup>
-                </div>
-              );
-            })}
-
-            <FormLabel sx={{ mt: 2, fontSize: 18 }}>
-              Thêm lưu ý cho quán(Không bắt buộc)
-            </FormLabel>
-            <TextareaAutosize
-              style={{ width: "100%", padding: "6px 12px" }}
-              placeholder="Type anything…"
+                      }
+                    />
+                  ))}
+                </RadioGroup>
+              </div>
+            ))}
+            <TextField
+              margin="normal"
+              // value={values.price}
+              fullWidth
+              rows={3}
+              // error={!!errors?.price && touched.price}
+              name="price"
+              label="Thêm lưu ý cho quán"
+              type="text"
+              // onBlur={handleBlur}
+              // onChange={handleChange}
+              autoComplete="off"
             />
 
             <Box
@@ -126,7 +151,9 @@ export default function CreateOrder({ handleClose, show, food }: any) {
                 -
               </Box>
 
-              <Box sx={styles.btnAddFood}>{count}</Box>
+              <Box sx={styles.btnAddFood}>
+                <strong>{count}</strong>
+              </Box>
 
               <Box sx={styles.btnAddFood} onClick={increase}>
                 +
@@ -143,7 +170,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
           </div>
         </CardContent>
         <Button autoFocus onClick={handleClose} sx={styles.btnSubmit}>
-          Thêm vào giỏ hàng
+          Thêm vào giỏ hàng - đ
         </Button>
       </DialogContent>
     </Modal>

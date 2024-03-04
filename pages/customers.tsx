@@ -16,7 +16,6 @@ import {
 import { useState } from "react";
 
 const Customer = () => {
-  const { data: users } = useGetUser();
   const [toggle, setToggle] = useState(false);
 
   const handleClick = () => {
@@ -74,7 +73,7 @@ const Customer = () => {
             </div>
           </Stack>
           <CustomersSearch />
-          <CustomersTable items={users || []} />
+          <CustomersTable />
         </Stack>
       </Container>
 

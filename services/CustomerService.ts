@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import { httpClient } from "@/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -33,7 +32,7 @@ export const useCreateStaff = () => {
 };
 
 export const useGetProfile = () => {
-  return useQuery([endpoint], async () => {
+  return useQuery([`${endpoint}/profile`], async () => {
     const { data } = await httpClient().get(`${endpoint}/profile`);
 
     return data;
@@ -41,7 +40,7 @@ export const useGetProfile = () => {
 };
 
 export const useChangeAvt = () => {
-  return useMutation([endpoint], async (data: any) => {
+  return useMutation([`${endpoint}/avatar`], async (data: any) => {
     const res = await httpClient().post(`${endpoint}/avatar`, data);
     return res.data;
   });

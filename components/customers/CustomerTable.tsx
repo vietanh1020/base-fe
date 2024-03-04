@@ -11,8 +11,12 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { Scrollbar } from "../nav/ScrollBar";
+import { useGetUser } from "@/services/CustomerService";
+import { use, useEffect, useState } from "react";
 
-export const CustomersTable = ({ items }: any) => {
+export const CustomersTable = () => {
+  const { data: users } = useGetUser();
+
   return (
     <Card>
       <Scrollbar>
@@ -31,20 +35,21 @@ export const CustomersTable = ({ items }: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items?.map((customer: any, index: number) => {
-                return (
-                  <TableRow key={index}>
-                    <TableCell padding="checkbox">
-                      <Checkbox onChange={(event) => {}} />
-                    </TableCell>
-                    <TableCell>{`${customer.firstName} ${customer.lastName}`}</TableCell>
-                    <TableCell>{customer.email}</TableCell>
-                    <TableCell>{customer.address}</TableCell>
-                    <TableCell>{customer.phone}</TableCell>
-                    <TableCell>{customer.role.toUpperCase()}</TableCell>
-                  </TableRow>
-                );
-              })}
+              {users &&
+                users?.map((customer: any, index: number) => {
+                  return (
+                    <TableRow key={index}>
+                      <TableCell padding="checkbox">
+                        <Checkbox onChange={(event) => {}} />
+                      </TableCell>
+                      <TableCell>{`${customer.firstName} ${customer.lastName}`}</TableCell>
+                      <TableCell>{customer.email}</TableCell>
+                      <TableCell>{customer.address}</TableCell>
+                      <TableCell>{customer.phone}</TableCell>
+                      <TableCell>{customer.role.toUpperCase()}</TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </Box>

@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import CreateOrder from "../modals/CreateOrder";
 import { useState } from "react";
 import { useDeleteFood } from "@/services/MenuService";
+import { formatNumber } from "@/utils/format";
 
 export default function Food(food: any) {
   const [show, setShow] = useState(false);
@@ -17,15 +18,6 @@ export default function Food(food: any) {
   const handleClose = () => {
     setShow(false);
   };
-
-  function formatNumber(number = 0) {
-    return number
-      .toLocaleString(undefined, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 3,
-      })
-      .replace(/,/g, ".");
-  }
 
   return (
     <Grid item xs={6} md={3}>

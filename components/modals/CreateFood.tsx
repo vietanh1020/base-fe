@@ -1,5 +1,12 @@
 import { useCreateFood, useUploadFoodImg } from "@/services/MenuService";
-import { CardContent, CardMedia, Input, TextField } from "@mui/material";
+import {
+  CardContent,
+  CardMedia,
+  Checkbox,
+  FormControlLabel,
+  Input,
+  TextField,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -53,6 +60,7 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
 
   const initialFoodOption = {
     label: "",
+    isMultiple: false,
     data: [initialOption],
   };
 
@@ -65,6 +73,12 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
   const handleLabelChange = (optionIndex: any, value: any) => {
     const updatedOptions: any = [...foodOptions];
     updatedOptions[optionIndex].label = value;
+    setFoodOptions(updatedOptions);
+  };
+
+  const handleMultipleChange = (optionIndex: any, value: any) => {
+    const updatedOptions: any = [...foodOptions];
+    updatedOptions[optionIndex].isMultiple = value;
     setFoodOptions(updatedOptions);
   };
 
@@ -230,7 +244,17 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
                       alignItems: "center",
                     }}
                   >
-                    <h4 sx={{ margin: 0 }}>Nhóm lựa chọn {optionIndex + 1}</h4>
+                    <h4 style={{ margin: 0 }}>
+                      Nhóm lựa chọn {optionIndex + 1}
+                    </h4>
+                    <FormControlLabel
+                      value={option.isMultiple}
+                      control={<Checkbox />}
+                      label="Cho phép chọn nhiêu lựa chọn"
+                      onChange={(e: any) =>
+                        handleMultipleChange(optionIndex, e.target.value)
+                      }
+                    />
                     <TextField
                       margin="normal"
                       value={option.label}
