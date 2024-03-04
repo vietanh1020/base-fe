@@ -1,3 +1,4 @@
+import { useGetOrder } from "@/services/PaymentService";
 import {
   Button,
   Chip,
@@ -11,42 +12,6 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 
-const orders = [
-  {
-    id: 1,
-    customer: "John Doe",
-    items: [
-      { id: 101, name: "Burger", price: 10.0, toppings: ["Cheese", "Lettuce"] },
-      { id: 102, name: "Fries", price: 5.0, toppings: [] },
-    ],
-    total: 15.0,
-    placedAt: new Date("2024-02-28T12:30:00"),
-    tableNumber: 1,
-  },
-  {
-    id: 2,
-    customer: "Jane Smith",
-    items: [
-      {
-        id: 201,
-        name: "Pizza",
-        price: 20.0,
-        toppings: ["Pepperoni", "Mushrooms"],
-      },
-      {
-        id: 202,
-        name: "Salad",
-        price: 15.0,
-        toppings: ["Tomatoes", "Cucumbers"],
-      },
-    ],
-    total: 35.0,
-    placedAt: new Date("2024-02-28T13:45:00"),
-    tableNumber: 2,
-  },
-  // Add more orders as needed
-];
-
 const getRandomColor = () => {
   const letters = "0123456789ABCDEF";
   let color = "#";
@@ -57,6 +22,8 @@ const getRandomColor = () => {
 };
 
 const OrderList = () => {
+  const { data: orders } = useGetOrder();
+
   const handleDeleteOrder = (orderId: string) => {
     // Add your logic to handle order deletion
     console.log(`Delete order with id ${orderId}`);
@@ -79,7 +46,7 @@ const OrderList = () => {
       </Typography>
       <List>
         <Grid container spacing={2}>
-          {orders.map((order) => (
+          {orders?.map((order) => (
             <Grid
               item
               xs={12}
@@ -93,10 +60,10 @@ const OrderList = () => {
             >
               <ListItem>
                 <ListItemText
-                  primary={`${order.customer} - Bàn ${order.tableNumber}`}
+                  primary={`${order?.customer} - Bàn ${order.tableId}`}
                   secondary={
                     <div>
-                      {order.items.map((item) => (
+                      {order?.foods?[0]?.food.map((item) => (
                         <div
                           key={item.id}
                           style={{
@@ -125,7 +92,7 @@ const OrderList = () => {
                   <Typography variant="body1">
                     ${order.total.toFixed(2)}
                   </Typography>
-                  <Typography variant="body2">{`Thời gian: ${order.placedAt.toLocaleString()}`}</Typography>
+                  <Typography variant="body2">{`Thời gian: ${order.createdAt.toLocaleString()}`}</Typography>
 
                   <Button
                     onClick={() => handleApproveOrder(order.id)}

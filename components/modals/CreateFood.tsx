@@ -252,7 +252,7 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
                       control={<Checkbox />}
                       label="Cho phép chọn nhiêu lựa chọn"
                       onChange={(e: any) =>
-                        handleMultipleChange(optionIndex, e.target.value)
+                        handleMultipleChange(optionIndex, e.target.checked)
                       }
                     />
                     <TextField

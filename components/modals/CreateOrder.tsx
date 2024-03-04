@@ -2,7 +2,9 @@ import {
   Box,
   CardContent,
   CardMedia,
+  Checkbox,
   FormControlLabel,
+  FormGroup,
   FormLabel,
   Radio,
   RadioGroup,
@@ -14,9 +16,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styles } from "./style";
 import { formatNumber } from "@/utils/format";
+import { useCreateOrder } from "@/services/OrderService";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -36,21 +39,73 @@ export interface DialogTitleProps {
 }
 
 export default function CreateOrder({ handleClose, show, food }: any) {
-  const { price, name, image, description, options } = food;
+  const { price, name, image, description, options, id } = food;
+
+  const { mutateAsync } = useCreateOrder();
 
   const [count, setCount] = useState(1);
+  const [note, setNote] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const [selectedOptions, setSelectedOptions] = useState<any>({});
 
-  console.log(selectedOptions);
-
   const handleRadioChange = (label: any, value: any) => {
-    // Update the state with the selected value for the corresponding label
     setSelectedOptions((prevSelectedOptions: any) => ({
       ...prevSelectedOptions,
-      [label]: value,
+      [label]: [value],
     }));
   };
+
+  const handleCheckboxChange = (label: any, value: any) => {
+    const newSelect = { ...selectedOptions };
+
+    if (newSelect?.[label]?.includes(value)) {
+      const selected = newSelect?.[label]?.filter((item: any) => item != value);
+      setSelectedOptions({ ...newSelect, [label]: selected });
+    } else {
+      setSelectedOptions({
+        ...newSelect,
+        [label]: newSelect?.[label] ? [...newSelect?.[label], value] : [value],
+      });
+    }
+  };
+
+  const handleSubmit = async () => {
+    const optionBody = Object.keys(selectedOptions).map((item) => {
+      return {
+        id: item,
+        data: selectedOptions[item].map((op: string) => JSON.parse(op)),
+      };
+    });
+
+    const data: any = {
+      companyId: "5a6d01b0-be9d-4c63-af8a-9bfb28da3bc9",
+      tableId: "1",
+      foods: [
+        {
+          id,
+          note,
+          quantity: count,
+          options: optionBody,
+        },
+      ],
+    };
+
+    const res = await mutateAsync(data);
+    if (res) handleClose();
+  };
+  useEffect(() => {
+    let priceOption = 0;
+
+    for (let key in selectedOptions) {
+      selectedOptions[key].forEach((item: string) => {
+        let itemObj = JSON.parse(item);
+        priceOption += itemObj.price;
+      });
+    }
+
+    setTotalPrice(priceOption + price);
+  }, [selectedOptions]);
 
   const decrease = () => {
     if (count > 0) setCount(count - 1);
@@ -71,7 +126,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
           component="img"
           image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
           alt={name}
-          sx={{ objectFit: "cover", height: "300px" }}
+          sx={{ objectFit: "cover", height: "200px" }}
         />
         <CardContent>
           <Box
@@ -95,48 +150,73 @@ export default function CreateOrder({ handleClose, show, food }: any) {
           </Typography>
 
           <div>
-            {options.map(({ data, label, id }: any) => (
+            {options.map(({ data, label, id, isMultiple }: any) => (
               <div key={id}>
                 <FormLabel sx={{ fontSize: 14 }}>{label}</FormLabel>
-                <RadioGroup
-                  value={selectedOptions[label] || ""}
-                  onChange={(e) => handleRadioChange(label, e.target.value)}
-                >
-                  {data.map((item: any) => (
-                    <FormControlLabel
-                      key={item.id}
-                      value={JSON.stringify(item) || ""}
-                      control={<Radio />}
-                      label={
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          {item.label}
-                          <strong style={{ marginBottom: "4px" }}>
-                            {formatNumber(item.price)} đ
-                          </strong>
-                        </Box>
-                      }
-                    />
-                  ))}
-                </RadioGroup>
+
+                {!isMultiple && (
+                  <RadioGroup
+                    value={selectedOptions[id] || ""}
+                    onChange={(e) => handleRadioChange(id, e.target.value)}
+                  >
+                    {data.map((item: any) => (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <FormControlLabel
+                          key={item.id}
+                          value={JSON.stringify(item)}
+                          control={<Radio />}
+                          label={item.label}
+                        />
+                        <strong style={{ marginBottom: "4px" }}>
+                          +{formatNumber(item.price)} đ
+                        </strong>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                )}
+
+                {isMultiple && (
+                  <FormGroup>
+                    {data.map((item: any) => (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <FormControlLabel
+                          onChange={(e: any) =>
+                            handleCheckboxChange(id, e.target.value)
+                          }
+                          control={<Checkbox />}
+                          label={item.label}
+                          value={JSON.stringify(item)}
+                        />
+                        <strong style={{ marginBottom: "4px" }}>
+                          +{formatNumber(item.price)} đ
+                        </strong>
+                      </div>
+                    ))}
+                  </FormGroup>
+                )}
               </div>
             ))}
             <TextField
               margin="normal"
-              // value={values.price}
+              value={note}
               fullWidth
               rows={3}
-              // error={!!errors?.price && touched.price}
               name="price"
               label="Thêm lưu ý cho quán"
               type="text"
-              // onBlur={handleBlur}
-              // onChange={handleChange}
+              onChange={(e) => setNote(e.target.value)}
               autoComplete="off"
             />
 
@@ -169,8 +249,8 @@ export default function CreateOrder({ handleClose, show, food }: any) {
             </div>
           </div>
         </CardContent>
-        <Button autoFocus onClick={handleClose} sx={styles.btnSubmit}>
-          Thêm vào giỏ hàng - đ
+        <Button autoFocus onClick={handleSubmit}>
+          Thêm vào giỏ hàng - {formatNumber(totalPrice * count)}đ
         </Button>
       </DialogContent>
     </Modal>

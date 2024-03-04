@@ -38,7 +38,7 @@ const PaymentHistoryApp = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paymentHistory.map((payment: any) => (
+            {paymentHistory?.map((payment: any) => (
               <TableRow
                 key={payment.id}
                 onClick={() => handleClick(payment.id)}
