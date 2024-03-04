@@ -11,8 +11,3 @@ export const useGetCompanyOrders = (status = 0, date = "") => {
     return data;
   });
 };
-
-export const createOrder = async (data: any) => {
-  const res = await httpClient().post(endpoint, data);
-  return res.data;
-};
