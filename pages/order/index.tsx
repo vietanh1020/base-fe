@@ -63,7 +63,7 @@ const OrderList = () => {
                   primary={`${order?.customer} - Bàn ${order.tableId}`}
                   secondary={
                     <div>
-                      {order?.foods?[0]?.food.map((item) => (
+                      {/* {order?.foods?[0]?.food.map((item) => (
                         <div
                           key={item.id}
                           style={{
@@ -84,7 +84,7 @@ const OrderList = () => {
                             />
                           )}
                         </div>
-                      ))}
+                      ))} */}
                     </div>
                   }
                 />

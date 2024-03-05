@@ -1,7 +1,9 @@
 import { usePopover } from "@/hooks/usePopover";
 import BellIcon from "@heroicons/react/24/solid/BellIcon";
 import MagnifyingGlassIcon from "@heroicons/react/24/solid/MagnifyingGlassIcon";
-import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
+// import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
+import CartIcon from "@heroicons/react/24/solid/ShoppingBagIcon";
+// CartIcon
 import {
   Avatar,
   Badge,
@@ -15,12 +17,15 @@ import { alpha } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { AccountPopover } from "./AccountPopover";
 import { useSession } from "next-auth/react";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
 
 export const TopNav = () => {
   const { data: session } = useSession();
+
+  const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
 
   const accountPopover = usePopover();
 
@@ -63,16 +68,19 @@ export const TopNav = () => {
             </Tooltip>
           </Stack>
           <Stack alignItems="center" direction="row" spacing={2}>
-            <Tooltip title="Contacts">
+            <Tooltip title="Giỏ hàng">
               <IconButton>
-                <SvgIcon fontSize="small">
-                  <UsersIcon />
-                </SvgIcon>
+                <Badge badgeContent={cartItems.length} color="error">
+                  <SvgIcon fontSize="small">
+                    <CartIcon />
+                  </SvgIcon>
+                </Badge>
               </IconButton>
             </Tooltip>
-            <Tooltip title="Notifications">
+
+            <Tooltip title="Thông báo">
               <IconButton>
-                <Badge badgeContent={4} color="success" variant="dot">
+                <Badge badgeContent={4} color="error">
                   <SvgIcon fontSize="small">
                     <BellIcon />
                   </SvgIcon>

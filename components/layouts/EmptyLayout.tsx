@@ -5,7 +5,7 @@ export const EmptyLayout = (page: ReactElement) => {
   return (
     <>
       <Head>
-        <title>Pharmacy</title>
+        <title>Zorder</title>
       </Head>
       <>{page}</>
     </>

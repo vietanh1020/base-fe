@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { styles } from "./style";
 import { formatNumber } from "@/utils/format";
 import { useCreateOrder } from "@/services/OrderService";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -40,6 +41,9 @@ export interface DialogTitleProps {
 
 export default function CreateOrder({ handleClose, show, food }: any) {
   const { price, name, image, description, options, id } = food;
+  const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
+
+  console.log({ cartItems });
 
   const { mutateAsync } = useCreateOrder();
 
@@ -78,21 +82,29 @@ export default function CreateOrder({ handleClose, show, food }: any) {
       };
     });
 
-    const data: any = {
-      companyId: "5a6d01b0-be9d-4c63-af8a-9bfb28da3bc9",
-      tableId: "1",
-      foods: [
-        {
-          id,
-          note,
-          quantity: count,
-          options: optionBody,
-        },
-      ],
+    const foodBody = {
+      id,
+      note,
+      quantity: count,
+      options: optionBody,
     };
+    // const data: any = {
+    //   companyId: "5a6d01b0-be9d-4c63-af8a-9bfb28da3bc9",
+    //   tableId: "1",
+    //   foods: [
+    //     {
+    //       id,
+    //       note,
+    //       quantity: count,
+    //       options: optionBody,
+    //     },
+    //   ],
+    // };
 
-    const res = await mutateAsync(data);
-    if (res) handleClose();
+    setCartItems([...cartItems, foodBody]);
+
+    // const res = await mutateAsync(data);
+    handleClose();
   };
   useEffect(() => {
     let priceOption = 0;
@@ -249,7 +261,15 @@ export default function CreateOrder({ handleClose, show, food }: any) {
             </div>
           </div>
         </CardContent>
-        <Button autoFocus onClick={handleSubmit}>
+        <Button
+          autoFocus
+          onClick={handleSubmit}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "12px auto",
+          }}
+        >
           Thêm vào giỏ hàng - {formatNumber(totalPrice * count)}đ
         </Button>
       </DialogContent>
