@@ -35,6 +35,7 @@
     "formik": "^2.4.1",
     "mdi-material-ui": "^7.7.0",
     "moment": "^2.29.4",
+    "monent": "^0.0.2-security",
     "next": "13.3.1",
     "next-auth": "^4.22.1",
     "react": "18.2.0",

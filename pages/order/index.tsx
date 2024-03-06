@@ -1,4 +1,5 @@
 import { useGetOrder } from "@/services/PaymentService";
+import { formatNumber } from "@/utils/format";
 import {
   Button,
   Chip,
@@ -10,6 +11,8 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import { log } from "console";
+import * as moment from "moment";
 import { useRouter } from "next/router";
 
 const getRandomColor = () => {
@@ -23,6 +26,7 @@ const getRandomColor = () => {
 
 const OrderList = () => {
   const { data: orders } = useGetOrder();
+  console.log(orders);
 
   const handleDeleteOrder = (orderId: string) => {
     // Add your logic to handle order deletion
@@ -46,7 +50,7 @@ const OrderList = () => {
       </Typography>
       <List>
         <Grid container spacing={2}>
-          {orders?.map((order) => (
+          {orders?.map((order: any) => (
             <Grid
               item
               xs={12}
@@ -60,10 +64,10 @@ const OrderList = () => {
             >
               <ListItem>
                 <ListItemText
-                  primary={`${order?.customer} - Bàn ${order.tableId}`}
+                  primary={`Bàn ${order.tableId}`}
                   secondary={
                     <div>
-                      {/* {order?.foods?[0]?.food.map((item) => (
+                      {order?.foods?.map((item: any) => (
                         <div
                           key={item.id}
                           style={{
@@ -72,40 +76,52 @@ const OrderList = () => {
                           }}
                         >
                           <Typography variant="subtitle1">
-                            {item.name} - ${item.price.toFixed(2)}
+                            {item.food.name} - {formatNumber(item.price)}đ
                           </Typography>
-                          {item.toppings.length > 0 && (
-                            <Chip
-                              label={`Toppings: ${item.toppings.join(", ")}`}
-                              style={{
-                                marginLeft: "10px",
-                                marginBottom: "5px",
-                              }}
-                            />
-                          )}
+                          {/* {JSON.stringify(item.food.options)} */}
+                          {/* {item?.food.options?.length > 0 &&
+                            item.food.options.map((op) => {
+                              <>{op}</>;
+                            })} */}
+
+                          {item.food.options.map((op) => (
+                            <>
+                              <strong style={{ marginLeft: "8px" }}>
+                                {op.label}:
+                              </strong>
+                              {op.data.map((chose: any) => (
+                                <div style={{ marginLeft: "8px" }}>
+                                  {chose.label}
+                                </div>
+                              ))}
+                            </>
+                          ))}
                         </div>
-                      ))} */}
+                      ))}
                     </div>
                   }
                 />
                 <ListItemSecondaryAction>
-                  <Typography variant="body1">
-                    ${order.total.toFixed(2)}
+                  <Typography variant="body1" sx={{ textAlign: "right" }}>
+                    Giá {formatNumber(order.total)}đ
                   </Typography>
-                  <Typography variant="body2">{`Thời gian: ${order.createdAt.toLocaleString()}`}</Typography>
+                  <Typography
+                    sx={{ textAlign: "right" }}
+                    variant="body2"
+                  >{`Thời gian: ${moment(order.createAt).format(
+                    "HH:mm"
+                  )}`}</Typography>
 
                   <Button
                     onClick={() => handleApproveOrder(order.id)}
-                    variant="contained"
-                    color="primary"
+                    color="success"
                     style={{ marginLeft: "10px" }}
                   >
                     Approve
                   </Button>
                   <Button
                     onClick={() => handleRejectOrder(order.id)}
-                    variant="contained"
-                    color="secondary"
+                    color="error"
                     style={{ marginLeft: "10px" }}
                   >
                     Reject
