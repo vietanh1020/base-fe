@@ -1,7 +1,9 @@
 import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
 import CogIcon from "@heroicons/react/24/solid/CogIcon";
+import NewspaperIcon from "@heroicons/react/24/solid/NewspaperIcon";
 import UserIcon from "@heroicons/react/24/solid/UserIcon";
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
+import TicketIcon from "@heroicons/react/24/solid/TicketIcon";
 import { MenuBook, MenuBookOutlined } from "@mui/icons-material";
 import { SvgIcon } from "@mui/material";
 import { CreditCard } from "mdi-material-ui";
@@ -22,16 +24,26 @@ export const AdminSideLink: ItemLink[] = [
       </SvgIcon>
     ),
   },
-
   {
-    title: "Card",
-    path: "/card",
+    title: "Order",
+    path: "/order",
     icon: (
       <SvgIcon fontSize="small">
-        <ChartBarIcon />
+        <NewspaperIcon />
       </SvgIcon>
     ),
   },
+
+  {
+    title: "Menu",
+    path: "/menu",
+    icon: (
+      <SvgIcon fontSize="small">
+        <MenuBookOutlined />
+      </SvgIcon>
+    ),
+  },
+
   {
     title: "Customers",
     path: "/customers",
@@ -60,30 +72,23 @@ export const AdminSideLink: ItemLink[] = [
       </SvgIcon>
     ),
   },
+
   {
-    title: "Order",
-    path: "/order",
+    title: "Card",
+    path: "/card",
     icon: (
       <SvgIcon fontSize="small">
-        <CogIcon />
+        <CreditCard />
       </SvgIcon>
     ),
   },
-  {
-    title: "Menu",
-    path: "/menu",
-    icon: (
-      <SvgIcon fontSize="small">
-        <MenuBookOutlined />
-      </SvgIcon>
-    ),
-  },
+
   {
     title: "Payment",
     path: "/payment",
     icon: (
       <SvgIcon fontSize="small">
-        <CreditCard />
+        <TicketIcon />
       </SvgIcon>
     ),
   },
@@ -100,15 +105,6 @@ export const UserSideLink: ItemLink[] = [
     ),
   },
 
-  {
-    title: "Order",
-    path: "/order",
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    ),
-  },
   {
     title: "Overview",
     path: "/",

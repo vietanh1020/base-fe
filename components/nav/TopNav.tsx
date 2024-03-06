@@ -18,6 +18,8 @@ import PropTypes from "prop-types";
 import { AccountPopover } from "./AccountPopover";
 import { useSession } from "next-auth/react";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { useEffect, useState } from "react";
+import CartDialog from "../modals/Cart";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -25,9 +27,20 @@ const TOP_NAV_HEIGHT = 64;
 export const TopNav = () => {
   const { data: session } = useSession();
 
+  const [cart, setCart] = useState(0);
+  const [show, setShow] = useState(false);
+
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
 
   const accountPopover = usePopover();
+
+  const handleCart = () => {
+    setShow(!show);
+  };
+
+  useEffect(() => {
+    if (cartItems) setCart(cartItems?.length || 0);
+  }, [cartItems]);
 
   return (
     <>
@@ -58,35 +71,30 @@ export const TopNav = () => {
             px: 2,
           }}
         >
+          <Stack alignItems="center" direction="row" spacing={2}></Stack>
           <Stack alignItems="center" direction="row" spacing={2}>
-            <Tooltip title="Search">
-              <IconButton>
-                <SvgIcon fontSize="small">
-                  <MagnifyingGlassIcon />
-                </SvgIcon>
-              </IconButton>
-            </Tooltip>
-          </Stack>
-          <Stack alignItems="center" direction="row" spacing={2}>
-            <Tooltip title="Giỏ hàng">
-              <IconButton>
-                <Badge badgeContent={cartItems.length} color="error">
-                  <SvgIcon fontSize="small">
-                    <CartIcon />
-                  </SvgIcon>
-                </Badge>
-              </IconButton>
-            </Tooltip>
+            {session?.user?.role ? (
+              <Tooltip title="Giỏ hàng">
+                <IconButton onClick={handleCart}>
+                  <Badge badgeContent={cart} color="error">
+                    <SvgIcon fontSize="small">
+                      <CartIcon />
+                    </SvgIcon>
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Thông báo">
+                <IconButton>
+                  <Badge badgeContent={4} color="error">
+                    <SvgIcon fontSize="small">
+                      <BellIcon />
+                    </SvgIcon>
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            )}
 
-            <Tooltip title="Thông báo">
-              <IconButton>
-                <Badge badgeContent={4} color="error">
-                  <SvgIcon fontSize="small">
-                    <BellIcon />
-                  </SvgIcon>
-                </Badge>
-              </IconButton>
-            </Tooltip>
             <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}
@@ -105,6 +113,8 @@ export const TopNav = () => {
         open={accountPopover.open}
         onClose={accountPopover.handleClose}
       />
+
+      {show && <CartDialog open={show} handleClose={handleCart} />}
     </>
   );
 };

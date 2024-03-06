@@ -85,21 +85,11 @@ export default function CreateOrder({ handleClose, show, food }: any) {
     const foodBody = {
       id,
       note,
+      food,
+      totalPrice,
       quantity: count,
       options: optionBody,
     };
-    // const data: any = {
-    //   companyId: "5a6d01b0-be9d-4c63-af8a-9bfb28da3bc9",
-    //   tableId: "1",
-    //   foods: [
-    //     {
-    //       id,
-    //       note,
-    //       quantity: count,
-    //       options: optionBody,
-    //     },
-    //   ],
-    // };
 
     setCartItems([...cartItems, foodBody]);
 
