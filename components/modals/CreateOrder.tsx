@@ -1,3 +1,6 @@
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { useCreateOrder } from "@/services/OrderService";
+import { formatNumber } from "@/utils/format";
 import {
   Box,
   CardContent,
@@ -9,7 +12,6 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  TextareaAutosize,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -18,9 +20,6 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { styles } from "./style";
-import { formatNumber } from "@/utils/format";
-import { useCreateOrder } from "@/services/OrderService";
-import useLocalStorage from "@/hooks/useLocalStorage";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -93,7 +92,6 @@ export default function CreateOrder({ handleClose, show, food }: any) {
 
     setCartItems([...cartItems, foodBody]);
 
-    // const res = await mutateAsync(data);
     handleClose();
   };
   useEffect(() => {

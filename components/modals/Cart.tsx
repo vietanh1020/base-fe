@@ -1,22 +1,18 @@
-import * as React from "react";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { useCreateOrder } from "@/services/OrderService";
+import { formatNumber } from "@/utils/format";
+import CloseIcon from "@mui/icons-material/Close";
+import { Card, CardContent } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import List from "@mui/material/List";
 import Slide from "@mui/material/Slide";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
-import useLocalStorage from "@/hooks/useLocalStorage";
-import { CardContent, CardMedia, Card, Avatar } from "@mui/material";
-import { formatNumber } from "@/utils/format";
-import { relative } from "path";
-import { useCreateOrder } from "@/services/OrderService";
+import * as React from "react";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -31,9 +27,10 @@ export default function CartDialog({ open, handleClose }: any) {
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
 
   const { mutateAsync } = useCreateOrder();
+
   const handleSubmit = async () => {
     const data = {
-      companyId: "7e007a62-520d-46bb-8e15-69077cf510cb",
+      companyId: "25b25429-6c25-4c4d-944a-5995cadeca1a", // TODO:
       tableId: "1",
       foods: cartItems,
     };

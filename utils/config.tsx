@@ -6,7 +6,7 @@ import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import TicketIcon from "@heroicons/react/24/solid/TicketIcon";
 import { MenuBook, MenuBookOutlined } from "@mui/icons-material";
 import { SvgIcon } from "@mui/material";
-import { CreditCard } from "mdi-material-ui";
+import { CreditCard, OfficeBuildingCog } from "mdi-material-ui";
 
 type ItemLink = {
   title: string;
@@ -89,6 +89,16 @@ export const AdminSideLink: ItemLink[] = [
     icon: (
       <SvgIcon fontSize="small">
         <TicketIcon />
+      </SvgIcon>
+    ),
+  },
+
+  {
+    title: "Company",
+    path: "/company",
+    icon: (
+      <SvgIcon fontSize="small">
+        <OfficeBuildingCog />
       </SvgIcon>
     ),
   },
