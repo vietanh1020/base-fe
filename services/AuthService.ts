@@ -23,6 +23,12 @@ export const refreshToken = async () => {
   const res = await httpClient().get(`/auth/refresh-token`);
 };
 
+// TODO:
+export const deviceToken = async (token: string) => {
+  const res = await httpClient().post(`/device`, { token });
+  return res.data;
+};
+
 export const useRegister = () => {
   const queryClient = useQueryClient();
   return useMutation(

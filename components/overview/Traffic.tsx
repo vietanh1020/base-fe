@@ -13,6 +13,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Chart } from "./Chart";
+import { useEffect, useState } from "react";
 
 const useChartOptions = (labels: any) => {
   const theme = useTheme();
@@ -82,11 +83,21 @@ const iconMap = {
 
 export const OverviewTraffic = (props: any) => {
   const { chartSeries, labels, sx } = props;
+  const [sum, setSum] = useState(0);
+
+  useEffect(() => {
+    const sumChart = chartSeries.reduce(
+      (total: number, item: number) => total + item,
+      0
+    );
+    setSum(sumChart);
+  }, [chartSeries]);
+
   const chartOptions = useChartOptions(labels);
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Traffic Source" />
+      <CardHeader title="% Doanh số" />
       <CardContent>
         <Chart
           height={300}
@@ -119,7 +130,7 @@ export const OverviewTraffic = (props: any) => {
                   {label}
                 </Typography>
                 <Typography color="text.secondary" variant="subtitle2">
-                  {item}%
+                  {((item / sum) * 100)?.toFixed(2)}%
                 </Typography>
               </Box>
             );

@@ -13,7 +13,8 @@ import {
 import { alpha, useTheme } from "@mui/material/styles";
 import { Chart } from "./Chart";
 
-const useChartOptions = () => {
+const useChartOptions = (chartSeries: any) => {
+  console.log(chartSeries);
   const theme = useTheme();
 
   return {
@@ -38,16 +39,16 @@ const useChartOptions = () => {
     grid: {
       borderColor: theme.palette.divider,
       strokeDashArray: 2,
-      xaxis: {
-        lines: {
-          show: false,
-        },
-      },
-      yaxis: {
-        lines: {
-          show: true,
-        },
-      },
+      // xaxis: {
+      //   lines: {
+      //     show: false,
+      //   },
+      // },
+      // yaxis: {
+      //   lines: {
+      //     show: true,
+      //   },
+      // },
     },
     legend: {
       show: false,
@@ -74,20 +75,7 @@ const useChartOptions = () => {
         color: theme.palette.divider,
         show: true,
       },
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      categories: chartSeries?.map((item) => item.name),
       labels: {
         offsetY: 5,
         style: {
@@ -97,7 +85,6 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: (value: any) => (value > 0 ? `${value}K` : `${value}`),
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary,
@@ -109,7 +96,22 @@ const useChartOptions = () => {
 
 export const OverviewSales = (props: any) => {
   const { chartSeries, sx } = props;
-  const chartOptions = useChartOptions();
+  const chartData = {
+    options: {
+      chart: {
+        type: "bar",
+      },
+      xaxis: {
+        categories: chartSeries?.map((item) => item.name),
+      },
+    },
+    series: [
+      {
+        name: "Series 1",
+        data: [30, 40, 45, 50, 49],
+      },
+    ],
+  };
 
   return (
     <Card sx={sx}>
@@ -133,7 +135,7 @@ export const OverviewSales = (props: any) => {
         <Chart
           height={350}
           options={chartOptions}
-          series={chartSeries}
+          series={chartSeries?.map((item: any) => item.count)}
           type="bar"
           width="100%"
         />

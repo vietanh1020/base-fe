@@ -19,7 +19,13 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 3,
+    },
+  },
+});
 
 const clientSideEmotionCache = createEmotionCache();
 
