@@ -1,3 +1,4 @@
+import { getCookie } from "cookies-next";
 import Head from "next/head";
 import { ReactElement } from "react";
 import styled from "styled-components";
@@ -18,6 +19,8 @@ const LayoutContainer = styled("div")({
 });
 
 export const AppLayout = (page: ReactElement) => {
+  const token = getCookie("ztoken");
+
   return (
     <>
       <Head>
@@ -26,8 +29,8 @@ export const AppLayout = (page: ReactElement) => {
       <>
         <TopNav onNavOpen={() => {}} />
 
-        <SideNav onClose={() => {}} open={true} />
-        <LayoutRoot style={{ paddingLeft: "280px" }}>
+        {token && <SideNav onClose={() => {}} open={true} />}
+        <LayoutRoot style={{ paddingLeft: token ? "280px" : "0" }}>
           <LayoutContainer>{page}</LayoutContainer>
         </LayoutRoot>
       </>

@@ -1,5 +1,6 @@
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useCreateOrder } from "@/services/OrderService";
+import { cartState } from "@/store";
 import { formatNumber } from "@/utils/format";
 import CloseIcon from "@mui/icons-material/Close";
 import { Card, CardContent } from "@mui/material";
@@ -13,6 +14,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
 import * as React from "react";
+import { useRecoilState } from "recoil";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -25,18 +27,21 @@ const Transition = React.forwardRef(function Transition(
 
 export default function CartDialog({ open, handleClose }: any) {
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
+  const [cart, setCart] = useRecoilState(cartState);
 
   const { mutateAsync } = useCreateOrder();
 
   const handleSubmit = async () => {
     const data = {
-      companyId: "25b25429-6c25-4c4d-944a-5995cadeca1a", // TODO:
+      companyId: "c3d03b93-0573-49c4-a02c-24bb54a77e66",
+      // companyId: "25b25429-6c25-4c4d-944a-5995cadeca1a", // TODO:
       tableId: "1",
       foods: cartItems,
     };
     const res = await mutateAsync(data);
     if (res) {
       setCartItems([]);
+      setCart([]);
       handleClose();
     }
   };

@@ -11,6 +11,13 @@ export const useAdminGetMenu = () => {
   });
 };
 
+export const useCustomerGetMenu = (id: string) => {
+  return useQuery([`user_menu`, id], async () => {
+    const { data } = await httpClient().get(endpoint + "/" + id);
+    return data;
+  });
+};
+
 export const useGetMenu = (company: string) => {
   return useQuery([endpoint], async () => {
     const { data } = await httpClient().get(endpoint + "/" + company);

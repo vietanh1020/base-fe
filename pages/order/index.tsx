@@ -11,8 +11,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { log } from "console";
-import * as moment from "moment";
+import moment from "moment";
 import { useRouter } from "next/router";
 
 const getRandomColor = () => {
@@ -76,6 +75,9 @@ const OrderList = () => {
                           }}
                         >
                           <Typography variant="subtitle1">
+                            <strong style={{ marginRight: "12px" }}>
+                              {item.quantity}x
+                            </strong>
                             {item.food.name} - {formatNumber(item.price)}đ
                           </Typography>
                           {/* {JSON.stringify(item.food.options)} */}
@@ -84,7 +86,7 @@ const OrderList = () => {
                               <>{op}</>;
                             })} */}
 
-                          {item.food.options.map((op) => (
+                          {item.food.options.map((op: any) => (
                             <>
                               <strong style={{ marginLeft: "8px" }}>
                                 {op.label}:
@@ -108,7 +110,7 @@ const OrderList = () => {
                   <Typography
                     sx={{ textAlign: "right" }}
                     variant="body2"
-                  >{`Thời gian: ${moment(order.createAt).format(
+                  >{`Thời gian: ${moment(order.createdAt).format(
                     "HH:mm"
                   )}`}</Typography>
 
@@ -117,14 +119,14 @@ const OrderList = () => {
                     color="success"
                     style={{ marginLeft: "10px" }}
                   >
-                    Approve
+                    Đồng ý
                   </Button>
                   <Button
                     onClick={() => handleRejectOrder(order.id)}
                     color="error"
                     style={{ marginLeft: "10px" }}
                   >
-                    Reject
+                    Từ chối
                   </Button>
                 </ListItemSecondaryAction>
               </ListItem>

@@ -20,6 +20,8 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { styles } from "./style";
+import { useRecoilState } from "recoil";
+import { cartState } from "@/store";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -41,6 +43,7 @@ export interface DialogTitleProps {
 export default function CreateOrder({ handleClose, show, food }: any) {
   const { price, name, image, description, options, id } = food;
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
+  const [cart, setCart] = useRecoilState(cartState);
 
   console.log({ cartItems });
 
@@ -90,7 +93,9 @@ export default function CreateOrder({ handleClose, show, food }: any) {
       options: optionBody,
     };
 
-    setCartItems([...cartItems, foodBody]);
+    const cartData: any = [...cartItems, foodBody];
+    setCart(cartData);
+    setCartItems(cartData);
 
     handleClose();
   };
@@ -117,6 +122,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
 
   return (
     <Modal
+      fullScreen
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={show}

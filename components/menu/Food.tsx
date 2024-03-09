@@ -7,11 +7,14 @@ import CreateOrder from "../modals/CreateOrder";
 import { useState } from "react";
 import { useDeleteFood } from "@/services/MenuService";
 import { formatNumber } from "@/utils/format";
+import { useSession } from "next-auth/react";
 
 export default function Food(food: any) {
   const [show, setShow] = useState(false);
   const { mutateAsync: deleteFood } = useDeleteFood();
   const { price, name, image, description } = food;
+  const { session } = useSession();
+
   const handleShow = () => {
     setShow(true);
   };
@@ -27,7 +30,7 @@ export default function Food(food: any) {
             component="img"
             image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
             alt="green iguana"
-            sx={{ objectFit: "cover", height: "300px" }}
+            sx={{ objectFit: "cover", maxHeight: "300px" }}
           />
           <CardContent
             sx={{
@@ -88,22 +91,24 @@ export default function Food(food: any) {
               +
             </span>
 
-            <span
-              onClick={() => deleteFood(food.id)}
-              style={{
-                position: "absolute",
-                top: 80,
-                right: 10,
-                lineHeight: "24px",
-                padding: "0px 6px",
-                fontSize: "20px",
-                borderRadius: "50%",
-                background: "pink",
-                color: "#fff",
-              }}
-            >
-              X
-            </span>
+            {session?.user?.name && (
+              <span
+                onClick={() => deleteFood(food.id)}
+                style={{
+                  position: "absolute",
+                  top: 80,
+                  right: 10,
+                  lineHeight: "24px",
+                  padding: "0px 6px",
+                  fontSize: "20px",
+                  borderRadius: "50%",
+                  background: "pink",
+                  color: "#fff",
+                }}
+              >
+                X
+              </span>
+            )}
           </CardContent>
         </CardActionArea>
       </Card>

@@ -17,7 +17,7 @@ export const AccountPopover = (props: any) => {
   const { data: session } = useSession() as any;
 
   useEffect(() => {
-    if (session?.accessToken) setCookie("token", session?.accessToken);
+    if (session?.accessToken) setCookie("ztoken", session?.accessToken);
   }, [session?.accessToken]);
 
   return (

@@ -20,6 +20,8 @@ import { useSession } from "next-auth/react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect, useState } from "react";
 import CartDialog from "../modals/Cart";
+import { useRecoilState } from "recoil";
+import { cartState } from "@/store";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -27,7 +29,8 @@ const TOP_NAV_HEIGHT = 64;
 export const TopNav = () => {
   const { data: session } = useSession();
 
-  const [cart, setCart] = useState(0);
+  const [cart, setCart] = useRecoilState(cartState);
+
   const [show, setShow] = useState(false);
 
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
@@ -38,8 +41,10 @@ export const TopNav = () => {
     setShow(!show);
   };
 
+  console.log(cart);
+
   useEffect(() => {
-    if (cartItems) setCart(cartItems?.length || 0);
+    if (cartItems) setCart(cartItems);
   }, [cartItems]);
 
   return (
@@ -73,10 +78,10 @@ export const TopNav = () => {
         >
           <Stack alignItems="center" direction="row" spacing={2}></Stack>
           <Stack alignItems="center" direction="row" spacing={2}>
-            {session?.user?.role ? (
+            {!session?.user?.role ? (
               <Tooltip title="Giỏ hàng">
                 <IconButton onClick={handleCart}>
-                  <Badge badgeContent={cart} color="error">
+                  <Badge badgeContent={cart?.length || 0} color="error">
                     <SvgIcon fontSize="small">
                       <CartIcon />
                     </SvgIcon>
