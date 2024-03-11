@@ -24,11 +24,11 @@ const useChartOptions = (labels: any) => {
       theme.palette.warning.main,
     ],
     dataLabels: {
-      enabled: false,
+      // enabled: false,
     },
     labels,
     legend: {
-      show: false,
+      // show: false,
     },
     plotOptions: {
       pie: {
@@ -84,35 +84,6 @@ export const OverviewTraffic = (props: any) => {
           type="donut"
           width="100%"
         />
-        <Stack
-          alignItems="center"
-          direction="row"
-          justifyContent="center"
-          spacing={2}
-          sx={{ mt: 2 }}
-        >
-          {chartSeries.map((item: any, index: number) => {
-            const label = labels[index];
-
-            return (
-              <Box
-                key={label}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ my: 1 }} variant="h6">
-                  {label}
-                </Typography>
-                <Typography color="text.secondary" variant="subtitle2">
-                  {((item / sum || 0) * 100)?.toFixed(2)}%
-                </Typography>
-              </Box>
-            );
-          })}
-        </Stack>
       </CardContent>
     </Card>
   );

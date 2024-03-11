@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-import ArrowPathIcon from "@heroicons/react/24/solid/ArrowPathIcon";
 import ArrowRightIcon from "@heroicons/react/24/solid/ArrowRightIcon";
 import {
   Button,
@@ -11,6 +9,7 @@ import {
   SvgIcon,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
+import PropTypes from "prop-types";
 import { Chart } from "./Chart";
 
 const useChartOptions = (label: any) => {
@@ -94,13 +93,13 @@ const useChartOptions = (label: any) => {
   };
 };
 
-export const OverviewSales = (props: any) => {
-  const { chartSeries, sx, labels } = props;
+export const SalesMonthly = (props: any) => {
+  const { chartSeries, sx, labels, title = "" } = props;
   const chartOptions = useChartOptions(labels);
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Số lượng bán ra trong ngày" />
+      <CardHeader title={title} />
       <CardContent>
         <Chart
           height={350}
@@ -128,7 +127,7 @@ export const OverviewSales = (props: any) => {
   );
 };
 
-OverviewSales.protoTypes = {
+SalesMonthly.protoTypes = {
   chartSeries: PropTypes.array.isRequired,
   sx: PropTypes.object,
 };
