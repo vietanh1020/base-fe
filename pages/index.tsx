@@ -53,7 +53,16 @@ const Page: MyNextPage = () => {
             <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
           </Grid>
           <Grid xs={12} lg={8}>
-            {/* <OverviewSales chartSeries={foodDate} sx={{ height: "100%" }} /> */}
+            <OverviewSales
+              chartSeries={[
+                {
+                  name: "This year",
+                  data: foodDate?.map((item) => item.count) || [],
+                },
+              ]}
+              labels={foodDate?.map((item) => item.name) || []}
+              sx={{ height: "100%" }}
+            />
           </Grid>
           <Grid xs={12} md={6} lg={4}>
             <OverviewTraffic

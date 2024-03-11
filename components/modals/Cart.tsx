@@ -33,8 +33,8 @@ export default function CartDialog({ open, handleClose }: any) {
 
   const handleSubmit = async () => {
     const data = {
-      companyId: "c3d03b93-0573-49c4-a02c-24bb54a77e66",
-      // companyId: "25b25429-6c25-4c4d-944a-5995cadeca1a", // TODO:
+      // companyId: "c3d03b93-0573-49c4-a02c-24bb54a77e66",
+      companyId: "25b25429-6c25-4c4d-944a-5995cadeca1a", // TODO:
       tableId: "1",
       foods: cartItems,
     };

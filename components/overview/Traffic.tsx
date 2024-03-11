@@ -1,19 +1,15 @@
-import PropTypes from "prop-types";
-import ComputerDesktopIcon from "@heroicons/react/24/solid/ComputerDesktopIcon";
-import DeviceTabletIcon from "@heroicons/react/24/solid/DeviceTabletIcon";
-import PhoneIcon from "@heroicons/react/24/solid/PhoneIcon";
 import {
   Box,
   Card,
   CardContent,
   CardHeader,
   Stack,
-  SvgIcon,
   Typography,
   useTheme,
 } from "@mui/material";
-import { Chart } from "./Chart";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import { Chart } from "./Chart";
 
 const useChartOptions = (labels: any) => {
   const theme = useTheme();
@@ -63,24 +59,6 @@ const useChartOptions = (labels: any) => {
   };
 };
 
-const iconMap = {
-  Desktop: (
-    <SvgIcon>
-      <ComputerDesktopIcon />
-    </SvgIcon>
-  ),
-  Tablet: (
-    <SvgIcon>
-      <DeviceTabletIcon />
-    </SvgIcon>
-  ),
-  Phone: (
-    <SvgIcon>
-      <PhoneIcon />
-    </SvgIcon>
-  ),
-};
-
 export const OverviewTraffic = (props: any) => {
   const { chartSeries, labels, sx } = props;
   const [sum, setSum] = useState(0);
@@ -125,12 +103,11 @@ export const OverviewTraffic = (props: any) => {
                   alignItems: "center",
                 }}
               >
-                {/* {iconMap[label]} */}
                 <Typography sx={{ my: 1 }} variant="h6">
                   {label}
                 </Typography>
                 <Typography color="text.secondary" variant="subtitle2">
-                  {((item / sum) * 100)?.toFixed(2)}%
+                  {((item / sum || 0) * 100)?.toFixed(2)}%
                 </Typography>
               </Box>
             );

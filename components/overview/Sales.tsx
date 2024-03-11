@@ -13,8 +13,8 @@ import {
 import { alpha, useTheme } from "@mui/material/styles";
 import { Chart } from "./Chart";
 
-const useChartOptions = (chartSeries: any) => {
-  console.log(chartSeries);
+const useChartOptions = (label: any) => {
+  console.log({ label });
   const theme = useTheme();
 
   return {
@@ -30,7 +30,7 @@ const useChartOptions = (chartSeries: any) => {
       alpha(theme.palette.primary.main, 0.25),
     ],
     dataLabels: {
-      enabled: false,
+      // enabled: false,
     },
     fill: {
       opacity: 1,
@@ -39,16 +39,16 @@ const useChartOptions = (chartSeries: any) => {
     grid: {
       borderColor: theme.palette.divider,
       strokeDashArray: 2,
-      // xaxis: {
-      //   lines: {
-      //     show: false,
-      //   },
-      // },
-      // yaxis: {
-      //   lines: {
-      //     show: true,
-      //   },
-      // },
+      xaxis: {
+        lines: {
+          show: false,
+        },
+      },
+      yaxis: {
+        lines: {
+          show: true,
+        },
+      },
     },
     legend: {
       show: false,
@@ -75,7 +75,7 @@ const useChartOptions = (chartSeries: any) => {
         color: theme.palette.divider,
         show: true,
       },
-      categories: chartSeries?.map((item) => item.name),
+      categories: label || [],
       labels: {
         offsetY: 5,
         style: {
@@ -95,23 +95,8 @@ const useChartOptions = (chartSeries: any) => {
 };
 
 export const OverviewSales = (props: any) => {
-  const { chartSeries, sx } = props;
-  const chartData = {
-    options: {
-      chart: {
-        type: "bar",
-      },
-      xaxis: {
-        categories: chartSeries?.map((item) => item.name),
-      },
-    },
-    series: [
-      {
-        name: "Series 1",
-        data: [30, 40, 45, 50, 49],
-      },
-    ],
-  };
+  const { chartSeries, sx, labels } = props;
+  const chartOptions = useChartOptions(labels);
 
   return (
     <Card sx={sx}>
@@ -129,13 +114,13 @@ export const OverviewSales = (props: any) => {
             Sync
           </Button>
         }
-        title="Sales"
+        title="Số lượng bán ra"
       />
       <CardContent>
         <Chart
           height={350}
           options={chartOptions}
-          series={chartSeries?.map((item: any) => item.count)}
+          series={chartSeries}
           type="bar"
           width="100%"
         />
