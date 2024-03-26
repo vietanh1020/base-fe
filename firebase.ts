@@ -1,3 +1,4 @@
+import { setCookie } from "cookies-next";
 import firebase from "firebase/app";
 import "firebase/messaging";
 import { firebaseConfig } from "./constants";
@@ -24,6 +25,7 @@ export const getMessagingToken = async () => {
     currentToken = await messaging.getToken({
       vapidKey: process.env.REACT_APP_FIREBASE_FCM_VAPID_KEY,
     });
+    setCookie("device_token", currentToken);
     if (currentToken) await deviceToken(currentToken);
   } catch (error) {
     console.log("An error occurred while retrieving token. ", error);

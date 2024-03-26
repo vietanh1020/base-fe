@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
-import { useRouter } from "next/router";
 
 const getRandomColor = () => {
   const letters = "0123456789ABCDEF";
@@ -25,12 +24,6 @@ const getRandomColor = () => {
 
 const OrderList = () => {
   const { data: orders } = useGetOrder();
-  console.log(orders);
-
-  const handleDeleteOrder = (orderId: string) => {
-    // Add your logic to handle order deletion
-    console.log(`Delete order with id ${orderId}`);
-  };
 
   const handleApproveOrder = (orderId: string) => {
     // Add your logic to handle order approval
