@@ -13,8 +13,10 @@ import Slide from "@mui/material/Slide";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import * as React from "react";
+import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 
 const Transition = React.forwardRef(function Transition(
@@ -27,10 +29,11 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function CartDialog({ open, handleClose }: any) {
+  const router = useRouter();
+
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
 
   const router = useRouter();
-
   const { mutateAsync } = useCreateOrder();
 
   const totalPrice = cartItems.reduce(
@@ -39,13 +42,21 @@ export default function CartDialog({ open, handleClose }: any) {
   );
 
   const handleSubmit = async () => {
+    const { id, table } = router.query;
+
+    const deviceToken = getCookie("device");
+
     const data = {
-      companyId: router.query.id,
-      tableId: router.query.table,
+      companyId: id,
+      tableId: table,
       foods: cartItems,
+      deviceToken,
     };
     const res = await mutateAsync(data);
     if (res) {
+      // setCartItems([]);
+      // setCart([]);
+      toast.success("Order Thành Công");
       handleClose();
     }
   };
