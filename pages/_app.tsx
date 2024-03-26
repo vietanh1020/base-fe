@@ -11,7 +11,7 @@ import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { RecoilRoot } from "recoil";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMessagingToken, onMessageListener } from "@/firebase";
 
 interface MyAppProps extends AppProps {
@@ -40,11 +40,6 @@ export default function App({
 
   useEffect(() => {
     getMessagingToken();
-  }, []);
-  useEffect(() => {
-    onMessageListener().then((data) => {
-      console.log("Receive foreground: ", data);
-    });
   }, []);
 
   return (

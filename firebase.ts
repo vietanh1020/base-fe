@@ -24,6 +24,7 @@ export const getMessagingToken = async () => {
     currentToken = await messaging.getToken({
       vapidKey: process.env.REACT_APP_FIREBASE_FCM_VAPID_KEY,
     });
+
     if (currentToken) await deviceToken(currentToken);
   } catch (error) {
     console.log("An error occurred while retrieving token. ", error);
@@ -31,11 +32,10 @@ export const getMessagingToken = async () => {
   return currentToken;
 };
 
-export const onMessageListener = () =>
-  new Promise((resolve) => {
+export const onMessageListener = () => {
+  return new Promise((resolve) => {
     messaging?.onMessage((payload) => {
-      console.log({ anhvv: payload });
-
       resolve(payload);
     });
   });
+};

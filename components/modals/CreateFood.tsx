@@ -250,7 +250,7 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
                     <FormControlLabel
                       value={option.isMultiple}
                       control={<Checkbox />}
-                      label="Cho phép chọn nhiêu lựa chọn"
+                      label="Nhiều lựa chọn"
                       onChange={(e: any) =>
                         handleMultipleChange(optionIndex, e.target.checked)
                       }
@@ -305,7 +305,7 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
                       <TextField
                         margin="normal"
                         value={dataItem.price}
-                        label="Giá"
+                        label="Giá (đồng)"
                         sx={{
                           width: "100px ",
                           margin: 0,

@@ -41,8 +41,6 @@ export const TopNav = () => {
     setShow(!show);
   };
 
-  console.log(cart);
-
   useEffect(() => {
     if (cartItems) setCart(cartItems);
   }, [cartItems]);

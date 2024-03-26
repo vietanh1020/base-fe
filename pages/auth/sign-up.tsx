@@ -50,8 +50,6 @@ const SignUp: MyNextPage = () => {
       },
       validationSchema: validationSchema,
       onSubmit: async () => {
-        console.log(1222);
-
         let res;
         try {
           res = await register(values);

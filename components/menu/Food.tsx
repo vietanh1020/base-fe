@@ -13,7 +13,7 @@ export default function Food(food: any) {
   const [show, setShow] = useState(false);
   const { mutateAsync: deleteFood } = useDeleteFood();
   const { price, name, image, description } = food;
-  const { session } = useSession();
+  const { data: session } = useSession();
 
   const handleShow = () => {
     setShow(true);
@@ -74,24 +74,26 @@ export default function Food(food: any) {
 
             <div style={{ fontSize: "18px" }}>Mô tả: {description}</div>
 
-            <span
-              onClick={handleShow}
-              style={{
-                position: "absolute",
-                top: 120,
-                right: 10,
-                lineHeight: "24px",
-                padding: "0px 6px",
-                fontSize: "20px",
-                borderRadius: "50%",
-                background: "pink",
-                color: "#fff",
-              }}
-            >
-              +
-            </span>
+            {!session?.user && (
+              <span
+                onClick={handleShow}
+                style={{
+                  position: "absolute",
+                  top: 120,
+                  right: 10,
+                  lineHeight: "24px",
+                  padding: "0px 6px",
+                  fontSize: "20px",
+                  borderRadius: "50%",
+                  background: "pink",
+                  color: "#fff",
+                }}
+              >
+                +
+              </span>
+            )}
 
-            {session?.user?.name && (
+            {session?.user?.role === "owner" && (
               <span
                 onClick={() => deleteFood(food.id)}
                 style={{

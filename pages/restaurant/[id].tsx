@@ -1,8 +1,7 @@
 import Food from "@/components/menu/Food";
 import CreateFood from "@/components/modals/CreateFood";
-import { useAdminGetMenu, useCustomerGetMenu } from "@/services/MenuService";
-import { Box, Button, Grid } from "@mui/material";
-import { useRouter } from "next/router";
+import { useCustomerGetMenu } from "@/services/MenuService";
+import { Box, Grid } from "@mui/material";
 import { useState } from "react";
 
 const Menu = ({ id }: any) => {

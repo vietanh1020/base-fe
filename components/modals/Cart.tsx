@@ -13,6 +13,7 @@ import Slide from "@mui/material/Slide";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { useRecoilState } from "recoil";
 
@@ -27,21 +28,24 @@ const Transition = React.forwardRef(function Transition(
 
 export default function CartDialog({ open, handleClose }: any) {
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
-  const [cart, setCart] = useRecoilState(cartState);
+
+  const router = useRouter();
 
   const { mutateAsync } = useCreateOrder();
 
+  const totalPrice = cartItems.reduce(
+    (total: number, item: any) => total + item.totalPrice * item.quantity,
+    0
+  );
+
   const handleSubmit = async () => {
     const data = {
-      companyId: "c3d03b93-0573-49c4-a02c-24bb54a77e66",
-      // companyId: "25b25429-6c25-4c4d-944a-5995cadeca1a", // TODO:
-      tableId: "1",
+      companyId: router.query.id,
+      tableId: router.query.table,
       foods: cartItems,
     };
     const res = await mutateAsync(data);
     if (res) {
-      setCartItems([]);
-      setCart([]);
       handleClose();
     }
   };
@@ -167,7 +171,7 @@ export default function CartDialog({ open, handleClose }: any) {
             }}
             onClick={handleSubmit}
           >
-            Gọi món
+            Gọi món - {formatNumber(totalPrice)}đ
           </Button>
         )}
       </div>

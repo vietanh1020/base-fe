@@ -1,3 +1,4 @@
+import { onMessageListener } from "@/firebase";
 import { useGetOrder } from "@/services/PaymentService";
 import { formatNumber } from "@/utils/format";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const getRandomColor = () => {
   const letters = "0123456789ABCDEF";
@@ -24,23 +26,24 @@ const getRandomColor = () => {
 };
 
 const OrderList = () => {
-  const { data: orders } = useGetOrder();
-  console.log(orders);
+  const { data: orders, refetch } = useGetOrder();
 
   const handleDeleteOrder = (orderId: string) => {
-    // Add your logic to handle order deletion
     console.log(`Delete order with id ${orderId}`);
   };
 
-  const handleApproveOrder = (orderId: string) => {
-    // Add your logic to handle order approval
-    console.log(`Approve order with id ${orderId}`);
-  };
+  const handleApproveOrder = (orderId: string) => {};
 
-  const handleRejectOrder = (orderId: string) => {
-    // Add your logic to handle order rejection
-    console.log(`Reject order with id ${orderId}`);
-  };
+  const handleRejectOrder = (orderId: string) => {};
+
+  const [hasNoti, setHasNoti] = useState(false);
+
+  useEffect(() => {
+    onMessageListener().then(async (data) => {
+      refetch();
+      setHasNoti(!hasNoti);
+    });
+  }, [hasNoti]);
 
   return (
     <Paper elevation={3} style={{ padding: "20px", margin: "20px" }}>

@@ -19,7 +19,7 @@ const LayoutContainer = styled("div")({
 });
 
 export const AppLayout = (page: ReactElement) => {
-  const token = getCookie("ztoken");
+  const token = getCookie("ztoken") || "";
 
   return (
     <>
