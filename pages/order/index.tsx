@@ -1,4 +1,5 @@
 import { onMessageListener } from "@/firebase";
+import { useChangeStatus } from "@/services";
 import { useGetOrder } from "@/services/PaymentService";
 import { formatNumber } from "@/utils/format";
 import {
@@ -13,7 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const getRandomColor = () => {
@@ -28,11 +28,16 @@ const getRandomColor = () => {
 const OrderList = () => {
   const { data: orders, refetch } = useGetOrder();
 
-  const handleDeleteOrder = (orderId: string) => {
-    console.log(`Delete order with id ${orderId}`);
-  };
+  const { mutateAsync } = useChangeStatus();
 
-  const handleApproveOrder = (orderId: string) => {};
+  const handleApproveOrder = (order: any) => {
+    mutateAsync({
+      orderId: "89a43979-6418-45ca-9102-de81d745f0f3",
+      // orderId: order.id,
+      device: order.deviceToken,
+      status: 2,
+    });
+  };
 
   const handleRejectOrder = (orderId: string) => {};
 
@@ -40,6 +45,7 @@ const OrderList = () => {
 
   useEffect(() => {
     onMessageListener().then(async (data) => {
+      console.log({ data });
       refetch();
       setHasNoti(!hasNoti);
     });
@@ -118,7 +124,7 @@ const OrderList = () => {
                   )}`}</Typography>
 
                   <Button
-                    onClick={() => handleApproveOrder(order.id)}
+                    onClick={() => handleApproveOrder(order)}
                     color="success"
                     style={{ marginLeft: "10px" }}
                   >

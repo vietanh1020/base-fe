@@ -13,7 +13,7 @@ import Slide from "@mui/material/Slide";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { toast } from "react-toastify";
@@ -29,9 +29,8 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function CartDialog({ open, handleClose }: any) {
-  const router = useRouter();
-
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
+  const [cart, setCart] = useRecoilState(cartState);
 
   const router = useRouter();
   const { mutateAsync } = useCreateOrder();
@@ -53,9 +52,22 @@ export default function CartDialog({ open, handleClose }: any) {
       deviceToken,
     };
     const res = await mutateAsync(data);
-    if (res) {
-      // setCartItems([]);
-      // setCart([]);
+    if (res?.id) {
+      setCartItems([]);
+      setCart([]);
+
+      const orderId = getCookie("orderId");
+
+      const options = {
+        maxAge: 6 * 60 * 60,
+      };
+
+      if (orderId) {
+        setCookie("orderId", orderId + `+${res?.id}`, options);
+      } else {
+        setCookie("orderId", res?.id, options);
+      }
+
       toast.success("Order Thành Công");
       handleClose();
     }

@@ -3,6 +3,8 @@ import BellIcon from "@heroicons/react/24/solid/BellIcon";
 import MagnifyingGlassIcon from "@heroicons/react/24/solid/MagnifyingGlassIcon";
 // import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import CartIcon from "@heroicons/react/24/solid/ShoppingBagIcon";
+import NewspaperIcon from "@heroicons/react/24/solid/NewspaperIcon";
+
 // CartIcon
 import {
   Avatar,
@@ -22,6 +24,7 @@ import { useEffect, useState } from "react";
 import CartDialog from "../modals/Cart";
 import { useRecoilState } from "recoil";
 import { cartState } from "@/store";
+import CustomerOrderHistoryDialog from "../modals/CustomerOrderHistory";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -31,14 +34,14 @@ export const TopNav = () => {
 
   const [cart, setCart] = useRecoilState(cartState);
 
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState("");
 
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
 
   const accountPopover = usePopover();
 
-  const handleCart = () => {
-    setShow(!show);
+  const handleClose = () => {
+    setShow("");
   };
 
   useEffect(() => {
@@ -77,15 +80,27 @@ export const TopNav = () => {
           <Stack alignItems="center" direction="row" spacing={2}></Stack>
           <Stack alignItems="center" direction="row" spacing={2}>
             {!session?.user?.role ? (
-              <Tooltip title="Giỏ hàng">
-                <IconButton onClick={handleCart}>
-                  <Badge badgeContent={cart?.length || 0} color="error">
-                    <SvgIcon fontSize="small">
-                      <CartIcon />
-                    </SvgIcon>
-                  </Badge>
-                </IconButton>
-              </Tooltip>
+              <>
+                <Tooltip title="Giỏ hàng">
+                  <IconButton onClick={() => setShow("cart")}>
+                    <Badge badgeContent={cart?.length || 0} color="error">
+                      <SvgIcon fontSize="small">
+                        <CartIcon />
+                      </SvgIcon>
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Đã order">
+                  <IconButton onClick={() => setShow("history")}>
+                    <Badge badgeContent={cart?.length || 0} color="error">
+                      <SvgIcon fontSize="small">
+                        <NewspaperIcon />
+                      </SvgIcon>
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+              </>
             ) : (
               <Tooltip title="Thông báo">
                 <IconButton>
@@ -117,7 +132,15 @@ export const TopNav = () => {
         onClose={accountPopover.handleClose}
       />
 
-      {show && <CartDialog open={show} handleClose={handleCart} />}
+      {show === "cart" && (
+        <CartDialog open={show === "cart"} handleClose={handleClose} />
+      )}
+      {show === "history" && (
+        <CustomerOrderHistoryDialog
+          open={show === "history"}
+          handleClose={handleClose}
+        />
+      )}
     </>
   );
 };
