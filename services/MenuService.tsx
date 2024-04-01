@@ -4,16 +4,18 @@ import { toast } from "react-toastify";
 
 const endpoint = "/menu";
 
-export const useAdminGetMenu = () => {
-  return useQuery([endpoint], async () => {
-    const { data } = await httpClient().get(endpoint);
+export const useAdminGetMenu = (search = "") => {
+  return useQuery([endpoint, search], async () => {
+    const { data } = await httpClient().get(`${endpoint}?search=${search}`);
     return data;
   });
 };
 
-export const useCustomerGetMenu = (id: string) => {
-  return useQuery([`user_menu`, id], async () => {
-    const { data } = await httpClient().get(endpoint + "/" + id);
+export const useCustomerGetMenu = (id: string, search = "") => {
+  return useQuery([`user_menu`, id, search], async () => {
+    const { data } = await httpClient().get(
+      `${endpoint}/${id}?search=${search}`
+    );
     return data;
   });
 };

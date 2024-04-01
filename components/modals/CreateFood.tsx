@@ -129,11 +129,6 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
 
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleImageChange = (event: any) => {
-    const file = event.target.files[0];
-    setSelectedImage(file);
-  };
-
   const handleSaveImage = async () => {
     try {
       if (!selectedImage) return;
@@ -153,6 +148,22 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
     setFoodOptions(updatedOptions);
   };
 
+  const [previewSource, setPreviewSource] = useState("");
+
+  const handleFileInputChange = (e: any) => {
+    const file = e.target.files[0];
+    previewFile(file);
+    setSelectedImage(file);
+  };
+
+  const previewFile = (file: any) => {
+    const reader: any = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
+  };
+
   return (
     <Modal
       onClose={handleClose}
@@ -170,43 +181,73 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
         <CardContent sx={{ width: "600px" }}>
           <h2 style={{ textAlign: "center", margin: 0 }}>Thêm món ăn mới</h2>
           <form action="" onSubmit={handleSubmit}>
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              <TextField
-                margin="normal"
-                value={values.name}
-                style={{ flex: 1 }}
-                error={!!errors?.name && touched.name}
-                label="Tên món ăn"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                name="name"
-                autoComplete="off"
-              />
-
-              <TextField
-                margin="normal"
-                value={values.price}
-                sx={{
-                  width: "100px",
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  flex: 1,
+                  position: "relative",
+                  bottom: "40px",
                 }}
-                error={!!errors?.price && touched.price}
-                name="price"
-                label="Giá  (đồng)"
-                type="number"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                autoComplete="off"
-              />
-              <Input
-                type="file"
-                inputProps={{ accept: "image/*" }}
-                onChange={handleImageChange}
-                style={{ display: "none" }}
-                id="file-input"
-              />
-              <label htmlFor="file-input">
-                <Button component="span">Ảnh</Button>
-              </label>
+              >
+                <TextField
+                  margin="normal"
+                  value={values.name}
+                  style={{ flex: 1 }}
+                  error={!!errors?.name && touched.name}
+                  label="Tên món ăn"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  name="name"
+                  autoComplete="off"
+                />
+
+                <TextField
+                  margin="normal"
+                  value={values.price}
+                  error={!!errors?.price && touched.price}
+                  name="price"
+                  label="Giá  (đồng)"
+                  type="number"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={previewSource || "images/errors/empty.jpg"}
+                  alt="Preview"
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
+
+                <Input
+                  type="file"
+                  inputProps={{ accept: "image/*" }}
+                  onChange={handleFileInputChange}
+                  style={{ display: "none" }}
+                  id="file-input"
+                />
+                <label htmlFor="file-input">
+                  <Button component="span">Ảnh minh họa</Button>
+                </label>
+              </div>
             </div>
 
             <TextField

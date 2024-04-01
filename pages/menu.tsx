@@ -1,13 +1,24 @@
 import Food from "@/components/menu/Food";
 import CreateFood from "@/components/modals/CreateFood";
 import { useAdminGetMenu } from "@/services/MenuService";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
+import { debounce } from "lodash";
 import { useState } from "react";
 
 export default function Menu() {
   const [toggle, setToggle] = useState(false);
 
-  const { data } = useAdminGetMenu();
+  const [keySearch, setKeySearch] = useState("");
+  const [search, setSearch] = useState("");
+
+  const debounceSearch = debounce((value) => setSearch(value), 600);
+
+  const handleChangeSearch = (value: string) => {
+    setKeySearch(value);
+    // debounceSearch(value);
+  };
+
+  const { data } = useAdminGetMenu(search);
 
   const handleClick = () => {
     setToggle(!toggle);
@@ -23,18 +34,30 @@ export default function Menu() {
         }}
       >
         Menu
-        <Button
-          sx={{
-            border: "1px solid #F95E07",
-            color: "#F95E07",
-            fontSize: "14px",
-            fontWeight: "500",
-            borderRadius: "8px",
-          }}
-          onClick={handleClick}
-        >
-          Thêm món +
-        </Button>
+        <div>
+          <TextField
+            margin="normal"
+            value={keySearch}
+            sx={{ flex: 1, margin: "0 12px 0 0" }}
+            label="Tìm kiếm"
+            type="text"
+            onChange={(e) => handleChangeSearch(e.target.value)}
+            autoComplete="off"
+          />
+
+          <Button
+            sx={{
+              border: "1px solid #F95E07",
+              color: "#F95E07",
+              fontSize: "14px",
+              fontWeight: "500",
+              borderRadius: "8px",
+            }}
+            onClick={handleClick}
+          >
+            Thêm món +
+          </Button>
+        </div>
       </h1>
 
       <Grid container spacing={{ xs: 2, md: 3 }}>
