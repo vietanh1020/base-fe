@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "cookies-next";
 
 export const httpClient = () => {
   const client = axios.create({
@@ -7,6 +8,7 @@ export const httpClient = () => {
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
+      ztoken: getCookie("ztoken"),
     },
   });
 
