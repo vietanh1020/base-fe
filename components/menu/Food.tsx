@@ -28,7 +28,7 @@ export default function Food(food: any) {
         <CardActionArea>
           <CardMedia
             component="img"
-            image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
+            image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
             alt="green iguana"
             sx={{ objectFit: "cover", maxHeight: "300px" }}
           />

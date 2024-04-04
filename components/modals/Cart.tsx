@@ -43,7 +43,7 @@ export default function CartDialog({ open, handleClose }: any) {
   const handleSubmit = async () => {
     const { id, table } = router.query;
 
-    const deviceToken = getCookie("device");
+    const deviceToken = getCookie("device_token");
 
     const data = {
       companyId: id,

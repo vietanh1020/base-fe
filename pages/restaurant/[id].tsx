@@ -1,3 +1,4 @@
+import { EmptyLayout } from "@/components/layouts/EmptyLayout";
 import Food from "@/components/menu/Food";
 import CreateFood from "@/components/modals/CreateFood";
 import { useCustomerGetMenu } from "@/services/MenuService";
@@ -54,5 +55,7 @@ export async function getServerSideProps(context: any) {
     },
   };
 }
+
+Menu.layout = EmptyLayout;
 
 export default Menu;

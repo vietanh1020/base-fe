@@ -105,27 +105,37 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
     setFoodOptions(updatedOptions);
   };
 
-  const { handleSubmit, values, errors, touched, handleChange, handleBlur } =
-    useFormik({
-      initialValues: {
-        name: "",
-        price: 0,
-        description: "",
-      },
-      validationSchema: validationSchema,
-      onSubmit: async (values) => {
-        const imageUrl = await handleSaveImage();
-        const data = {
-          ...values,
-          image: imageUrl,
-          foodOption: foodOptions,
-        };
+  const {
+    handleSubmit,
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    setValues,
+  } = useFormik({
+    initialValues: {
+      name: "",
+      price: 0,
+      description: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      const imageUrl = await handleSaveImage();
+      const data = {
+        ...values,
+        image: imageUrl,
+        foodOption: foodOptions,
+      };
 
-        const res = await createFood(data);
+      const res = await createFood(data);
 
-        if (res) handleClose();
-      },
-    });
+      if (res) {
+        setValues({} as any);
+        handleClose();
+      }
+    },
+  });
 
   const [selectedImage, setSelectedImage] = useState(null);
 
