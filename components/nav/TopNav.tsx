@@ -25,6 +25,7 @@ import CartDialog from "../modals/Cart";
 import { useRecoilState } from "recoil";
 import { cartState } from "@/store";
 import CustomerOrderHistoryDialog from "../modals/CustomerOrderHistory";
+import { getCookie } from "cookies-next";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -43,6 +44,9 @@ export const TopNav = () => {
   const handleClose = () => {
     setShow("");
   };
+
+  const hadOrder = getCookie("orderId") || "";
+  const listOrder = hadOrder?.split("+");
 
   useEffect(() => {
     if (cartItems) setCart(cartItems);
@@ -93,7 +97,7 @@ export const TopNav = () => {
 
                 <Tooltip title="Đã order">
                   <IconButton onClick={() => setShow("history")}>
-                    <Badge badgeContent={cart?.length || 0} color="error">
+                    <Badge badgeContent={listOrder?.length || 0} color="error">
                       <SvgIcon fontSize="small">
                         <NewspaperIcon />
                       </SvgIcon>

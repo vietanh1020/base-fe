@@ -30,7 +30,7 @@ export const AppLayout = (page: ReactElement) => {
         <TopNav onNavOpen={() => {}} />
 
         <SideNav onClose={() => {}} open={true} />
-        <LayoutRoot style={{ paddingLeft: token ? "280px" : "0" }}>
+        <LayoutRoot style={{ paddingLeft: "280px" }}>
           <LayoutContainer>{page}</LayoutContainer>
         </LayoutRoot>
       </>

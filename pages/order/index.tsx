@@ -1,3 +1,4 @@
+import DetailOrder from "@/components/modals/DetailOrder";
 import { onMessageListener } from "@/firebase";
 import { useChangeStatus } from "@/services";
 import { useGetOrder } from "@/services/PaymentService";
@@ -14,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const getRandomColor = () => {
@@ -28,20 +30,17 @@ const getRandomColor = () => {
 const OrderList = () => {
   const { data: orders, refetch } = useGetOrder();
 
-  const { mutateAsync } = useChangeStatus();
+  const router = useRouter();
 
   const handleApproveOrder = (order: any) => {
-    mutateAsync({
-      orderId: "89a43979-6418-45ca-9102-de81d745f0f3",
-      // orderId: order.id,
-      device: order.deviceToken,
-      status: 2,
-    });
+    router.push(`/order/${order.id}`);
   };
 
   const handleRejectOrder = (orderId: string) => {};
 
   const [hasNoti, setHasNoti] = useState(false);
+
+  const [order, setOrder] = useState<any>();
 
   useEffect(() => {
     onMessageListener().then(async (data) => {
@@ -50,6 +49,12 @@ const OrderList = () => {
       setHasNoti(!hasNoti);
     });
   }, [hasNoti]);
+
+  const [toggle, setToggle] = useState(false);
+
+  const handleClick = () => {
+    setToggle(!toggle);
+  };
 
   return (
     <Paper elevation={3} style={{ padding: "20px", margin: "20px" }}>
@@ -124,25 +129,30 @@ const OrderList = () => {
                   )}`}</Typography>
 
                   <Button
-                    onClick={() => handleApproveOrder(order)}
+                    onClick={() => {
+                      handleClick();
+                      setOrder(order);
+                    }}
                     color="success"
                     style={{ marginLeft: "10px" }}
                   >
-                    Đồng ý
+                    Chi tiết
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={() => handleRejectOrder(order.id)}
                     color="error"
                     style={{ marginLeft: "10px" }}
                   >
                     Từ chối
-                  </Button>
+                  </Button> */}
                 </ListItemSecondaryAction>
               </ListItem>
             </Grid>
           ))}
         </Grid>
       </List>
+
+      <DetailOrder handleClose={handleClick} show={toggle} data={order} />
     </Paper>
   );
 };

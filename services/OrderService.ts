@@ -12,6 +12,13 @@ export const useGetCompanyOrders = (status = 0, date = "") => {
   });
 };
 
+export const useGetOrderDetail = (id: string) => {
+  return useQuery([endpoint, id], async () => {
+    const { data } = await httpClient().get(`${endpoint}/${id}`);
+    return data;
+  });
+};
+
 export const useCustomerGetOrder = (id: string) => {
   return useQuery(
     [endpoint, id],
@@ -42,18 +49,19 @@ export const useCreateOrder = () => {
 };
 
 export const useChangeStatus = () => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   return useMutation(
     ["/status"],
     async (body: any) => {
       const { orderId, ...data } = body;
+
       const res = await httpClient().put("/order/status/" + orderId, data);
       return res.data;
     },
 
     {
       onSuccess: async () => {
-        // queryClient.invalidateQueries([endpoint]);
+        queryClient.invalidateQueries([endpoint]);
       },
     }
   );

@@ -1,5 +1,4 @@
 import { onMessageListener } from "@/firebase";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import { useCustomerGetOrder } from "@/services";
 import { formatNumber } from "@/utils/format";
 import { FoodStatus } from "@/utils/status";
@@ -16,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
 import { getCookie } from "cookies-next";
 import * as React from "react";
+import { toast } from "react-toastify";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -31,12 +31,21 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
 
   const { data: cartItems, refetch } = useCustomerGetOrder(orderId);
 
-  console.log({ cartItems });
-
   const [hasNoti, setHasNoti] = React.useState(false);
+
+  const getTotal = (options: any) => {
+    let total = 0;
+    for (let item of options) {
+      for (let option of item?.data) {
+        total = total + option.price;
+      }
+    }
+    return total;
+  };
 
   React.useEffect(() => {
     onMessageListener().then(async (data) => {
+      toast.success("Cửa hành đã cập nhật trạng thái đơn hàng của bạn");
       refetch();
       setHasNoti(!hasNoti);
     });
@@ -52,7 +61,7 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
       <AppBar sx={{ position: "relative" }}>
         <Toolbar>
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            Giỏ hàng
+            Đơn hàng đã order
           </Typography>
 
           <IconButton
@@ -66,78 +75,54 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
         </Toolbar>
       </AppBar>
       <List>
-        {cartItems?.map((item: any) => (
+        {cartItems?.map((order: any, index: number) => (
           <>
-            {item?.foods?.map((order: any, key: any) => (
-              <Card
-                key={key}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: 0,
-                  margin: "4px 12px",
+            <Card
+              key={index}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                padding: 0,
+                margin: "4px 12px",
+              }}
+            >
+              <img
+                src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${order?.detail?.image}`}
+                style={{
+                  height: 100,
+                  width: 100,
                 }}
-              >
-                <img
-                  src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${order?.food?.image}`}
+              />
+              <CardContent sx={{ flex: 1, padding: "0 12px" }}>
+                <div
                   style={{
-                    height: 100,
-                    width: 100,
+                    display: "flex",
+                    marginBottom: 4,
+                    margin: "0 auto",
+                    gap: 1,
+                    justifyContent: "space-between",
                   }}
-                />
-                <CardContent sx={{ flex: 1, padding: "0 12px" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      marginBottom: 4,
-                      margin: "0 auto",
-                      gap: 1,
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Typography variant="h6" component="div">
-                      {order?.food?.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      So Luong: {order.quantity}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      <strong>Gia:</strong> {formatNumber(order.totalPrice)}d
-                    </Typography>
-                  </div>
-                  <div>
-                    {/* {order?.options?.map((op: any) => (
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "20px",
-                          marginTop: "6px",
-                        }}
-                      >
-                        {op?.data.map((chose: any) => (
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: "12px",
-                            }}
-                          >
-                            <Typography variant="h6" component="div">
-                              {chose?.label}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              +{formatNumber(chose?.price)}d
-                            </Typography>
-                          </div>
-                        ))}
-                      </div>
-                    ))} */}
-                  </div>
-                  <Button autoFocus color="error">
-                    {FoodStatus[item?.status]}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+                >
+                  <Typography variant="h6" component="div">
+                    {order?.detail?.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    So Luong: 1
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Giá:</strong>{" "}
+                    {formatNumber(
+                      order.detail.price + getTotal(order.detail.options)
+                    )}{" "}
+                    đồng
+                  </Typography>
+                </div>
+                <div></div>
+                <Button autoFocus color="error">
+                  {FoodStatus[order?.status]}
+                </Button>
+              </CardContent>
+            </Card>
           </>
         ))}
       </List>
