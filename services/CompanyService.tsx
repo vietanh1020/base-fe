@@ -11,6 +11,19 @@ export const useGetCompany = () => {
   });
 };
 
+export const useUserGetCompany = (id: string) => {
+  return useQuery(
+    [endpoint, id],
+    async () => {
+      const { data } = await httpClient().get(endpoint + "/" + id);
+      return data;
+    },
+    {
+      enabled: !!id,
+    }
+  );
+};
+
 export const useDeleteCompany = () => {
   const queryClient = useQueryClient();
   return useMutation(

@@ -1,13 +1,19 @@
 import { EmptyLayout } from "@/components/layouts/EmptyLayout";
 import Food from "@/components/menu/Food";
 import CreateFood from "@/components/modals/CreateFood";
+import { useUserGetCompany } from "@/services/CompanyService";
 import { useCustomerGetMenu } from "@/services/MenuService";
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, Divider, Grid, TextField } from "@mui/material";
 import { useState } from "react";
+import MapPinIcon from "@heroicons/react/24/solid/MapPinIcon";
+import ClockIcon from "@heroicons/react/24/solid/ClockIcon";
+import StoreIcon from "@heroicons/react/24/solid/BuildingStorefrontIcon";
 
 const Menu = ({ id }: any) => {
   const [toggle, setToggle] = useState(false);
   const [search, setSearch] = useState("");
+
+  const { data: company } = useUserGetCompany(id);
 
   const { data } = useCustomerGetMenu(id, search);
 
@@ -17,6 +23,30 @@ const Menu = ({ id }: any) => {
 
   return (
     <Box mx={3}>
+      <div>
+        <div>
+          <div>
+            <StoreIcon />
+          </div>
+          {company?.name}
+        </div>
+
+        <img src={company?.image} alt="" />
+
+        <div>
+          <StoreIcon /> {company?.description}
+        </div>
+
+        <div>
+          <ClockIcon /> {company?.openAt}
+          <ClockIcon /> {company?.closeAt}
+        </div>
+        <div>
+          <MapPinIcon /> {company?.address}
+        </div>
+      </div>
+      <Divider />
+
       <h1
         style={{
           textAlign: "center",
