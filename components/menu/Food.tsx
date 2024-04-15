@@ -8,18 +8,25 @@ import { useState } from "react";
 import { useDeleteFood } from "@/services/MenuService";
 import { formatNumber } from "@/utils/format";
 import { useSession } from "next-auth/react";
+import UpdateFood from "../modals/UpdateFood";
 
 export default function Food(food: any) {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState("");
+  const [currentFood, setCurrentFood] = useState<any>();
   const { mutateAsync: deleteFood } = useDeleteFood();
-  const { price, priceOrigin, name, image, description } = food;
+  const { price, priceOrigin, name, image, description, listCategory } = food;
   const { data: session } = useSession();
 
   const handleShow = () => {
-    setShow(true);
+    setShow("createOrder");
   };
   const handleClose = () => {
-    setShow(false);
+    setShow("");
+  };
+
+  const handleFood = (food: any) => {
+    setShow("updateFood");
+    setCurrentFood(food);
   };
 
   return (
@@ -123,12 +130,40 @@ export default function Food(food: any) {
                 X
               </span>
             )}
+
+            {session?.user?.role === "owner" && (
+              <span
+                onClick={() => handleFood(food)}
+                style={{
+                  position: "absolute",
+                  top: 40,
+                  right: 10,
+                  lineHeight: "24px",
+                  padding: "0px 6px",
+                  fontSize: "20px",
+                  borderRadius: "50%",
+                  background: "pink",
+                  color: "#fff",
+                }}
+              >
+                edit
+              </span>
+            )}
           </CardContent>
         </CardActionArea>
       </Card>
 
-      {show && (
+      {show === "createOrder" && (
         <CreateOrder handleClose={handleClose} food={food} show={show} />
+      )}
+
+      {show === "updateFood" && (
+        <UpdateFood
+          listCategory={listCategory}
+          handleClose={handleClose}
+          show={show === "updateFood"}
+          food={currentFood}
+        />
       )}
     </Grid>
   );

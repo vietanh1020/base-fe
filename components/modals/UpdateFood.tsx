@@ -1,4 +1,4 @@
-import { useCreateFood, useUploadFoodImg } from "@/services/MenuService";
+import { useUpdateFood, useUploadFoodImg } from "@/services/MenuService";
 import {
   CardContent,
   CardMedia,
@@ -14,7 +14,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
 const Modal = styled(Dialog)(({ theme }) => ({
@@ -34,23 +34,14 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-export default function CreateFood({
+export default function UpdateFood({
   handleClose,
   show,
   food = {},
-  category,
+  listCategory,
 }: any) {
-  const {
-    price = 10000,
-    priceOrigin = 10000,
-    name = "",
-    image = "",
-    description = "",
-    options = [],
-  } = food;
-
   const { mutateAsync } = useUploadFoodImg();
-  const { mutateAsync: createFood, data: foodData } = useCreateFood();
+  const { mutateAsync: updateFood, data: foodData } = useUpdateFood(food?.id);
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Tên không được để trống"),
@@ -92,7 +83,7 @@ export default function CreateFood({
     setFoodOptions(updatedOptions);
   };
 
-  const handleDeleteOption = (optionIndex) => {
+  const handleDeleteOption = (optionIndex: any) => {
     const updatedOptions = [...foodOptions];
     updatedOptions.splice(optionIndex, 1);
     setFoodOptions(updatedOptions);
@@ -134,7 +125,7 @@ export default function CreateFood({
         foodOption: foodOptions,
       };
 
-      const res = await createFood(data);
+      const res = await updateFood(data);
 
       if (res) {
         setValues({} as any);
@@ -144,6 +135,12 @@ export default function CreateFood({
   });
 
   const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    if (food) {
+      setValues({ ...food });
+    }
+  }, [food]);
 
   const handleSaveImage = async () => {
     try {
@@ -174,6 +171,7 @@ export default function CreateFood({
 
   const previewFile = (file: any) => {
     if (!file) return;
+
     const reader: any = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -188,15 +186,15 @@ export default function CreateFood({
       open={show}
     >
       <DialogContent dividers sx={{ p: 0 }}>
-        <CardMedia
+        {/* <CardMedia
           component="img"
           image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
           alt={name}
           sx={{ objectFit: "cover" }}
-        />
+        /> */}
 
         <CardContent sx={{ width: "600px" }}>
-          <h2 style={{ textAlign: "center", margin: 0 }}>Thêm món ăn mới</h2>
+          <h2 style={{ textAlign: "center", margin: 0 }}>Cập nhật món ăn</h2>
           <form action="" onSubmit={handleSubmit}>
             <div
               style={{
@@ -259,7 +257,7 @@ export default function CreateFood({
                   onChange={handleChange}
                   name="category"
                 >
-                  {category?.map((item: any) => (
+                  {listCategory?.map((item: any) => (
                     <MenuItem key={item.id} value={item.id}>
                       {item.name}
                     </MenuItem>
@@ -276,7 +274,11 @@ export default function CreateFood({
                 }}
               >
                 <img
-                  src={previewSource || "images/errors/empty.jpg"}
+                  src={
+                    previewSource ||
+                    `${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${food?.image}` ||
+                    "images/errors/empty.jpg"
+                  }
                   alt="Preview"
                   style={{ height: "200px", objectFit: "cover" }}
                 />

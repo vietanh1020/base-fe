@@ -53,6 +53,25 @@ export const useCreateFood = () => {
   );
 };
 
+export const useUpdateFood = (id: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ["/menu", id],
+    async (data: any) => {
+      const res = await httpClient().put(`/menu/${id}`, data);
+      return res.data;
+    },
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries(["/menu"]);
+      },
+      onError: async (error: any) => {
+        toast.error(error?.response.data?.message[0]);
+      },
+    }
+  );
+};
+
 export const useUploadFoodImg = () => {
   return useMutation(["/menu/images"], async (formData: any) => {
     const res = await httpClient().post(`/menu/images`, formData, {

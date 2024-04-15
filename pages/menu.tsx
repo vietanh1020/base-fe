@@ -19,15 +19,15 @@ export default function Menu() {
   };
 
   const { data } = useAdminGetMenu(search);
-  const { data: category } = useGetCategory();
+  const { data: listCategory } = useGetCategory();
 
   const handleClick = () => {
     setToggle(!toggle);
   };
 
   const searchCate = (id: string) => {
-    if (category) {
-      const cate = category?.find((cate: any) => cate.id === id);
+    if (listCategory) {
+      const cate = listCategory?.find((cate: any) => cate.id === id);
       if (cate) {
         return cate?.name;
       }
@@ -78,7 +78,9 @@ export default function Menu() {
               <h2>{searchCate(category)}</h2>
               <Grid container spacing={{ xs: 2, md: 3 }}>
                 {data?.[category]?.map((food: any) => {
-                  return <Food key={food.id} {...food} />;
+                  return (
+                    <Food key={food.id} {...food} listCategory={listCategory} />
+                  );
                 })}
               </Grid>
             </>
@@ -89,7 +91,7 @@ export default function Menu() {
         handleClose={handleClick}
         show={toggle}
         food={{}}
-        category={category}
+        category={listCategory}
       />
     </Box>
   );
