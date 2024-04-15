@@ -5,6 +5,8 @@ import {
   Checkbox,
   FormControlLabel,
   Input,
+  MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -12,10 +14,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import { useFormik } from "formik";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import * as Yup from "yup";
-import { styles } from "./style";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -34,16 +34,20 @@ export interface DialogTitleProps {
   onClose: () => void;
 }
 
-export default function CreateFood({ handleClose, show, food = {} }: any) {
+export default function CreateFood({
+  handleClose,
+  show,
+  food = {},
+  category,
+}: any) {
   const {
     price = 10000,
+    priceOrigin = 10000,
     name = "",
     image = "",
     description = "",
     options = [],
   } = food;
-
-  const router = useRouter();
 
   const { mutateAsync } = useUploadFoodImg();
   const { mutateAsync: createFood, data: foodData } = useCreateFood();
@@ -117,6 +121,8 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
     initialValues: {
       name: "",
       price: 0,
+      priceOrigin: 0,
+      category: "",
       description: "",
     },
     validationSchema: validationSchema,
@@ -225,12 +231,39 @@ export default function CreateFood({ handleClose, show, food = {} }: any) {
                   value={values.price}
                   error={!!errors?.price && touched.price}
                   name="price"
-                  label="Giá  (đồng)"
+                  label="Giá gốc (đồng)"
                   type="number"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   autoComplete="off"
                 />
+
+                <TextField
+                  margin="normal"
+                  value={values.priceOrigin}
+                  error={!!errors?.priceOrigin && touched.priceOrigin}
+                  name="priceOrigin"
+                  label="Giá bán (đồng)"
+                  type="number"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  autoComplete="off"
+                />
+
+                <Select
+                  value={values.category}
+                  error={!!errors?.category && touched.category}
+                  label="Nhóm"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  name="category"
+                >
+                  {category?.map((item: any) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
               </div>
 
               <div

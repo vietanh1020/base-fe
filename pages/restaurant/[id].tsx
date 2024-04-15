@@ -25,7 +25,7 @@ const Menu = ({ id }: any) => {
     <Box mx={3}>
       <div>
         <div>
-          <div>
+          <div className="">
             <StoreIcon />
           </div>
           {company?.name}

@@ -42,7 +42,7 @@ const LoginForm: MyNextPage = () => {
         });
 
         if (result?.error) {
-          toast.error("error");
+          toast.error("Tên đăng nhập hoặc mật khẩu không đúng");
         }
         if (result?.ok) router.push("/");
       },
@@ -63,7 +63,7 @@ const LoginForm: MyNextPage = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Đăng nhập
           </Typography>
 
           <TextField
@@ -71,7 +71,7 @@ const LoginForm: MyNextPage = () => {
             fullWidth
             value={values.email}
             error={!!errors?.email && touched.email}
-            label="Email Address"
+            label="Địa chỉ email"
             onBlur={handleBlur}
             onChange={handleChange}
             name="email"
@@ -83,7 +83,7 @@ const LoginForm: MyNextPage = () => {
             fullWidth
             error={!!errors?.password && touched.password}
             name="password"
-            label="Password"
+            label="Mật khẩu"
             type="password"
             onBlur={handleBlur}
             onChange={handleChange}
@@ -104,17 +104,17 @@ const LoginForm: MyNextPage = () => {
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Forgot password?
+                Quên mật khẩu?
               </Link>
             </Grid>
             <Grid item>
               <Link href="/auth/sign-up" variant="body2">
-                {"Don't have an account? Sign Up"}
+                {"Bạn không có tài khoản? Đăng ký"}
               </Link>
             </Grid>
           </Grid>
 
-          <Button
+          {/* <Button
             type="button"
             onClick={() => {
               signIn("google", {
@@ -128,7 +128,7 @@ const LoginForm: MyNextPage = () => {
             sx={{ mt: 8, mb: 2 }}
           >
             Sign In With Google
-          </Button>
+          </Button> */}
         </Box>
       </Container>
     </form>

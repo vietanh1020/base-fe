@@ -27,6 +27,13 @@ export const useGetMenu = (company: string) => {
   });
 };
 
+export const useGetCategory = () => {
+  return useQuery([endpoint], async () => {
+    const { data } = await httpClient().get("/category");
+    return data;
+  });
+};
+
 export const useCreateFood = () => {
   const queryClient = useQueryClient();
   return useMutation(

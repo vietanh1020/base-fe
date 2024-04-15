@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 export default function Food(food: any) {
   const [show, setShow] = useState(false);
   const { mutateAsync: deleteFood } = useDeleteFood();
-  const { price, name, image, description } = food;
+  const { price, priceOrigin, name, image, description } = food;
   const { data: session } = useSession();
 
   const handleShow = () => {
@@ -70,9 +70,21 @@ export default function Food(food: any) {
               >
                 {formatNumber(price)}đ
               </Typography>
+              <Typography
+                gutterBottom
+                variant="body2"
+                component="h4"
+                sx={{
+                  py: 0,
+                  fontSize: "20px",
+                  fontWeight: 700,
+                }}
+              >
+                {formatNumber(priceOrigin)}đ
+              </Typography>
             </div>
 
-            <div style={{ fontSize: "18px" }}>Mô tả: {description}</div>
+            {/* <div style={{ fontSize: "18px" }}>Mô tả: {description}</div> */}
 
             {!session?.user && (
               <span

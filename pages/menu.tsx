@@ -1,6 +1,6 @@
 import Food from "@/components/menu/Food";
 import CreateFood from "@/components/modals/CreateFood";
-import { useAdminGetMenu } from "@/services/MenuService";
+import { useAdminGetMenu, useGetCategory } from "@/services/MenuService";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import { debounce } from "lodash";
 import { useState } from "react";
@@ -19,9 +19,20 @@ export default function Menu() {
   };
 
   const { data } = useAdminGetMenu(search);
+  const { data: category } = useGetCategory();
 
   const handleClick = () => {
     setToggle(!toggle);
+  };
+
+  const searchCate = (id: string) => {
+    if (category) {
+      const cate = category?.find((cate: any) => cate.id === id);
+      if (cate) {
+        return cate?.name;
+      }
+    }
+    return "";
   };
 
   return (
@@ -60,13 +71,26 @@ export default function Menu() {
         </div>
       </h1>
 
-      <Grid container spacing={{ xs: 2, md: 3 }}>
-        {data?.map((food: any) => {
-          return <Food key={food.id} {...food} />;
-        })}
-      </Grid>
+      <div>
+        {data &&
+          Object?.keys(data)?.map((category: any) => (
+            <>
+              <h2>{searchCate(category)}</h2>
+              <Grid container spacing={{ xs: 2, md: 3 }}>
+                {data?.[category]?.map((food: any) => {
+                  return <Food key={food.id} {...food} />;
+                })}
+              </Grid>
+            </>
+          ))}
+      </div>
 
-      <CreateFood handleClose={handleClick} show={toggle} food={{}} />
+      <CreateFood
+        handleClose={handleClick}
+        show={toggle}
+        food={{}}
+        category={category}
+      />
     </Box>
   );
 }
