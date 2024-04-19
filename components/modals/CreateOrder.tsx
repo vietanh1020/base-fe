@@ -155,7 +155,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
           </Typography>
 
           <div style={{ marginTop: "12px" }}>
-            {options.map(({ data, label, id, isMultiple }: any) => (
+            {options?.map(({ data, label, id, isMultiple }: any) => (
               <div key={id}>
                 <FormLabel sx={{ fontSize: 14, fontWeight: 600 }}>
                   {label}
