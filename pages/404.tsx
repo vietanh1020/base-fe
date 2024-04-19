@@ -1,7 +1,8 @@
-import Head from "next/head";
-import NextLink from "next/link";
-import { Box, Button, Container, SvgIcon, Typography } from "@mui/material";
 import { EmptyLayout } from "@/components/layouts/EmptyLayout";
+import { Box, Button, Container, Typography } from "@mui/material";
+import Head from "next/head";
+import Image from "next/image";
+import NextLink from "next/link";
 
 const Page = () => (
   <>
@@ -31,7 +32,7 @@ const Page = () => (
               textAlign: "center",
             }}
           >
-            <img
+            <Image
               alt="Under development"
               src="/images/errors/error-404.png"
               style={{

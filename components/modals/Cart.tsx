@@ -14,6 +14,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
 import { getCookie, setCookie } from "cookies-next";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { toast } from "react-toastify";
@@ -107,12 +108,13 @@ export default function CartDialog({ open, handleClose }: any) {
               margin: "4px 12px",
             }}
           >
-            <img
+            <Image
               src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${item?.food?.image}`}
               style={{
                 marginLeft: 12,
                 width: 80,
               }}
+              alt=""
             />
 
             <CardContent sx={{ flex: 1, padding: "0 12px", mt: 3 }}>
@@ -139,12 +141,14 @@ export default function CartDialog({ open, handleClose }: any) {
               </div>
 
               <div>
-                {item?.options.map((op: any) => (
+                {item?.options.map((op: any, index: number) => (
                   <div
+                    key={index}
                     style={{ display: "flex", gap: "20px", marginTop: "6px" }}
                   >
-                    {op?.data.map((chose: any) => (
+                    {op?.data.map((chose: any, index: number) => (
                       <div
+                        key={index}
                         style={{
                           display: "flex",
                           gap: "12px",

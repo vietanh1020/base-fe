@@ -14,6 +14,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import { useFormik } from "formik";
+import Image from "next/image";
 import { useState } from "react";
 import * as Yup from "yup";
 
@@ -92,7 +93,7 @@ export default function CreateFood({
     setFoodOptions(updatedOptions);
   };
 
-  const handleDeleteOption = (optionIndex) => {
+  const handleDeleteOption = (optionIndex: number) => {
     const updatedOptions = [...foodOptions];
     updatedOptions.splice(optionIndex, 1);
     setFoodOptions(updatedOptions);
@@ -275,7 +276,7 @@ export default function CreateFood({
                   alignItems: "center",
                 }}
               >
-                <img
+                <Image
                   src={previewSource || "images/errors/empty.jpg"}
                   alt="Preview"
                   style={{ height: "200px", objectFit: "cover" }}
@@ -319,7 +320,7 @@ export default function CreateFood({
                 <h3 style={{ margin: 0 }}>Danh sách lựa chọn</h3>
                 <Button onClick={handleAddOption}>Thêm nhóm</Button>
               </div>
-              {foodOptions.map((option, optionIndex) => (
+              {foodOptions.map((option: any, optionIndex: number) => (
                 <div key={optionIndex}>
                   <div
                     style={{
@@ -359,7 +360,7 @@ export default function CreateFood({
                       X
                     </Button>
                   </div>
-                  {option.data.map((dataItem, dataIndex) => (
+                  {option.data.map((dataItem: any, dataIndex: number) => (
                     <div
                       style={{
                         marginLeft: "20px",

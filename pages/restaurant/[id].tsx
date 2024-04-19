@@ -6,6 +6,7 @@ import { useCustomerGetMenu, useUserGetCategory } from "@/services/MenuService";
 import ClockIcon from "@heroicons/react/24/solid/ClockIcon";
 import MapPinIcon from "@heroicons/react/24/solid/MapPinIcon";
 import { Box, Divider, Grid } from "@mui/material";
+import Image from "next/image";
 import { useState } from "react";
 
 const Menu = ({ id }: any) => {
@@ -39,7 +40,8 @@ const Menu = ({ id }: any) => {
           margin: "12px",
         }}
       >
-        <img
+        <Image
+          alt="restauảnt"
           src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${company?.image}`}
         />
         <div style={{ display: "flex" }}>

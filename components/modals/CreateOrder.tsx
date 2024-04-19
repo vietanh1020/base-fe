@@ -168,6 +168,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
                   >
                     {data.map((item: any) => (
                       <div
+                        key={item?.id}
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -190,8 +191,9 @@ export default function CreateOrder({ handleClose, show, food }: any) {
 
                 {isMultiple && (
                   <FormGroup>
-                    {data.map((item: any) => (
+                    {data.map((item: any, index: number) => (
                       <div
+                        key={index}
                         style={{
                           display: "flex",
                           alignItems: "center",

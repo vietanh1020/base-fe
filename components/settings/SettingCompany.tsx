@@ -1,15 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
+import { useGetCompany } from "@/services/CompanyService";
 import {
   Button,
   Card,
   CardActions,
   CardContent,
-  CardHeader,
   Divider,
-  Stack,
   TextField,
 } from "@mui/material";
-import { useGetCompany } from "@/services/CompanyService";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 
 export const SettingCompany = () => {
   const { data: company } = useGetCompany();
@@ -45,7 +44,7 @@ export const SettingCompany = () => {
           sx={{ display: "flex", gap: "40px", alignItems: "center" }}
         >
           <div>
-            <img
+            <Image
               style={{ objectFit: "cover", height: "300px" }}
               src="https://images.foody.vn/res/g117/1168187/prof/s640x400/foody-upload-api-foody-mobile-fo-a72ffcba-230418142410.jpeg"
               alt=""

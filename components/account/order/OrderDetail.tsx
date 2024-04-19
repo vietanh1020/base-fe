@@ -9,7 +9,7 @@ import {
   Divider,
 } from "@mui/material";
 
-const OrderDetail = ({ order }) => {
+const OrderDetail = ({ order }: any) => {
   return (
     <Paper elevation={3} style={{ padding: "20px", margin: "20px" }}>
       <Typography variant="h5" gutterBottom>
@@ -31,7 +31,7 @@ const OrderDetail = ({ order }) => {
         <ListItem>
           <Typography variant="h6">Items:</Typography>
         </ListItem>
-        {order.items.map((item) => (
+        {order.items.map((item: any) => (
           <ListItem key={item.id}>
             <ListItemText
               primary={`${item.name} - $${item.price.toFixed(2)}`}

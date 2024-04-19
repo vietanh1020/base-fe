@@ -89,8 +89,8 @@ const OrderList = () => {
                               <strong style={{ marginLeft: "8px" }}>
                                 {op.label}:
                               </strong>
-                              {op.data.map((chose: any) => (
-                                <div style={{ marginLeft: "8px" }}>
+                              {op.data.map((chose: any, index: number) => (
+                                <div key={index} style={{ marginLeft: "8px" }}>
                                   {chose.label}
                                 </div>
                               ))}

@@ -1,19 +1,11 @@
 import { useUpdateFood, useUploadFoodImg } from "@/services/MenuService";
-import {
-  CardContent,
-  CardMedia,
-  Checkbox,
-  FormControlLabel,
-  Input,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { CardContent, Input, MenuItem, Select, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import { useFormik } from "formik";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
@@ -273,7 +265,7 @@ export default function UpdateFood({
                   alignItems: "center",
                 }}
               >
-                <img
+                <Image
                   src={
                     previewSource ||
                     `${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${food?.image}` ||

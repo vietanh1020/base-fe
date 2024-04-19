@@ -1,19 +1,17 @@
-import React, { useState } from "react";
+import { useChangeStatus, useGetOrderDetail } from "@/services";
+import { FoodStatus } from "@/utils/status";
 import {
-  Button,
   Container,
-  Typography,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  MenuItem,
-  Select,
+  Typography,
 } from "@mui/material";
-import { FoodStatus } from "@/utils/status";
-import { useChangeStatus, useGetOrderDetail } from "@/services";
 
 const OrderDetailPage = ({ id }: any) => {
   const { data } = useGetOrderDetail(id);
@@ -39,12 +37,14 @@ const OrderDetailPage = ({ id }: any) => {
               <TableRow key={food.id}>
                 <TableCell>{food.detail.name}</TableCell>
                 <TableCell>
-                  {food?.detail.options.map((op: any) => (
+                  {food?.detail.options.map((op: any, index: number) => (
                     <div
+                      key={index}
                       style={{ display: "flex", gap: "20px", marginTop: "6px" }}
                     >
-                      {op?.data?.map((chose: any) => (
+                      {op?.data?.map((chose: any, index: number) => (
                         <div
+                          key={index}
                           style={{
                             display: "flex",
                             gap: "12px",
@@ -67,7 +67,9 @@ const OrderDetailPage = ({ id }: any) => {
                     }
                   >
                     {FoodStatus.map((item, index) => (
-                      <MenuItem value={index}>{item}</MenuItem>
+                      <MenuItem key={index} value={index}>
+                        {item}
+                      </MenuItem>
                     ))}
                   </Select>
                 </TableCell>

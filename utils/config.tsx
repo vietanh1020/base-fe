@@ -73,25 +73,25 @@ export const AdminSideLink: ItemLink[] = [
     ),
   },
 
-  {
-    title: "Card",
-    path: "/card",
-    icon: (
-      <SvgIcon fontSize="small">
-        <CreditCard />
-      </SvgIcon>
-    ),
-  },
+  // {
+  //   title: "Card",
+  //   path: "/card",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <CreditCard />
+  //     </SvgIcon>
+  //   ),
+  // },
 
-  {
-    title: "Payment",
-    path: "/payment",
-    icon: (
-      <SvgIcon fontSize="small">
-        <TicketIcon />
-      </SvgIcon>
-    ),
-  },
+  // {
+  //   title: "Payment",
+  //   path: "/payment",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <TicketIcon />
+  //     </SvgIcon>
+  //   ),
+  // },
 
   {
     title: "Company",
