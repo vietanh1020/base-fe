@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getCookie } from "cookies-next";
+import { signOut } from "next-auth/react";
 
 export const httpClient = () => {
   const client = axios.create({
@@ -10,6 +11,12 @@ export const httpClient = () => {
       "Content-Type": "application/json",
       ztoken: getCookie("ztoken"),
     },
+  });
+
+  client.interceptors.response.use(async (response) => {
+    if (response.status === 401)
+      await signOut({ callbackUrl: "/auth/sign-in" });
+    return response;
   });
 
   return client;

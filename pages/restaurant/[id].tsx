@@ -1,13 +1,13 @@
 import { EmptyLayout } from "@/components/layouts/EmptyLayout";
 import FoodCustomer from "@/components/menu/FoodCustomer";
 import CreateFood from "@/components/modals/CreateFood";
+import useLocalStorage from "@/hooks/useLocalStorage";
 import { useUserGetCompany } from "@/services/CompanyService";
 import { useCustomerGetMenu, useUserGetCategory } from "@/services/MenuService";
 import ClockIcon from "@heroicons/react/24/solid/ClockIcon";
 import MapPinIcon from "@heroicons/react/24/solid/MapPinIcon";
 import { Box, Divider, Grid } from "@mui/material";
-import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Menu = ({ id }: any) => {
   const [toggle, setToggle] = useState(false);
@@ -15,8 +15,17 @@ const Menu = ({ id }: any) => {
 
   const { data: company } = useUserGetCompany(id);
   const { data: listCategory } = useUserGetCategory(id);
+  const [toggleName, setToggleName] = useState(false);
+
+  const [userName, setUserName] = useLocalStorage("userName", []);
 
   const { data } = useCustomerGetMenu(id, search);
+
+  useEffect(() => {
+    if (!userName) {
+      setToggleName(true);
+    }
+  }, []);
 
   const searchCate = (id: string) => {
     if (listCategory) {
@@ -40,7 +49,7 @@ const Menu = ({ id }: any) => {
           margin: "12px",
         }}
       >
-        <Image
+        <img
           alt="restauảnt"
           src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${company?.image}`}
         />
@@ -106,6 +115,8 @@ const Menu = ({ id }: any) => {
             </>
           ))}
       </div>
+
+      <CreateFood handleClose={handleClick} show={toggle} food={{}} />
 
       <CreateFood handleClose={handleClick} show={toggle} food={{}} />
     </Box>

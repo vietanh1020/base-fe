@@ -13,7 +13,6 @@ import PropTypes from "prop-types";
 import { Chart } from "./Chart";
 
 const useChartOptions = (label: any) => {
-  console.log({ label });
   const theme = useTheme();
 
   return {

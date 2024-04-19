@@ -1,5 +1,4 @@
-import { authLocal, loginGoogle } from "@/services";
-import { Logout } from "mdi-material-ui";
+import { authLocal } from "@/services";
 import NextAuth, { NextAuthOptions, RequestInternal } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";

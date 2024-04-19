@@ -28,7 +28,6 @@ const OrderList = () => {
 
   useEffect(() => {
     onMessageListener().then(async (data) => {
-      console.log({ data });
       refetch();
       setHasNoti(!hasNoti);
     });

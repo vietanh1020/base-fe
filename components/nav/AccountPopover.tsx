@@ -54,7 +54,7 @@ export const AccountPopover = (props: any) => {
         }}
       >
         <MenuItem onClick={() => signOut({ callbackUrl: "/auth/sign-in" })}>
-          Sign out
+          Đăng xuất
         </MenuItem>
       </MenuList>
     </Popover>

@@ -87,7 +87,7 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
                 margin: "4px 12px",
               }}
             >
-              <Image
+              <img
                 src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${order?.detail?.image}`}
                 style={{
                   height: 100,

@@ -276,7 +276,7 @@ export default function CreateFood({
                   alignItems: "center",
                 }}
               >
-                <Image
+                <img
                   src={previewSource || "images/errors/empty.jpg"}
                   alt="Preview"
                   style={{ height: "200px", objectFit: "cover" }}

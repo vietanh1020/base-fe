@@ -14,7 +14,6 @@ import { alpha, useTheme } from "@mui/material/styles";
 import { Chart } from "./Chart";
 
 const useChartOptions = (label: any) => {
-  console.log({ label });
   const theme = useTheme();
 
   return {

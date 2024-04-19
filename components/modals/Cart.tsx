@@ -47,6 +47,7 @@ export default function CartDialog({ open, handleClose }: any) {
     const deviceToken = getCookie("device_token");
 
     const data = {
+      customerName: "AnhVV",
       companyId: id,
       tableId: table,
       foods: cartItems,
@@ -108,7 +109,7 @@ export default function CartDialog({ open, handleClose }: any) {
               margin: "4px 12px",
             }}
           >
-            <Image
+            <img
               src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${item?.food?.image}`}
               style={{
                 marginLeft: 12,
@@ -136,7 +137,7 @@ export default function CartDialog({ open, handleClose }: any) {
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary">
-                  <strong>Gia:</strong> {formatNumber(item.totalPrice)}d
+                  <strong>Gia:</strong> {formatNumber(item.totalPrice)}
                 </Typography>
               </div>
 
@@ -159,7 +160,7 @@ export default function CartDialog({ open, handleClose }: any) {
                         </Typography>
 
                         <Typography variant="body2" color="text.secondary">
-                          +{formatNumber(chose?.price)}d
+                          +{formatNumber(chose?.price)}
                         </Typography>
                       </div>
                     ))}
@@ -198,7 +199,7 @@ export default function CartDialog({ open, handleClose }: any) {
             }}
             onClick={handleSubmit}
           >
-            Gọi món - {formatNumber(totalPrice)}đ
+            Gọi món - {formatNumber(totalPrice)}
           </Button>
         )}
       </div>

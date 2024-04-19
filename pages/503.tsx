@@ -32,7 +32,7 @@ const Page = () => (
               textAlign: "center",
             }}
           >
-            <Image
+            <img
               alt="Under development"
               src="/images/errors/error-404.png"
               style={{

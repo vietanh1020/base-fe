@@ -34,7 +34,7 @@ const Page: MyNextPage = () => {
     >
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          <Grid xs={12} sm={6} lg={3}>
+          {/* <Grid xs={12} sm={6} lg={3}>
             <OverviewBudget
               difference={12}
               positive
@@ -76,7 +76,7 @@ const Page: MyNextPage = () => {
               labels={foodDate?.map((item) => item.name) || []}
               sx={{ height: "100%" }}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid xs={12} lg={8}>
             <SalesMonthly

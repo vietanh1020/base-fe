@@ -44,7 +44,7 @@ export const SettingCompany = () => {
           sx={{ display: "flex", gap: "40px", alignItems: "center" }}
         >
           <div>
-            <Image
+            <img
               style={{ objectFit: "cover", height: "300px" }}
               src="https://images.foody.vn/res/g117/1168187/prof/s640x400/foody-upload-api-foody-mobile-fo-a72ffcba-230418142410.jpeg"
               alt=""
