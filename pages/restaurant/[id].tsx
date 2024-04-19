@@ -1,21 +1,31 @@
 import { EmptyLayout } from "@/components/layouts/EmptyLayout";
-import Food from "@/components/menu/Food";
+import FoodCustomer from "@/components/menu/FoodCustomer";
 import CreateFood from "@/components/modals/CreateFood";
 import { useUserGetCompany } from "@/services/CompanyService";
-import { useCustomerGetMenu } from "@/services/MenuService";
-import { Box, Divider, Grid, TextField } from "@mui/material";
-import { useState } from "react";
-import MapPinIcon from "@heroicons/react/24/solid/MapPinIcon";
+import { useCustomerGetMenu, useUserGetCategory } from "@/services/MenuService";
 import ClockIcon from "@heroicons/react/24/solid/ClockIcon";
-import StoreIcon from "@heroicons/react/24/solid/BuildingStorefrontIcon";
+import MapPinIcon from "@heroicons/react/24/solid/MapPinIcon";
+import { Box, Divider, Grid } from "@mui/material";
+import { useState } from "react";
 
 const Menu = ({ id }: any) => {
   const [toggle, setToggle] = useState(false);
   const [search, setSearch] = useState("");
 
   const { data: company } = useUserGetCompany(id);
+  const { data: listCategory } = useUserGetCategory(id);
 
   const { data } = useCustomerGetMenu(id, search);
+
+  const searchCate = (id: string) => {
+    if (listCategory) {
+      const cate = listCategory?.find((cate: any) => cate.id === id);
+      if (cate) {
+        return cate?.name;
+      }
+    }
+    return "";
+  };
 
   const handleClick = () => {
     setToggle(!toggle);
@@ -23,53 +33,77 @@ const Menu = ({ id }: any) => {
 
   return (
     <Box mx={3}>
-      <div>
-        <div>
-          <div className="">
+      <div
+        style={{
+          width: "260px",
+          margin: "12px",
+        }}
+      >
+        <img
+          src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${company?.image}`}
+        />
+        <div style={{ display: "flex" }}>
+          <div
+            style={{
+              fontSize: "24px",
+              fontWeight: "600",
+            }}
+          >
+            {company?.name}
+          </div>
+        </div>
+        {/* <div style={{ display: "flex" }}>
+          <div style={{ width: "20px", marginRight: "12px" }}>
             <StoreIcon />
           </div>
-          {company?.name}
+          <div>{company?.description}</div>
+        </div> */}
+        <div style={{ display: "flex" }}>
+          <div style={{ width: "20px", marginRight: "12px" }}>
+            <ClockIcon />
+          </div>
+          <div>
+            Mở cửa: {company?.openAt} - Đóng cửa: {company?.closeAt}
+          </div>
         </div>
-
-        <img src={company?.image} alt="" />
-
-        <div>
-          <StoreIcon /> {company?.description}
-        </div>
-
-        <div>
-          <ClockIcon /> {company?.openAt}
-          <ClockIcon /> {company?.closeAt}
-        </div>
-        <div>
-          <MapPinIcon /> {company?.address}
+        <div style={{ display: "flex" }}>
+          <div style={{ width: "20px", marginRight: "12px" }}>
+            <MapPinIcon />
+          </div>
+          <div>{company?.address}</div>
         </div>
       </div>
       <Divider />
+      <Divider />
+      <Divider />
 
-      <h1
-        style={{
-          textAlign: "center",
-        }}
-      >
-        Danh sách món ăn
-      </h1>
-
-      <TextField
-        margin="normal"
-        value={search}
-        sx={{ flex: 1, margin: "0 12px 0 0" }}
-        label="Tìm kiếm"
-        type="text"
-        onChange={(e) => setSearch(e.target.value)}
-        autoComplete="off"
-      />
-
-      <Grid container spacing={{ xs: 2, md: 3 }}>
-        {data?.map((food: any) => {
-          return <Food key={food.id} {...food} />;
-        })}
-      </Grid>
+      <div>
+        {data &&
+          Object?.keys(data)?.map((category: any) => (
+            <>
+              <Box
+                sx={{
+                  fontSize: "22px",
+                  fontWeight: "600",
+                  margin: "24px 0 12px 0",
+                }}
+              >
+                {searchCate(category)}
+              </Box>
+              <Grid container spacing={{ xs: 2, md: 3 }}>
+                {data?.[category]?.map((food: any) => {
+                  return (
+                    <FoodCustomer
+                      key={food.id}
+                      {...food}
+                      listCategory={listCategory}
+                    />
+                  );
+                })}
+              </Grid>
+            </>
+          ))}
+      </div>
 
       <CreateFood handleClose={handleClick} show={toggle} food={{}} />
     </Box>

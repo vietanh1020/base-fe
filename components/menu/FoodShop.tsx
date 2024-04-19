@@ -1,16 +1,16 @@
+import { useDeleteFood } from "@/services/MenuService";
+import { formatNumber } from "@/utils/format";
 import { CardActionArea, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import CreateOrder from "../modals/CreateOrder";
-import { useState } from "react";
-import { useDeleteFood } from "@/services/MenuService";
-import { formatNumber } from "@/utils/format";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import CreateOrder from "../modals/CreateOrder";
 import UpdateFood from "../modals/UpdateFood";
 
-export default function Food(food: any) {
+export default function FoodShop(food: any) {
   const [show, setShow] = useState("");
   const [currentFood, setCurrentFood] = useState<any>();
   const { mutateAsync: deleteFood } = useDeleteFood();
@@ -35,9 +35,10 @@ export default function Food(food: any) {
         <CardActionArea>
           <CardMedia
             component="img"
+            height="200"
             image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
             alt="green iguana"
-            sx={{ objectFit: "cover", maxHeight: "300px" }}
+            sx={{ objectFit: "cover" }}
           />
           <CardContent
             sx={{
@@ -48,7 +49,7 @@ export default function Food(food: any) {
           >
             <div
               style={{
-                display: "flex",
+                // display: "flex",
                 justifyContent: "space-between",
               }}
             >
@@ -56,13 +57,26 @@ export default function Food(food: any) {
                 sx={{
                   py: 0,
                   fontWeight: 700,
-                  fontSize: "20px",
+                  fontSize: "16px",
                 }}
                 variant="body2"
-                color="text.secondary"
                 pb={1}
               >
                 {name}
+              </Typography>
+
+              <Typography
+                gutterBottom
+                variant="body2"
+                component="h4"
+                sx={{
+                  py: 0,
+                  fontSize: "20px",
+                  textDecoration: "line-through",
+                  fontWeight: 700,
+                }}
+              >
+                {formatNumber(priceOrigin)}đ
               </Typography>
 
               <Typography
@@ -76,18 +90,6 @@ export default function Food(food: any) {
                 }}
               >
                 {formatNumber(price)}đ
-              </Typography>
-              <Typography
-                gutterBottom
-                variant="body2"
-                component="h4"
-                sx={{
-                  py: 0,
-                  fontSize: "20px",
-                  fontWeight: 700,
-                }}
-              >
-                {formatNumber(priceOrigin)}đ
               </Typography>
             </div>
 

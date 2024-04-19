@@ -1,5 +1,5 @@
 import useLocalStorage from "@/hooks/useLocalStorage";
-import { useCreateOrder } from "@/services/OrderService";
+import { cartState } from "@/store";
 import { formatNumber } from "@/utils/format";
 import {
   Box,
@@ -19,9 +19,8 @@ import DialogContent from "@mui/material/DialogContent";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { styles } from "./style";
 import { useRecoilState } from "recoil";
-import { cartState } from "@/store";
+import { styles } from "./style";
 
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
@@ -41,13 +40,9 @@ export interface DialogTitleProps {
 }
 
 export default function CreateOrder({ handleClose, show, food }: any) {
-  const { price, name, image, description, options, id } = food;
+  const { price, name, image, description, options, id, priceOrigin } = food;
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
   const [cart, setCart] = useRecoilState(cartState);
-
-  console.log({ cartItems });
-
-  const { mutateAsync } = useCreateOrder();
 
   const [count, setCount] = useState(1);
   const [note, setNote] = useState("");
@@ -142,23 +137,29 @@ export default function CreateOrder({ handleClose, show, food }: any) {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="body2" color="text.secondary" pb={1}>
+            <Typography variant="h6" pb={1}>
               {name}
             </Typography>
 
             <Typography gutterBottom variant="body2" component="h1">
-              <strong>{formatNumber(price)} đ</strong>
+              <div style={{ fontSize: 12, textDecoration: "line-through" }}>
+                {formatNumber(priceOrigin)}
+              </div>
+              <strong>{formatNumber(price)}</strong>
             </Typography>
           </Box>
 
-          <Typography>
-            <strong>Mô tả:</strong> {description}
+          <Typography sx={{ fontSize: 14, color: "text.secondary" }}>
+            {/* <strong style={{ fontSize: 14 }}>Mô tả:</strong> */}
+            {description}
           </Typography>
 
-          <div>
+          <div style={{ marginTop: "12px" }}>
             {options.map(({ data, label, id, isMultiple }: any) => (
               <div key={id}>
-                <FormLabel sx={{ fontSize: 14 }}>{label}</FormLabel>
+                <FormLabel sx={{ fontSize: 14, fontWeight: 600 }}>
+                  {label}
+                </FormLabel>
 
                 {!isMultiple && (
                   <RadioGroup
@@ -180,7 +181,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
                           label={item.label}
                         />
                         <strong style={{ marginBottom: "4px" }}>
-                          +{formatNumber(item.price)} đ
+                          +{formatNumber(item.price)}
                         </strong>
                       </div>
                     ))}

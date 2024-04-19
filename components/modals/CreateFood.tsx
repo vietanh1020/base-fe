@@ -229,9 +229,9 @@ export default function CreateFood({
 
                 <TextField
                   margin="normal"
-                  value={values.price}
-                  error={!!errors?.price && touched.price}
-                  name="price"
+                  value={values.priceOrigin}
+                  error={!!errors?.priceOrigin && touched.priceOrigin}
+                  name="priceOrigin"
                   label="Giá gốc (đồng)"
                   type="number"
                   onBlur={handleBlur}
@@ -241,9 +241,9 @@ export default function CreateFood({
 
                 <TextField
                   margin="normal"
-                  value={values.priceOrigin}
-                  error={!!errors?.priceOrigin && touched.priceOrigin}
-                  name="priceOrigin"
+                  value={values.price}
+                  error={!!errors?.price && touched.price}
+                  name="price"
                   label="Giá bán (đồng)"
                   type="number"
                   onBlur={handleBlur}

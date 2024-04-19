@@ -1,11 +1,9 @@
 import DetailOrder from "@/components/modals/DetailOrder";
 import { onMessageListener } from "@/firebase";
-import { useChangeStatus } from "@/services";
 import { useGetOrder } from "@/services/PaymentService";
 import { formatNumber } from "@/utils/format";
 import {
   Button,
-  Chip,
   Grid,
   List,
   ListItem,
@@ -15,28 +13,14 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+const getRandomColor = (index: number) => {
+  return "#d6d6d7";
 };
 
 const OrderList = () => {
   const { data: orders, refetch } = useGetOrder();
-
-  const router = useRouter();
-
-  const handleApproveOrder = (order: any) => {
-    router.push(`/order/${order.id}`);
-  };
-
-  const handleRejectOrder = (orderId: string) => {};
 
   const [hasNoti, setHasNoti] = useState(false);
 
@@ -63,13 +47,13 @@ const OrderList = () => {
       </Typography>
       <List>
         <Grid container spacing={2}>
-          {orders?.map((order: any) => (
+          {orders?.map((order: any, index: number) => (
             <Grid
               item
               xs={12}
               key={order.id}
               style={{
-                border: `1px solid ${getRandomColor()}`,
+                border: `1px solid ${getRandomColor(index)}`,
                 padding: "10px",
                 borderRadius: "8px",
                 marginBottom: "10px",

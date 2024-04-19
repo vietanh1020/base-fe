@@ -1,4 +1,4 @@
-import Food from "@/components/menu/Food";
+import FoodShop from "@/components/menu/FoodShop";
 import CreateFood from "@/components/modals/CreateFood";
 import { useAdminGetMenu, useGetCategory } from "@/services/MenuService";
 import { Box, Button, Grid, TextField } from "@mui/material";
@@ -79,7 +79,11 @@ export default function Menu() {
               <Grid container spacing={{ xs: 2, md: 3 }}>
                 {data?.[category]?.map((food: any) => {
                   return (
-                    <Food key={food.id} {...food} listCategory={listCategory} />
+                    <FoodShop
+                      key={food.id}
+                      {...food}
+                      listCategory={listCategory}
+                    />
                   );
                 })}
               </Grid>

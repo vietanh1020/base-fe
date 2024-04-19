@@ -110,12 +110,16 @@ export default function CartDialog({ open, handleClose }: any) {
             <img
               src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${item?.food?.image}`}
               style={{
-                height: 100,
-                width: 100,
+                marginLeft: 12,
+                width: 80,
               }}
             />
 
-            <CardContent sx={{ flex: 1, padding: "0 12px" }}>
+            <CardContent sx={{ flex: 1, padding: "0 12px", mt: 3 }}>
+              <Typography variant="h6" component="div">
+                {item?.food?.name}
+              </Typography>
+
               <div
                 style={{
                   display: "flex",
@@ -125,10 +129,6 @@ export default function CartDialog({ open, handleClose }: any) {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography variant="h6" component="div">
-                  {item?.food?.name}
-                </Typography>
-
                 <Typography variant="body2" color="text.secondary">
                   So Luong: {item.quantity}
                 </Typography>

@@ -34,6 +34,13 @@ export const useGetCategory = () => {
   });
 };
 
+export const useUserGetCategory = (id: string) => {
+  return useQuery([endpoint, id], async () => {
+    const { data } = await httpClient().get(`/category/${id}`);
+    return data;
+  });
+};
+
 export const useCreateFood = () => {
   const queryClient = useQueryClient();
   return useMutation(
