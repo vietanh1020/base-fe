@@ -1,7 +1,7 @@
 import { onMessageListener } from "@/firebase";
 import { useCustomerGetOrder } from "@/services";
 import { formatNumber } from "@/utils/format";
-import { FoodStatus } from "@/utils/status";
+import { FoodColor, FoodStatus } from "@/utils/status";
 import CloseIcon from "@mui/icons-material/Close";
 import { Card, CardContent } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
@@ -95,7 +95,7 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
                 alt="Order"
               />
 
-              <CardContent sx={{ flex: 1, padding: "0 12px" }}>
+              <CardContent sx={{ flex: 1 }}>
                 <div
                   style={{
                     display: "flex",
@@ -108,21 +108,58 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
                   <Typography variant="h6" component="div">
                     {order?.detail?.name}
                   </Typography>
+                </div>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <Typography variant="body2" color="text.secondary">
-                    So Luong: 1
+                    So Luong: <strong>1</strong>
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <strong>Giá:</strong>{" "}
-                    {formatNumber(
-                      order.detail.price + getTotal(order.detail.options)
-                    )}{" "}
-                    đồng
+                  <Typography variant="body2">
+                    Giá:{" "}
+                    <strong>
+                      {formatNumber(
+                        order.detail.price + getTotal(order.detail.options)
+                      )}
+                    </strong>
                   </Typography>
                 </div>
-                <div></div>
-                <Button autoFocus color="error">
+                <div>
+                  {order?.detail?.options.map((op: any, index: number) => (
+                    <div
+                      key={index}
+                      style={{ display: "flex", gap: "20px", marginTop: "6px" }}
+                    >
+                      {op?.data.map((chose: any, index: number) => (
+                        <div
+                          key={index}
+                          style={{
+                            display: "flex",
+                            gap: "12px",
+                          }}
+                        >
+                          <Typography variant="h6" component="div">
+                            {chose?.label}
+                          </Typography>
+
+                          <Typography variant="body2" color="text.secondary">
+                            +{formatNumber(chose?.price)}
+                          </Typography>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+
+                <span
+                  autoFocus
+                  style={{
+                    fontWeight: "500",
+                    color: FoodColor[order?.status],
+                  }}
+                >
                   {FoodStatus[order?.status]}
-                </Button>
+                </span>
               </CardContent>
             </Card>
           </>

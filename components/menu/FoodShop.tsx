@@ -1,6 +1,6 @@
 import { useDeleteFood } from "@/services/MenuService";
 import { formatNumber } from "@/utils/format";
-import { CardActionArea, Grid } from "@mui/material";
+import { Box, Button, CardActionArea, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import CreateOrder from "../modals/CreateOrder";
 import UpdateFood from "../modals/UpdateFood";
+import TagIcon from "@heroicons/react/24/outline/TagIcon";
 
 export default function FoodShop(food: any) {
   const [show, setShow] = useState("");
@@ -65,32 +66,44 @@ export default function FoodShop(food: any) {
                 {name}
               </Typography>
 
-              <Typography
-                gutterBottom
-                variant="body2"
-                component="h4"
+              <Box
                 sx={{
-                  py: 0,
-                  fontSize: "20px",
-                  textDecoration: "line-through",
-                  fontWeight: 700,
+                  display: "flex",
                 }}
               >
-                {formatNumber(priceOrigin)}đ
-              </Typography>
+                <Typography
+                  gutterBottom
+                  variant="body2"
+                  component="h4"
+                  sx={{
+                    py: 0,
+                    fontSize: "16px",
 
-              <Typography
-                gutterBottom
-                variant="body2"
-                component="h4"
-                sx={{
-                  py: 0,
-                  fontSize: "20px",
-                  fontWeight: 700,
-                }}
-              >
-                {formatNumber(price)}đ
-              </Typography>
+                    fontWeight: 600,
+                  }}
+                >
+                  {formatNumber(price)}
+                </Typography>
+
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Typography
+                    gutterBottom
+                    variant="body2"
+                    component="h4"
+                    sx={{
+                      py: 0,
+                      lineHeight: "26px",
+                      marginLeft: "10px",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    {formatNumber(priceOrigin)}
+                  </Typography>
+                  <div style={{ width: "15px" }}>
+                    <TagIcon color="orange"></TagIcon>
+                  </div>
+                </div>
+              </Box>
             </div>
 
             {/* <div style={{ fontSize: "18px" }}>Mô tả: {description}</div> */}
@@ -106,7 +119,7 @@ export default function FoodShop(food: any) {
                   padding: "0px 6px",
                   fontSize: "20px",
                   borderRadius: "50%",
-                  background: "pink",
+                  background: "green",
                   color: "#fff",
                 }}
               >
@@ -115,41 +128,33 @@ export default function FoodShop(food: any) {
             )}
 
             {session?.user?.role === "owner" && (
-              <span
+              <Button
+                color="error"
                 onClick={() => deleteFood(food.id)}
                 style={{
                   position: "absolute",
-                  top: 80,
-                  right: 10,
-                  lineHeight: "24px",
-                  padding: "0px 6px",
-                  fontSize: "20px",
-                  borderRadius: "50%",
-                  background: "pink",
-                  color: "#fff",
+                  bottom: 22,
+                  width: "40px",
+                  right: 6,
                 }}
               >
-                X
-              </span>
+                Xóa
+              </Button>
             )}
 
             {session?.user?.role === "owner" && (
-              <span
+              <Button
+                color="warning"
                 onClick={() => handleFood(food)}
                 style={{
                   position: "absolute",
-                  top: 40,
-                  right: 10,
-                  lineHeight: "24px",
-                  padding: "0px 6px",
-                  fontSize: "20px",
-                  borderRadius: "50%",
-                  background: "pink",
-                  color: "#fff",
+                  bottom: 22,
+                  width: "40px",
+                  right: 50,
                 }}
               >
-                edit
-              </span>
+                Sửa
+              </Button>
             )}
           </CardContent>
         </CardActionArea>

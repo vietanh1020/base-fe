@@ -1,10 +1,13 @@
 import { useCreateFood, useUploadFoodImg } from "@/services/MenuService";
 import {
+  Box,
   CardContent,
   CardMedia,
   Checkbox,
+  FormControl,
   FormControlLabel,
   Input,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -228,44 +231,49 @@ export default function CreateFood({
                   autoComplete="off"
                 />
 
-                <TextField
-                  margin="normal"
-                  value={values.priceOrigin}
-                  error={!!errors?.priceOrigin && touched.priceOrigin}
-                  name="priceOrigin"
-                  label="Giá gốc (đồng)"
-                  type="number"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  autoComplete="off"
-                />
+                <Box sx={{ display: "flex", gap: "10px" }}>
+                  <TextField
+                    margin="normal"
+                    value={values.priceOrigin}
+                    error={!!errors?.priceOrigin && touched.priceOrigin}
+                    name="priceOrigin"
+                    label="Giá gốc (đồng)"
+                    type="number"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    autoComplete="off"
+                  />
 
-                <TextField
-                  margin="normal"
-                  value={values.price}
-                  error={!!errors?.price && touched.price}
-                  name="price"
-                  label="Giá bán (đồng)"
-                  type="number"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  autoComplete="off"
-                />
+                  <TextField
+                    margin="normal"
+                    value={values.price}
+                    error={!!errors?.price && touched.price}
+                    name="price"
+                    label="Giá bán (đồng)"
+                    type="number"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    autoComplete="off"
+                  />
+                </Box>
 
-                <Select
-                  value={values.category}
-                  error={!!errors?.category && touched.category}
-                  label="Nhóm"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  name="category"
-                >
-                  {category?.map((item: any) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <FormControl sx={{ m: 1, width: 300 }}>
+                  <InputLabel>Nhóm sản phẩm</InputLabel>
+                  <Select
+                    value={values.category}
+                    error={!!errors?.category && touched.category}
+                    label="Nhóm"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    name="category"
+                  >
+                    {category?.map((item: any) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
 
               <div

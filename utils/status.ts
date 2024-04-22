@@ -4,3 +4,5 @@ export const FoodStatus = [
   "Bếp từ chối",
   "Thành Công",
 ];
+
+export const FoodColor = ["#000", "orange", "red", "green"];

@@ -43,16 +43,18 @@ const Menu = ({ id }: any) => {
 
   return (
     <Box mx={3}>
+      <img
+        alt="restauảnt"
+        style={{ objectFit: "cover", width: "100%" }}
+        src="https://images.foody.vn/res/g117/1168187/prof/s640x400/foody-upload-api-foody-mobile-fo-a72ffcba-230418142410.jpeg"
+        // src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${company?.image}`}
+      />
       <div
         style={{
           width: "260px",
           margin: "12px",
         }}
       >
-        <img
-          alt="restauảnt"
-          src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${company?.image}`}
-        />
         <div style={{ display: "flex" }}>
           <div
             style={{

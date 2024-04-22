@@ -1,6 +1,7 @@
 import { useDeleteFood } from "@/services/MenuService";
 import { formatNumber } from "@/utils/format";
-import { CardActionArea, Grid } from "@mui/material";
+import TagIcon from "@heroicons/react/24/outline/TagIcon";
+import { Box, CardActionArea, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -8,12 +9,10 @@ import Typography from "@mui/material/Typography";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import CreateOrder from "../modals/CreateOrder";
-import UpdateFood from "../modals/UpdateFood";
 
-export default function FoodCustomer(food: any) {
+export default function FoodShop(food: any) {
   const [show, setShow] = useState("");
   const [currentFood, setCurrentFood] = useState<any>();
-  const { mutateAsync: deleteFood } = useDeleteFood();
   const { price, priceOrigin, name, image, description, listCategory } = food;
   const { data: session } = useSession();
 
@@ -65,32 +64,44 @@ export default function FoodCustomer(food: any) {
                 {name}
               </Typography>
 
-              <Typography
-                gutterBottom
-                variant="body2"
-                component="h4"
+              <Box
                 sx={{
-                  py: 0,
-                  fontSize: "20px",
-                  textDecoration: "line-through",
-                  fontWeight: 700,
+                  display: "flex",
                 }}
               >
-                {formatNumber(priceOrigin)}đ
-              </Typography>
+                <Typography
+                  gutterBottom
+                  variant="body2"
+                  component="h4"
+                  sx={{
+                    py: 0,
+                    fontSize: "16px",
 
-              <Typography
-                gutterBottom
-                variant="body2"
-                component="h4"
-                sx={{
-                  py: 0,
-                  fontSize: "20px",
-                  fontWeight: 700,
-                }}
-              >
-                {formatNumber(price)}đ
-              </Typography>
+                    fontWeight: 600,
+                  }}
+                >
+                  {formatNumber(price)}
+                </Typography>
+
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Typography
+                    gutterBottom
+                    variant="body2"
+                    component="h4"
+                    sx={{
+                      py: 0,
+                      lineHeight: "26px",
+                      marginLeft: "10px",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    {formatNumber(priceOrigin)}
+                  </Typography>
+                  <div style={{ width: "15px" }}>
+                    <TagIcon color="orange"></TagIcon>
+                  </div>
+                </div>
+              </Box>
             </div>
 
             {/* <div style={{ fontSize: "18px" }}>Mô tả: {description}</div> */}
@@ -106,49 +117,11 @@ export default function FoodCustomer(food: any) {
                   padding: "0px 6px",
                   fontSize: "20px",
                   borderRadius: "50%",
-                  background: "pink",
+                  background: "green",
                   color: "#fff",
                 }}
               >
                 +
-              </span>
-            )}
-
-            {session?.user?.role === "owner" && (
-              <span
-                onClick={() => deleteFood(food.id)}
-                style={{
-                  position: "absolute",
-                  top: 80,
-                  right: 10,
-                  lineHeight: "24px",
-                  padding: "0px 6px",
-                  fontSize: "20px",
-                  borderRadius: "50%",
-                  background: "pink",
-                  color: "#fff",
-                }}
-              >
-                X
-              </span>
-            )}
-
-            {session?.user?.role === "owner" && (
-              <span
-                onClick={() => handleFood(food)}
-                style={{
-                  position: "absolute",
-                  top: 40,
-                  right: 10,
-                  lineHeight: "24px",
-                  padding: "0px 6px",
-                  fontSize: "20px",
-                  borderRadius: "50%",
-                  background: "pink",
-                  color: "#fff",
-                }}
-              >
-                edit
               </span>
             )}
           </CardContent>
@@ -157,15 +130,6 @@ export default function FoodCustomer(food: any) {
 
       {show === "createOrder" && (
         <CreateOrder handleClose={handleClose} food={food} show={show} />
-      )}
-
-      {show === "updateFood" && (
-        <UpdateFood
-          listCategory={listCategory}
-          handleClose={handleClose}
-          show={show === "updateFood"}
-          food={currentFood}
-        />
       )}
     </Grid>
   );
