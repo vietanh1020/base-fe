@@ -1,5 +1,6 @@
 import DetailOrder from "@/components/modals/DetailOrder";
 import { onMessageListener } from "@/firebase";
+import { useEndTable } from "@/services";
 import { useGetOrder } from "@/services/PaymentService";
 import { formatNumber } from "@/utils/format";
 import {
@@ -29,6 +30,8 @@ const names = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const OrderList = () => {
   const [table, setTable] = useState("");
   const { data: orders, refetch } = useGetOrder(table);
+
+  const { mutateAsync: endTable } = useEndTable();
 
   const [hasNoti, setHasNoti] = useState(false);
 
@@ -63,12 +66,13 @@ const OrderList = () => {
 
         <div>
           <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel>Bàn</InputLabel>
+            <InputLabel>Chọn bàn</InputLabel>
             <Select
               value={table}
               onChange={(e: any) => setTable(e.target.value)}
               input={<OutlinedInput label="Name" />}
             >
+              <MenuItem value={""}>--------</MenuItem>
               {names?.map((name) => (
                 <MenuItem key={name} value={name}>
                   {`Bàn ${name}`}
@@ -109,7 +113,7 @@ const OrderList = () => {
                             <strong style={{ marginRight: "12px" }}>
                               {item.quantity}x
                             </strong>
-                            {item.food.name} - {formatNumber(item.price)}đ
+                            {item.food.name} - {formatNumber(item.price)}
                           </Typography>
                           {/* {JSON.stringify(item.food.options)} */}
                           {/* {item?.food.options?.length > 0 &&
@@ -161,7 +165,17 @@ const OrderList = () => {
           ))}
         </Grid>
       </List>
-
+      {table && (
+        <div
+          style={{
+            display: "flex",
+            margin: "0 auto ",
+          }}
+          onClick={() => endTable(table)}
+        >
+          Kết thúc phục vụ
+        </div>
+      )}
       <DetailOrder handleClose={handleClick} show={toggle} data={order} />
     </Paper>
   );

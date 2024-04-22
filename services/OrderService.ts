@@ -64,6 +64,22 @@ export const useCancelFoodOrder = () => {
   );
 };
 
+export const useEndTable = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    [endpoint],
+    async (id: any) => {
+      const res = await httpClient().put(endpoint + "/end-table/" + id);
+      return res.data;
+    },
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([endpoint]);
+      },
+    }
+  );
+};
+
 export const useChangeStatus = () => {
   const queryClient = useQueryClient();
   return useMutation(
