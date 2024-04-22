@@ -192,6 +192,9 @@ export default function CreateFood({
       open={show}
     >
       <DialogContent dividers sx={{ p: 0 }}>
+        <h2 style={{ textAlign: "center", marginBottom: 0 }}>
+          Thêm món ăn mới
+        </h2>
         <CardMedia
           component="img"
           image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
@@ -199,8 +202,7 @@ export default function CreateFood({
           sx={{ objectFit: "cover" }}
         />
 
-        <CardContent sx={{ width: "600px" }}>
-          <h2 style={{ textAlign: "center", margin: 0 }}>Thêm món ăn mới</h2>
+        <CardContent sx={{ width: "600px", paddingTop: "0px" }}>
           <form action="" onSubmit={handleSubmit}>
             <div
               style={{
@@ -214,13 +216,11 @@ export default function CreateFood({
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  flex: 1,
                   position: "relative",
-                  bottom: "40px",
+                  top: "40px",
                 }}
               >
                 <TextField
-                  margin="normal"
                   value={values.name}
                   style={{ flex: 1 }}
                   error={!!errors?.name && touched.name}
@@ -231,7 +231,9 @@ export default function CreateFood({
                   autoComplete="off"
                 />
 
-                <Box sx={{ display: "flex", gap: "10px" }}>
+                <Box
+                  sx={{ display: "flex", gap: "10px", marginBottom: "10px" }}
+                >
                   <TextField
                     margin="normal"
                     value={values.priceOrigin}
@@ -257,7 +259,7 @@ export default function CreateFood({
                   />
                 </Box>
 
-                <FormControl sx={{ m: 1, width: 300 }}>
+                <FormControl sx={{ width: 300 }}>
                   <InputLabel>Nhóm sản phẩm</InputLabel>
                   <Select
                     value={values.category}
@@ -274,6 +276,19 @@ export default function CreateFood({
                     ))}
                   </Select>
                 </FormControl>
+                <TextField
+                  margin="normal"
+                  value={values.description}
+                  rows={3}
+                  style={{ height: "100px" }}
+                  fullWidth
+                  name="description"
+                  label="Mô tả"
+                  type="text"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  autoComplete="off"
+                />
               </div>
 
               <div
@@ -302,19 +317,6 @@ export default function CreateFood({
                 </label>
               </div>
             </div>
-
-            <TextField
-              margin="normal"
-              value={values.description}
-              rows={3}
-              fullWidth
-              name="description"
-              label="Mô tả"
-              type="text"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              autoComplete="off"
-            />
 
             <div>
               <div

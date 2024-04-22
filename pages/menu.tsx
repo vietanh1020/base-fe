@@ -44,17 +44,16 @@ export default function Menu() {
           justifyContent: "space-between",
         }}
       >
-        Menu
+        Thực đơn
         <div>
-          <TextField
+          {/* <TextField
             margin="normal"
             value={keySearch}
-            sx={{ flex: 1, margin: "0 12px 0 0" }}
             label="Tìm kiếm"
             type="text"
             onChange={(e) => handleChangeSearch(e.target.value)}
             autoComplete="off"
-          />
+          /> */}
 
           <Button
             sx={{

@@ -7,7 +7,6 @@ import {
   Divider,
   TextField,
 } from "@mui/material";
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 export const SettingCompany = () => {
@@ -51,11 +50,11 @@ export const SettingCompany = () => {
             />
           </div>
           <div>
-            <h3 style={{ margin: 0 }}>Company</h3>
+            <h3 style={{ margin: 0 }}>Cửa hàng</h3>
             <TextField
               sx={{ mt: 2 }}
               fullWidth
-              label="Company Name"
+              label="Tên cửa hàng"
               name="name"
               onChange={handleChange}
               type="text"
@@ -64,7 +63,7 @@ export const SettingCompany = () => {
             <TextField
               sx={{ mt: 2 }}
               fullWidth
-              label="Company Description"
+              label="Mô tả"
               name="description"
               onChange={handleChange}
               type="text"
@@ -74,7 +73,7 @@ export const SettingCompany = () => {
             <TextField
               sx={{ mt: 2 }}
               fullWidth
-              label="Company Address"
+              label="Địa chỉ"
               name="address"
               onChange={handleChange}
               type="text"
@@ -90,7 +89,7 @@ export const SettingCompany = () => {
         <Divider />
         <CardActions sx={{ justifyContent: "flex-end" }}>
           <Button sx={{ mr: "16px" }} variant="contained">
-            Update
+            Cập nhật
           </Button>
         </CardActions>
       </Card>

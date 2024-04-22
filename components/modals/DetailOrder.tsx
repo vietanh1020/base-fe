@@ -51,7 +51,7 @@ export default function DetailOrder({ handleClose, show, data }: any) {
               <TableRow>
                 <TableCell>Tên món ăn</TableCell>
                 <TableCell>Lựa chọn</TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell>Trạng thái</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -36,7 +36,7 @@ export const SettingsPassword = () => {
           <div style={{ display: "flex", gap: 40 }}>
             <TextField
               fullWidth
-              label="Password"
+              label="Mật khẩu Cũ"
               name="password"
               onChange={handleChange}
               type="password"
@@ -44,7 +44,15 @@ export const SettingsPassword = () => {
             />
             <TextField
               fullWidth
-              label="Password (Confirm)"
+              label="Mật khẩu mới"
+              name="password"
+              onChange={handleChange}
+              type="password"
+              value={values.password}
+            />
+            <TextField
+              fullWidth
+              label="Xác nhận mật khẩu mới"
               name="confirm"
               onChange={handleChange}
               type="password"
@@ -55,7 +63,7 @@ export const SettingsPassword = () => {
         <Divider />
         <CardActions sx={{ justifyContent: "flex-end" }}>
           <Button style={{ marginRight: "16px" }} variant="contained">
-            Update
+            Cập nhật
           </Button>
         </CardActions>
       </Card>

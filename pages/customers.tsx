@@ -68,7 +68,7 @@ const Customer = () => {
                 onClick={handleClick}
                 variant="contained"
               >
-                Add
+                Thêm nhân viên
               </Button>
             </div>
           </Stack>

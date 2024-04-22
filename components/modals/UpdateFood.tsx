@@ -1,11 +1,17 @@
 import { useUpdateFood, useUploadFoodImg } from "@/services/MenuService";
-import { CardContent, Input, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Box,
+  CardContent,
+  Input,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import { useFormik } from "formik";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
@@ -53,45 +59,6 @@ export default function UpdateFood({
 
   const [foodOptions, setFoodOptions] = useState<any>([initialFoodOption]);
 
-  const handleAddOption = () => {
-    setFoodOptions([...foodOptions, initialFoodOption]);
-  };
-
-  const handleLabelChange = (optionIndex: any, value: any) => {
-    const updatedOptions: any = [...foodOptions];
-    updatedOptions[optionIndex].label = value;
-    setFoodOptions(updatedOptions);
-  };
-
-  const handleMultipleChange = (optionIndex: any, value: any) => {
-    const updatedOptions: any = [...foodOptions];
-    updatedOptions[optionIndex].isMultiple = value;
-    setFoodOptions(updatedOptions);
-  };
-
-  const handleAddData = (optionIndex: number) => {
-    const updatedOptions = [...foodOptions];
-    updatedOptions[optionIndex].data.push(initialOption);
-    setFoodOptions(updatedOptions);
-  };
-
-  const handleDeleteOption = (optionIndex: any) => {
-    const updatedOptions = [...foodOptions];
-    updatedOptions.splice(optionIndex, 1);
-    setFoodOptions(updatedOptions);
-  };
-
-  const handleDataChange = (
-    optionIndex: number,
-    dataIndex: number,
-    field: any,
-    value: any
-  ) => {
-    const updatedOptions: any = [...foodOptions];
-    updatedOptions[optionIndex].data[dataIndex][field] = value;
-    setFoodOptions(updatedOptions);
-  };
-
   const {
     handleSubmit,
     values,
@@ -130,7 +97,8 @@ export default function UpdateFood({
 
   useEffect(() => {
     if (food) {
-      setValues({ ...food });
+      const { name, priceOrigin, price, category, description } = food;
+      setValues({ name, priceOrigin, price, category, description });
     }
   }, [food]);
 
@@ -178,20 +146,13 @@ export default function UpdateFood({
       open={show}
     >
       <DialogContent dividers sx={{ p: 0 }}>
-        {/* <CardMedia
-          component="img"
-          image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
-          alt={name}
-          sx={{ objectFit: "cover" }}
-        /> */}
-
+        <h2 style={{ textAlign: "center" }}>Cập nhật món ăn</h2>
         <CardContent sx={{ width: "600px" }}>
-          <h2 style={{ textAlign: "center", margin: 0 }}>Cập nhật món ăn</h2>
           <form action="" onSubmit={handleSubmit}>
             <div
               style={{
                 display: "flex",
-                gap: "10px",
+                gap: "30px",
                 alignItems: "center",
                 justifyContent: "center",
               }}
@@ -200,7 +161,7 @@ export default function UpdateFood({
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  flex: 1,
+
                   position: "relative",
                   bottom: "40px",
                 }}
@@ -217,29 +178,33 @@ export default function UpdateFood({
                   autoComplete="off"
                 />
 
-                <TextField
-                  margin="normal"
-                  value={values.priceOrigin}
-                  error={!!errors?.priceOrigin && touched.priceOrigin}
-                  name="priceOrigin"
-                  label="Giá gốc (đồng)"
-                  type="number"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  autoComplete="off"
-                />
+                <Box
+                  sx={{ display: "flex", gap: "10px", marginBottom: "10px" }}
+                >
+                  <TextField
+                    margin="normal"
+                    value={values.priceOrigin}
+                    error={!!errors?.priceOrigin && touched.priceOrigin}
+                    name="priceOrigin"
+                    label="Giá gốc (đồng)"
+                    type="number"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    autoComplete="off"
+                  />
 
-                <TextField
-                  margin="normal"
-                  value={values.price}
-                  error={!!errors?.price && touched.price}
-                  name="price"
-                  label="Giá bán (đồng)"
-                  type="number"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  autoComplete="off"
-                />
+                  <TextField
+                    margin="normal"
+                    value={values.price}
+                    error={!!errors?.price && touched.price}
+                    name="price"
+                    label="Giá bán (đồng)"
+                    type="number"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    autoComplete="off"
+                  />
+                </Box>
 
                 <Select
                   value={values.category}
@@ -255,10 +220,25 @@ export default function UpdateFood({
                     </MenuItem>
                   ))}
                 </Select>
+
+                <TextField
+                  margin="normal"
+                  value={values.description}
+                  rows={3}
+                  fullWidth
+                  name="description"
+                  label="Mô tả"
+                  type="text"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  autoComplete="off"
+                />
               </div>
 
               <div
                 style={{
+                  position: "relative",
+                  bottom: "30px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -272,7 +252,7 @@ export default function UpdateFood({
                     "images/errors/empty.jpg"
                   }
                   alt="Preview"
-                  style={{ height: "200px", objectFit: "cover" }}
+                  style={{ width: "230px", objectFit: "cover" }}
                 />
 
                 <Input
@@ -288,133 +268,6 @@ export default function UpdateFood({
               </div>
             </div>
 
-            <TextField
-              margin="normal"
-              value={values.description}
-              rows={3}
-              fullWidth
-              name="description"
-              label="Mô tả"
-              type="text"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              autoComplete="off"
-            />
-
-            {/* <div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: "10px",
-                  alignItems: "center",
-                }}
-              >
-                <h3 style={{ margin: 0 }}>Danh sách lựa chọn</h3>
-                <Button onClick={handleAddOption}>Thêm nhóm</Button>
-              </div>
-              {foodOptions.map((option, optionIndex) => (
-                <div key={optionIndex}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      gap: "10px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <h4 style={{ margin: 0 }}>
-                      Nhóm lựa chọn {optionIndex + 1}
-                    </h4>
-                    <FormControlLabel
-                      value={option.isMultiple}
-                      control={<Checkbox />}
-                      label="Nhiều lựa chọn"
-                      onChange={(e: any) =>
-                        handleMultipleChange(optionIndex, e.target.checked)
-                      }
-                    />
-                    <TextField
-                      margin="normal"
-                      value={option.label}
-                      sx={{ flex: 1, margin: 0 }}
-                      label="Nhãn lựa chọn"
-                      type="text"
-                      onChange={(e) =>
-                        handleLabelChange(optionIndex, e.target.value)
-                      }
-                      autoComplete="off"
-                    />
-
-                    <Button
-                      color="error"
-                      onClick={() => handleDeleteOption(optionIndex)}
-                    >
-                      X
-                    </Button>
-                  </div>
-                  {option.data.map((dataItem, dataIndex) => (
-                    <div
-                      style={{
-                        marginLeft: "20px",
-                        display: "flex",
-                        gap: "10px",
-                        alignItems: "center",
-                      }}
-                      key={dataIndex}
-                    >
-                      <h4>Lựa chọn {dataIndex + 1}</h4>
-                      <TextField
-                        margin="normal"
-                        value={dataItem.label}
-                        sx={{ flex: 1, margin: 0 }}
-                        label="Nhãn lựa chọn"
-                        type="text"
-                        onChange={(e) =>
-                          handleDataChange(
-                            optionIndex,
-                            dataIndex,
-                            "label",
-                            e.target.value
-                          )
-                        }
-                        autoComplete="off"
-                      />
-
-                      <TextField
-                        margin="normal"
-                        value={dataItem.price}
-                        label="Giá (đồng)"
-                        sx={{
-                          width: "100px ",
-                          margin: 0,
-                        }}
-                        type="number"
-                        onChange={(e) =>
-                          handleDataChange(
-                            optionIndex,
-                            dataIndex,
-                            "price",
-                            +e.target.value
-                          )
-                        }
-                        autoComplete="off"
-                      />
-                      <Button
-                        color="error"
-                        onClick={() => handleDeleteData(optionIndex, dataIndex)}
-                      >
-                        X
-                      </Button>
-                    </div>
-                  ))}
-
-                  <Button onClick={() => handleAddData(optionIndex)}>
-                    Thêm Lựa Chọn
-                  </Button>
-                </div>
-              ))}
-            </div> */}
             <Button
               variant="contained"
               sx={{

@@ -63,15 +63,15 @@ export const AdminSideLink: ItemLink[] = [
   //     </SvgIcon>
   //   ),
   // },
-  // {
-  //   title: "Settings",
-  //   path: "/settings",
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <CogIcon />
-  //     </SvgIcon>
-  //   ),
-  // },
+  {
+    title: "Cài đặt",
+    path: "/settings",
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
+      </SvgIcon>
+    ),
+  },
 
   // {
   //   title: "Card",
@@ -93,25 +93,25 @@ export const AdminSideLink: ItemLink[] = [
   //   ),
   // },
 
-  {
-    title: "Cửa hàng",
-    path: "/company",
-    icon: (
-      <SvgIcon fontSize="small">
-        <OfficeBuildingCog />
-      </SvgIcon>
-    ),
-  },
+  // {
+  //   title: "Cửa hàng",
+  //   path: "/company",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <OfficeBuildingCog />
+  //     </SvgIcon>
+  //   ),
+  // },
 ];
 
 export const UserSideLink: ItemLink[] = [
-  {
-    title: "Menu",
-    path: "/menu",
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    ),
-  },
+  // {
+  //   title: "Menu",
+  //   path: "/menu",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <CogIcon />
+  //     </SvgIcon>
+  //   ),
+  // },
 ];
