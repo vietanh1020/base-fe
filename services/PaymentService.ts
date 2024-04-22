@@ -1,9 +1,9 @@
 import { httpClient } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetOrder = () => {
-  return useQuery([`/order`], async () => {
-    const res = await httpClient().get(`/order`);
+export const useGetOrder = (table: string) => {
+  return useQuery([`/order`, table], async () => {
+    const res = await httpClient().get(`/order?tableId=${table}`);
     return res.data;
   });
 };

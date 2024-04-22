@@ -21,7 +21,7 @@ export const useGetOrderDetail = (id: string) => {
 
 export const useCustomerGetOrder = (id: string) => {
   return useQuery(
-    [endpoint, id],
+    [endpoint, id, , "customerGet"],
     async () => {
       const { data } = await httpClient().get(`/order/customer/${id}`);
       return data;
@@ -43,6 +43,22 @@ export const useCreateOrder = () => {
     {
       onSuccess: async () => {
         queryClient.invalidateQueries([endpoint]);
+      },
+    }
+  );
+};
+
+export const useCancelFoodOrder = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    [endpoint],
+    async (id: any) => {
+      const res = await httpClient().put(endpoint + "/cancel/" + id);
+      return res.data;
+    },
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries(["customerGet"]);
       },
     }
   );

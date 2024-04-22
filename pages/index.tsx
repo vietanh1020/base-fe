@@ -56,7 +56,7 @@ const Page: MyNextPage = () => {
           </Grid>
           <Grid xs={12} sm={6} lg={3}>
             <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
-          </Grid>
+          </Grid> */}
 
           <Grid xs={12} lg={8}>
             <OverviewSales
@@ -76,7 +76,7 @@ const Page: MyNextPage = () => {
               labels={foodDate?.map((item) => item.name) || []}
               sx={{ height: "100%" }}
             />
-          </Grid> */}
+          </Grid>
 
           <Grid xs={12} lg={8}>
             <SalesMonthly

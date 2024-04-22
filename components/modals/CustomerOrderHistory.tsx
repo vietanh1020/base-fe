@@ -1,5 +1,5 @@
 import { onMessageListener } from "@/firebase";
-import { useCustomerGetOrder } from "@/services";
+import { useCancelFoodOrder, useCustomerGetOrder } from "@/services";
 import { formatNumber } from "@/utils/format";
 import { FoodColor, FoodStatus } from "@/utils/status";
 import CloseIcon from "@mui/icons-material/Close";
@@ -30,6 +30,8 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
   const orderId = getCookie("orderId") || "";
 
   const { data: cartItems, refetch } = useCustomerGetOrder(orderId);
+
+  const { mutateAsync } = useCancelFoodOrder();
 
   const [hasNoti, setHasNoti] = React.useState(false);
 
@@ -151,15 +153,31 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
                   ))}
                 </div>
 
-                <span
-                  autoFocus
-                  style={{
-                    fontWeight: "500",
-                    color: FoodColor[order?.status],
-                  }}
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  {FoodStatus[order?.status]}
-                </span>
+                  <div
+                    autoFocus
+                    style={{
+                      fontWeight: "500",
+                      color: FoodColor[order?.status] || "red",
+                    }}
+                  >
+                    {FoodStatus[order?.status]}
+                    {order?.status == -1 && "Đã hủy"}
+                  </div>
+
+                  <div>
+                    {order?.status === 0 && (
+                      <Button
+                        color="error"
+                        onClick={() => mutateAsync(order.id)}
+                      >
+                        Hủy
+                      </Button>
+                    )}
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </>

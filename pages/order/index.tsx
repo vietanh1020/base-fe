@@ -27,7 +27,8 @@ const getRandomColor = (index: number) => {
 const names = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const OrderList = () => {
-  const { data: orders, refetch } = useGetOrder();
+  const [table, setTable] = useState("");
+  const { data: orders, refetch } = useGetOrder(table);
 
   const [hasNoti, setHasNoti] = useState(false);
 
@@ -42,22 +43,27 @@ const OrderList = () => {
 
   const [toggle, setToggle] = useState(false);
 
-  const [table, setTable] = useState(false);
-
   const handleClick = () => {
     setToggle(!toggle);
   };
 
   return (
     <Paper elevation={3} style={{ padding: "20px", margin: "20px" }}>
-      <div style={{ display: "flex", margin: "0 0 12px 0" }}>
+      <div
+        style={{
+          display: "flex",
+          margin: "0 0 12px 0",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h5" gutterBottom>
           Danh sách order
         </Typography>
 
         <div>
           <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel>Name</InputLabel>
+            <InputLabel>Bàn</InputLabel>
             <Select
               value={table}
               onChange={(e: any) => setTable(e.target.value)}
@@ -130,7 +136,7 @@ const OrderList = () => {
                 />
                 <ListItemSecondaryAction>
                   <Typography variant="body1" sx={{ textAlign: "right" }}>
-                    Giá {formatNumber(order.total)}đ
+                    <strong>{formatNumber(order.total)}</strong>
                   </Typography>
                   <Typography
                     sx={{ textAlign: "right" }}
@@ -145,17 +151,10 @@ const OrderList = () => {
                       setOrder(order);
                     }}
                     color="success"
-                    style={{ marginLeft: "10px" }}
+                    style={{ padding: 0, float: "right" }}
                   >
-                    Chi tiết
+                    Cập nhật
                   </Button>
-                  {/* <Button
-                    onClick={() => handleRejectOrder(order.id)}
-                    color="error"
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Từ chối
-                  </Button> */}
                 </ListItemSecondaryAction>
               </ListItem>
             </Grid>

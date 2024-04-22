@@ -16,7 +16,7 @@ type ItemLink = {
 
 export const AdminSideLink: ItemLink[] = [
   {
-    title: "Overview",
+    title: "Thống kê",
     path: "/",
     icon: (
       <SvgIcon fontSize="small">
@@ -25,7 +25,7 @@ export const AdminSideLink: ItemLink[] = [
     ),
   },
   {
-    title: "Order",
+    title: "Đơn hàng",
     path: "/order",
     icon: (
       <SvgIcon fontSize="small">
@@ -35,7 +35,7 @@ export const AdminSideLink: ItemLink[] = [
   },
 
   {
-    title: "Menu",
+    title: "Thực đơn",
     path: "/menu",
     icon: (
       <SvgIcon fontSize="small">
@@ -45,7 +45,7 @@ export const AdminSideLink: ItemLink[] = [
   },
 
   {
-    title: "Customers",
+    title: "Nhân viên",
     path: "/customers",
     icon: (
       <SvgIcon fontSize="small">
@@ -54,24 +54,24 @@ export const AdminSideLink: ItemLink[] = [
     ),
   },
 
-  {
-    title: "Account",
-    path: "/account",
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserIcon />
-      </SvgIcon>
-    ),
-  },
-  {
-    title: "Settings",
-    path: "/settings",
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
-      </SvgIcon>
-    ),
-  },
+  // {
+  //   title: "Account",
+  //   path: "/account",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UserIcon />
+  //     </SvgIcon>
+  //   ),
+  // },
+  // {
+  //   title: "Settings",
+  //   path: "/settings",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <CogIcon />
+  //     </SvgIcon>
+  //   ),
+  // },
 
   // {
   //   title: "Card",
@@ -94,7 +94,7 @@ export const AdminSideLink: ItemLink[] = [
   // },
 
   {
-    title: "Company",
+    title: "Cửa hàng",
     path: "/company",
     icon: (
       <SvgIcon fontSize="small">
