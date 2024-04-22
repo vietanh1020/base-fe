@@ -114,10 +114,10 @@ const Page: MyNextPage = () => {
               chartSeries={[
                 {
                   name: "This month",
-                  data: turnOver?.map((item) => item.count) || [],
+                  data: turnOver?.map((item: any) => item.count) || [],
                 },
               ]}
-              labels={turnOver?.map((item) => item.date) || []}
+              labels={turnOver?.map((item: any) => item.date) || []}
               sx={{ height: "100%" }}
             />
           </Grid>
@@ -128,10 +128,10 @@ const Page: MyNextPage = () => {
               chartSeries={[
                 {
                   name: "This month",
-                  data: turnOver?.map((item) => item.sum) || [],
+                  data: turnOver?.map((item: any) => item.sum) || [],
                 },
               ]}
-              labels={turnOver?.map((item) => item.date) || []}
+              labels={turnOver?.map((item: any) => item.date) || []}
               sx={{ height: "100%" }}
             />
           </Grid>
