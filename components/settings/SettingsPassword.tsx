@@ -30,18 +30,10 @@ export const SettingsPassword = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Card>
-        <CardHeader title="Password" />
+        <CardHeader title="Thay đổi mật khẩu tài khoản" />
         <Divider />
         <CardContent>
           <div style={{ display: "flex", gap: 40 }}>
-            <TextField
-              fullWidth
-              label="Mật khẩu Cũ"
-              name="password"
-              onChange={handleChange}
-              type="password"
-              value={values.password}
-            />
             <TextField
               fullWidth
               label="Mật khẩu mới"

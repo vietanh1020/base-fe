@@ -43,7 +43,7 @@ export const AccountPopover = (props: any) => {
           px: 2,
         }}
       >
-        <Typography variant="overline">Account</Typography>
+        <Typography variant="overline">Tài khoản</Typography>
         <Typography color="text.secondary" variant="body2">
           {session?.user.name}
         </Typography>

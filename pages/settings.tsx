@@ -12,7 +12,7 @@ const Page = () => (
   >
     <Container maxWidth="lg">
       <Stack spacing={3}>
-        <Typography variant="h4">Settings</Typography>
+        <Typography variant="h4">Thông tin cửa hàng</Typography>
         <SettingCompany />
         <SettingsPassword />
       </Stack>

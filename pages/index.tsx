@@ -4,21 +4,14 @@ import {
   Unstable_Grid2 as Grid,
   Typography,
 } from "@mui/material";
-import { subDays, subHours } from "date-fns";
 
-import { OverviewBudget } from "@/components/overview/Budget";
-import { OverviewLatestOrders } from "@/components/overview/LatestOrders";
-import { OverviewLatestProducts } from "@/components/overview/LatestProducts";
 import { OverviewSales } from "@/components/overview/Sales";
-import { OverviewTasksProgress } from "@/components/overview/TasksProgress";
-import { OverviewTotalCustomers } from "@/components/overview/TotalCustomers";
-import { OverviewTotalProfit } from "@/components/overview/TotalProfit";
-import { OverviewTraffic } from "@/components/overview/Traffic";
-import { MyNextPage } from "@/types";
-import { useGetFoodDaily, useGetFoodMonthly, useGetTurnover } from "@/services";
-import { useState } from "react";
-import moment from "moment";
 import { SalesMonthly } from "@/components/overview/SalesMonthly";
+import { OverviewTraffic } from "@/components/overview/Traffic";
+import { useGetFoodDaily, useGetFoodMonthly, useGetTurnover } from "@/services";
+import { MyNextPage } from "@/types";
+import moment from "moment";
+import { useState } from "react";
 
 const now = new Date();
 
@@ -37,35 +30,11 @@ const Page: MyNextPage = () => {
         py: 8,
       }}
     >
-      <Typography variant="h5" sx={{ marginLeft: "120px" }} gutterBottom>
-        Thông kê
+      <Typography variant="h5" sx={{ marginLeft: "80px" }} gutterBottom>
+        Thống kê
       </Typography>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          {/* <Grid xs={12} sm={6} lg={3}>
-            <OverviewBudget
-              difference={12}
-              positive
-              sx={{ height: "100%" }}
-              value="$24k"
-            />
-          </Grid>
-          <Grid xs={12} sm={6} lg={3}>
-            <OverviewTotalCustomers
-              difference={16}
-              positive={false}
-              sx={{ height: "100%" }}
-              value="1.6k"
-            />
-          </Grid>
-
-          <Grid xs={12} sm={6} lg={3}>
-            <OverviewTasksProgress sx={{ height: "100%" }} value={75.5} />
-          </Grid>
-          <Grid xs={12} sm={6} lg={3}>
-            <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
-          </Grid> */}
-
           <Grid xs={12} lg={8}>
             <OverviewSales
               chartSeries={[

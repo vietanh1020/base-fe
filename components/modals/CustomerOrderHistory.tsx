@@ -193,20 +193,18 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
           textAlign: "center",
         }}
       >
-        {/* {cartItems.length > 0 && (
-          <Button
-            sx={{
-              background: " #F95E07",
-              fontSize: "14px",
-              color: "white",
-              fontWeight: "500",
-              borderRadius: "8px",
-              marginBottom: "12px",
-            }}
-          >
-            Tổng - {formatNumber(totalPrice)}đ
-          </Button>
-        )} */}
+        <Button
+          sx={{
+            background: " #F95E07",
+            fontSize: "14px",
+            color: "white",
+            fontWeight: "500",
+            borderRadius: "8px",
+            marginBottom: "12px",
+          }}
+        >
+          Tổng - {formatNumber(0)}đ
+        </Button>
       </div>
     </Dialog>
   );

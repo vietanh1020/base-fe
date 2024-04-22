@@ -27,11 +27,12 @@ const getRandomColor = (index: number) => {
 };
 
 const getStatusFood = (foodId: string, detail: any) => {
+  let data = -1;
   for (const item of detail) {
-    if (item.orderId === foodId) return item.status;
+    if (item.detail.id === foodId) data = item.status;
   }
 
-  return -1;
+  return data;
 };
 
 const names = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -70,7 +71,7 @@ const OrderList = () => {
         }}
       >
         <Typography variant="h5" gutterBottom>
-          Danh sách đơn hàng
+          Đơn hàng đang đợi
         </Typography>
 
         <div>
