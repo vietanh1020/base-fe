@@ -3,7 +3,7 @@ import { useCustomerGetOrder } from "@/services";
 import { formatNumber } from "@/utils/format";
 import { FoodStatus } from "@/utils/status";
 import CloseIcon from "@mui/icons-material/Close";
-import { Card, CardContent, CardMedia } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -14,7 +14,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
 import { getCookie } from "cookies-next";
-import Image from "next/image";
 import * as React from "react";
 import { toast } from "react-toastify";
 

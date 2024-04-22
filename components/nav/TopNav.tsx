@@ -83,7 +83,7 @@ export const TopNav = () => {
         >
           <Stack alignItems="center" direction="row" spacing={2}></Stack>
           <Stack alignItems="center" direction="row" spacing={2}>
-            {!session?.user?.role ? (
+            {!session?.user?.role && (
               <>
                 <Tooltip title="Giỏ hàng">
                   <IconButton onClick={() => setShow("cart")}>
@@ -105,17 +105,17 @@ export const TopNav = () => {
                   </IconButton>
                 </Tooltip>
               </>
-            ) : (
-              <Tooltip title="Thông báo">
-                <IconButton>
-                  <Badge badgeContent={4} color="error">
-                    <SvgIcon fontSize="small">
-                      <BellIcon />
-                    </SvgIcon>
-                  </Badge>
-                </IconButton>
-              </Tooltip>
             )}
+
+            {/* <Tooltip title="Thông báo">
+               <IconButton>
+                 <Badge badgeContent={4} color="error">
+                   <SvgIcon fontSize="small">
+                     <BellIcon />
+                   </SvgIcon>
+                 </Badge>
+               </IconButton>
+             </Tooltip> */}
 
             <Avatar
               onClick={accountPopover.handleOpen}

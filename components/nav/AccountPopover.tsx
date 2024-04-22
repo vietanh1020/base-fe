@@ -6,7 +6,7 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { signOut, useSession } from "next-auth/react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -19,6 +19,12 @@ export const AccountPopover = (props: any) => {
   useEffect(() => {
     if (session?.accessToken) setCookie("ztoken", session?.accessToken);
   }, [session?.accessToken]);
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/auth/sign-in" });
+    localStorage.clear();
+    deleteCookie("ztoken");
+  };
 
   return (
     <Popover
@@ -53,9 +59,7 @@ export const AccountPopover = (props: any) => {
           },
         }}
       >
-        <MenuItem onClick={() => signOut({ callbackUrl: "/auth/sign-in" })}>
-          Đăng xuất
-        </MenuItem>
+        <MenuItem onClick={handleSignOut}>Đăng xuất</MenuItem>
       </MenuList>
     </Popover>
   );
