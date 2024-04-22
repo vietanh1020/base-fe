@@ -1,4 +1,9 @@
-import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
+import {
+  Box,
+  Container,
+  Unstable_Grid2 as Grid,
+  Typography,
+} from "@mui/material";
 import { subDays, subHours } from "date-fns";
 
 import { OverviewBudget } from "@/components/overview/Budget";
@@ -32,6 +37,9 @@ const Page: MyNextPage = () => {
         py: 8,
       }}
     >
+      <Typography variant="h5" sx={{ marginLeft: "120px" }} gutterBottom>
+        Thông kê
+      </Typography>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           {/* <Grid xs={12} sm={6} lg={3}>

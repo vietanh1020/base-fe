@@ -37,7 +37,6 @@ export default function FoodShop(food: any) {
             height="100"
             image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
             alt="green iguana"
-            sx={{ objectFit: "cover" }}
           />
           <CardContent
             sx={{
@@ -111,7 +110,7 @@ export default function FoodShop(food: any) {
                 onClick={handleShow}
                 style={{
                   position: "absolute",
-                  top: 120,
+                  top: 60,
                   right: 10,
                   lineHeight: "24px",
                   padding: "0px 6px",

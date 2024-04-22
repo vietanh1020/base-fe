@@ -302,7 +302,7 @@ export default function CreateFood({
                 <img
                   src={previewSource || "images/errors/empty.jpg"}
                   alt="Preview"
-                  style={{ height: "200px", objectFit: "cover" }}
+                  style={{ width: "260px", objectFit: "cover" }}
                 />
 
                 <Input

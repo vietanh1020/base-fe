@@ -91,7 +91,6 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
               <img
                 src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${order?.detail?.image}`}
                 style={{
-                  height: 100,
                   width: 100,
                 }}
                 alt="Order"
@@ -111,22 +110,8 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
                     {order?.detail?.name}
                   </Typography>
                 </div>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Typography variant="body2" color="text.secondary">
-                    So Luong: <strong>1</strong>
-                  </Typography>
-                  <Typography variant="body2">
-                    Giá:{" "}
-                    <strong>
-                      {formatNumber(
-                        order.detail.price + getTotal(order.detail.options)
-                      )}
-                    </strong>
-                  </Typography>
-                </div>
-                <div>
+
+                {/* <div>
                   {order?.detail?.options.map((op: any, index: number) => (
                     <div
                       key={index}
@@ -151,6 +136,21 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
                       ))}
                     </div>
                   ))}
+                </div> */}
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    Số lượng: <strong>1</strong>
+                  </Typography>
+                  <Typography variant="body2">
+                    Giá:{" "}
+                    <strong>
+                      {formatNumber(
+                        order.detail.price + getTotal(order.detail.options)
+                      )}
+                    </strong>
+                  </Typography>
                 </div>
 
                 <div

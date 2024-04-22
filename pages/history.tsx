@@ -1,7 +1,5 @@
-import DetailOrder from "@/components/modals/DetailOrder";
 import { onMessageListener } from "@/firebase";
-import { useEndTable } from "@/services";
-import { useGetOrder } from "@/services/PaymentService";
+import { useGetOrderHistory } from "@/services/PaymentService";
 import { formatNumber } from "@/utils/format";
 import { FoodColor, FoodStatus } from "@/utils/status";
 import {
@@ -38,9 +36,7 @@ const names = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const OrderList = () => {
   const [table, setTable] = useState("");
-  const { data: orders, refetch } = useGetOrder(table);
-
-  const { mutateAsync: endTable } = useEndTable();
+  const { data: orders, refetch } = useGetOrderHistory(table);
 
   const [hasNoti, setHasNoti] = useState(false);
 
@@ -70,7 +66,7 @@ const OrderList = () => {
         }}
       >
         <Typography variant="h5" gutterBottom>
-          Danh sách đơn hàng
+          Lịch sử đặt hàng
         </Typography>
 
         <div>
@@ -169,40 +165,14 @@ const OrderList = () => {
                     sx={{ textAlign: "right" }}
                     variant="body2"
                   >{`Thời gian: ${moment(order.createdAt).format(
-                    "HH:mm"
+                    "YYYY-MM-DD HH:mm"
                   )}`}</Typography>
-
-                  <Button
-                    onClick={() => {
-                      handleClick();
-                      setOrder(order);
-                    }}
-                    color="success"
-                    style={{ padding: 0, float: "right" }}
-                  >
-                    Cập nhật
-                  </Button>
                 </ListItemSecondaryAction>
               </ListItem>
             </Grid>
           ))}
         </Grid>
       </List>
-      {table && (
-        <Button
-          variant="outlined"
-          color="warning"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "0 auto",
-          }}
-          onClick={() => endTable(table)}
-        >
-          Kết thúc phục vụ
-        </Button>
-      )}
-      <DetailOrder handleClose={handleClick} show={toggle} data={order} />
     </Paper>
   );
 };

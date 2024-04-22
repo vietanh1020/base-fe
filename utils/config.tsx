@@ -1,7 +1,7 @@
 import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
 import CogIcon from "@heroicons/react/24/solid/CogIcon";
 import NewspaperIcon from "@heroicons/react/24/solid/NewspaperIcon";
-import UserIcon from "@heroicons/react/24/solid/UserIcon";
+import UserIcon from "@heroicons/react/24/outline/ArchiveBoxIcon";
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import TicketIcon from "@heroicons/react/24/solid/TicketIcon";
 import { MenuBook, MenuBookOutlined } from "@mui/icons-material";
@@ -54,15 +54,15 @@ export const AdminSideLink: ItemLink[] = [
     ),
   },
 
-  // {
-  //   title: "Account",
-  //   path: "/account",
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <UserIcon />
-  //     </SvgIcon>
-  //   ),
-  // },
+  {
+    title: "Lịch sử đơn hàng",
+    path: "/history",
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserIcon />
+      </SvgIcon>
+    ),
+  },
   {
     title: "Cài đặt",
     path: "/settings",

@@ -8,6 +8,13 @@ export const useGetOrder = (table: string) => {
   });
 };
 
+export const useGetOrderHistory = (table: string) => {
+  return useQuery([`/order/history`, table], async () => {
+    const res = await httpClient().get(`/order/history?tableId=${table}`);
+    return res.data;
+  });
+};
+
 export const useGetOrderDetail = (orderId: string) => {
   return useQuery([`/payments/orders/${orderId}`], async () => {
     const res = await httpClient().get(`/payments/orders/${orderId}`);

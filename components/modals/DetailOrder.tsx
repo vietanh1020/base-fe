@@ -85,26 +85,26 @@ export default function DetailOrder({ handleClose, show, data }: any) {
                     ))}
                   </TableCell>
 
-                  {food.status != -1 && (
-                    <TableCell>
-                      <Select
-                        value={food.status}
-                        onChange={(e) =>
-                          mutateAsync({
-                            orderId: food.id,
-                            status: e.target.value,
-                            device: data.deviceToken,
-                          })
-                        }
-                      >
-                        {FoodStatus.map((item, index) => (
-                          <MenuItem key={index} value={index}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </TableCell>
-                  )}
+                  <TableCell>
+                    <Select
+                      value={food.status}
+                      disabled={food.status === -1}
+                      onChange={(e) =>
+                        mutateAsync({
+                          orderId: food.id,
+                          status: e.target.value,
+                          device: data.deviceToken,
+                        })
+                      }
+                    >
+                      <MenuItem value={-1}>Đã hủy</MenuItem>
+                      {FoodStatus.map((item, index) => (
+                        <MenuItem key={index} value={index}>
+                          {item}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
