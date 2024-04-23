@@ -25,11 +25,12 @@ const getRandomColor = (index: number) => {
 };
 
 const getStatusFood = (foodId: string, detail: any) => {
+  let data = -1;
   for (const item of detail) {
-    if (item.orderId === foodId) return item.status;
+    if (item.detail.id === foodId) data = item.status;
   }
 
-  return -1;
+  return data;
 };
 
 const names = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -50,6 +51,26 @@ const OrderList = () => {
   }, [hasNoti]);
 
   const [toggle, setToggle] = useState(false);
+
+  const getTotalOption = (options: any) => {
+    let total = 0;
+    for (let item of options) {
+      for (let option of item?.data) {
+        total = total + option.price;
+      }
+    }
+    return total;
+  };
+
+  const getTotal = (listFood: any) => {
+    let total = 0;
+
+    for (let item of listFood) {
+      if (item.status !== -1 && item.status !== 2)
+        total = total + item.detail.price + getTotalOption(item.detail.options);
+    }
+    return total;
+  };
 
   const handleClick = () => {
     setToggle(!toggle);
@@ -159,7 +180,7 @@ const OrderList = () => {
                 />
                 <ListItemSecondaryAction>
                   <Typography variant="body1" sx={{ textAlign: "right" }}>
-                    <strong>{formatNumber(order.total)}</strong>
+                    <strong>{formatNumber(getTotal(order.details))}</strong>
                   </Typography>
                   <Typography
                     sx={{ textAlign: "right" }}

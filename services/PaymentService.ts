@@ -16,10 +16,16 @@ export const useGetOrderHistory = (table: string) => {
 };
 
 export const useGetOrderDetail = (orderId: string) => {
-  return useQuery([`/payments/orders/${orderId}`], async () => {
-    const res = await httpClient().get(`/payments/orders/${orderId}`);
-    return res.data;
-  });
+  return useQuery(
+    [`/payments/orders/${orderId}`],
+    async () => {
+      const res = await httpClient().get(`/payments/orders/${orderId}`);
+      return res.data;
+    },
+    {
+      enabled: !!orderId,
+    }
+  );
 };
 
 export const useGetInvoice = () => {

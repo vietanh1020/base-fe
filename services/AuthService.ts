@@ -1,6 +1,7 @@
 import { LoginDto, RegisterDto } from "@/types";
 import { httpClient } from "@/utils";
 import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 
 export const authLocal = async (payload: LoginDto) => {
   const { data } = await httpClient().post(`/auth/login`, payload);
@@ -16,7 +17,9 @@ export const loginGoogle = async (idToken: string) => {
 };
 
 export const authLogout = async () => {
-  await httpClient().post(`/auth/logout`);
+  return await httpClient().post(`/auth/logout`, {
+    deviceToken: getCookie("device_token"),
+  });
 };
 
 export const refreshToken = async () => {

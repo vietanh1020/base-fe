@@ -44,15 +44,15 @@ export const AdminSideLink: ItemLink[] = [
     ),
   },
 
-  // {
-  //   title: "Danh mục",
-  //   path: "/category",
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <UsersIcon />
-  //     </SvgIcon>
-  //   ),
-  // },
+  {
+    title: "Hóa đơn",
+    path: "/bill",
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    ),
+  },
 
   {
     title: "Nhân viên",

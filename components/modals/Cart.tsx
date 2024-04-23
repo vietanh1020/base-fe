@@ -61,7 +61,7 @@ export default function CartDialog({ open, handleClose }: any) {
       const orderId = getCookie("orderId");
 
       const options = {
-        maxAge: 6 * 60 * 60,
+        maxAge: 60 * 60,
       };
 
       if (orderId) {

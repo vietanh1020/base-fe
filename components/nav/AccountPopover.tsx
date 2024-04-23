@@ -1,3 +1,4 @@
+import { authLogout } from "@/services";
 import {
   Box,
   Divider,
@@ -20,10 +21,13 @@ export const AccountPopover = (props: any) => {
     if (session?.accessToken) setCookie("ztoken", session?.accessToken);
   }, [session?.accessToken]);
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: "/auth/sign-in" });
-    localStorage.clear();
-    deleteCookie("ztoken");
+  const handleSignOut = async () => {
+    await authLogout().then(() => {
+      deleteCookie("ztoken");
+      deleteCookie("device_token");
+      signOut({ callbackUrl: "/auth/sign-in" });
+      localStorage.clear();
+    });
   };
 
   return (

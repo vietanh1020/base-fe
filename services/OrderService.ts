@@ -13,10 +13,14 @@ export const useGetCompanyOrders = (status = 0, date = "") => {
 };
 
 export const useGetOrderDetail = (id: string) => {
-  return useQuery([endpoint, id], async () => {
-    const { data } = await httpClient().get(`${endpoint}/${id}`);
-    return data;
-  });
+  return useQuery(
+    [endpoint, id],
+    async () => {
+      const { data } = await httpClient().get(`${endpoint}/${id}`);
+      return data;
+    },
+    { enabled: !!id }
+  );
 };
 
 export const useCustomerGetOrder = (id: string) => {
