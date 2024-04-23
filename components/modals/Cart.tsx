@@ -3,7 +3,7 @@ import { useCreateOrder } from "@/services/OrderService";
 import { cartState } from "@/store";
 import { formatNumber } from "@/utils/format";
 import CloseIcon from "@mui/icons-material/Close";
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, debounce } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -41,7 +41,7 @@ export default function CartDialog({ open, handleClose }: any) {
     0
   );
 
-  const handleSubmit = async () => {
+  const handleOrder = async () => {
     const { id, table } = router.query;
 
     const deviceToken = getCookie("device_token");
@@ -74,6 +74,8 @@ export default function CartDialog({ open, handleClose }: any) {
       handleClose();
     }
   };
+
+  const handleSubmit = debounce(handleOrder, 500);
 
   return (
     <Dialog

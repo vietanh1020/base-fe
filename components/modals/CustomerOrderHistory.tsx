@@ -35,12 +35,23 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
 
   const [hasNoti, setHasNoti] = React.useState(false);
 
-  const getTotal = (options: any) => {
+  const getTotalOption = (options: any) => {
     let total = 0;
     for (let item of options) {
       for (let option of item?.data) {
         total = total + option.price;
       }
+    }
+    return total;
+  };
+
+  const getTotal = () => {
+    let total = 0;
+
+    const listFood = cartItems || [];
+    for (let item of listFood) {
+      if (item.status !== -1 && item.status !== 2)
+        total = total + item.detail.price + getTotalOption(item.detail.options);
     }
     return total;
   };
@@ -147,7 +158,8 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
                     Giá:{" "}
                     <strong>
                       {formatNumber(
-                        order.detail.price + getTotal(order.detail.options)
+                        order.detail.price +
+                          getTotalOption(order.detail.options)
                       )}
                     </strong>
                   </Typography>
@@ -203,7 +215,7 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
             marginBottom: "12px",
           }}
         >
-          Tổng - {formatNumber(0)}đ
+          Tổng - {formatNumber(getTotal())}
         </Button>
       </div>
     </Dialog>
