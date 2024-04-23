@@ -103,15 +103,15 @@ export const AdminSideLink: ItemLink[] = [
   //   ),
   // },
 
-  // {
-  //   title: "Cửa hàng",
-  //   path: "/company",
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <OfficeBuildingCog />
-  //     </SvgIcon>
-  //   ),
-  // },
+  {
+    title: "Bàn",
+    path: "/table",
+    icon: (
+      <SvgIcon fontSize="small">
+        <OfficeBuildingCog />
+      </SvgIcon>
+    ),
+  },
 ];
 
 export const UserSideLink: ItemLink[] = [
