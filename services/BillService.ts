@@ -9,3 +9,15 @@ export const useGetBill = () => {
     return data;
   });
 };
+
+export const useGetBillDetail = (id: string) => {
+  return useQuery(
+    [endpoint, id],
+    async () => {
+      const { data } = await httpClient().get(endpoint + "/" + id);
+
+      return data;
+    },
+    { enabled: !!id }
+  );
+};

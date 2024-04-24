@@ -1,123 +1,59 @@
-import React from "react";
+import { useGetBillDetail } from "@/services";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
-export default function BillDetail() {
-  return <div>
-
-
-<div className="page-container">
-  Page
-  <span className="page"></span>
-  of
-  <span className="pages"></span>
-</div>
-
-<div className="logo-container">
-  <img
-    style={{height: "18px"}}
-    src="https://app.useanvil.com/img/email-logo-black.png"
-  />
-</div>
-
-<table className="invoice-info-container">
-  <tr>
-    <td rowSpan={2} className="client-name">
-      Client Name
-    </td>
-    <td>
-      Anvil Co
-    </td>
-  </tr>
-  <tr>
-    <td>
-      123 Main Street
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Invoice Date: <strong>May 24th, 2024</strong>
-    </td>
-    <td>
-      San Francisco CA, 94103
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Invoice No: <strong>12345</strong>
-    </td>
-    <td>
-      hello@useanvil.com
-    </td>
-  </tr>
-</table>
-
-
-<table className="line-items-container">
-  <thead>
-    <tr>
-      <th className="heading-quantity">Qty</th>
-      <th className="heading-description">Description</th>
-      <th className="heading-price">Price</th>
-      <th className="heading-subtotal">Subtotal</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2</td>
-      <td>Blue large widgets</td>
-      <td className="right">$15.00</td>
-      <td className="bold">$30.00</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Green medium widgets</td>
-      <td className="right">$10.00</td>
-      <td className="bold">$40.00</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Red small widgets with logo</td>
-      <td className="right">$7.00</td>
-      <td className="bold">$35.00</td>
-    </tr>
-  </tbody>
-</table>
-
-
-<table className="line-items-container has-bottom-border">
-  <thead>
-    <tr>
-      <th>Payment Info</th>
-      <th>Due By</th>
-      <th>Total Due</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td className="payment-info">
-        <div>
-          Account No: <strong>123567744</strong>
-        </div>
-        <div>
-          Routing No: <strong>120000547</strong>
-        </div>
-      </td>
-      <td className="large">May 30th, 2024</td>
-      <td className="large total">$105.00</td>
-    </tr>
-  </tbody>
-</table>
-
-<div className="footer">
-  <div className="footer-info">
-    <span>hello@useanvil.com</span> |
-    <span>555 444 6666</span> |
-    <span>useanvil.com</span>
-  </div>
-  <div className="footer-thanks">
-    <img src="https://github.com/anvilco/html-pdf-invoice-template/raw/main/img/heart.png" alt="heart">
-    <span>Thank you!</span>
-  </div>
-</div>
-
-  </div>;
+function RestaurantDetailPage({ id }: any) {
+  const { data: bill } = useGetBillDetail(id);
+  return (
+    <div>
+      <IconButton color="primary">
+        <ArrowBackIcon />
+      </IconButton>
+      <Typography variant="h4" component="h1" align="center" gutterBottom>
+        Restaurant Name
+      </Typography>
+      <Card>
+        <CardContent>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Description
+          </Typography>
+          <Typography variant="body1">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
+            condimentum tortor in urna scelerisque, nec consequat purus
+            ullamcorper.
+          </Typography>
+          <Divider variant="middle" style={{ margin: "16px 0" }} />
+          <Typography variant="h6" component="h2" gutterBottom>
+            Address
+          </Typography>
+          <Typography variant="body1">
+            123 Main Street, City, Country
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" color="primary">
+            Book a Table
+          </Button>
+        </CardActions>
+      </Card>
+    </div>
+  );
 }
+
+export async function getServerSideProps(context: any) {
+  const { id } = context.query;
+
+  return {
+    props: {
+      id,
+    },
+  };
+}
+
+export default RestaurantDetailPage;

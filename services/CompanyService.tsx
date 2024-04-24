@@ -11,6 +11,13 @@ export const useGetCompany = () => {
   });
 };
 
+export const useGetTableStatus = () => {
+  return useQuery([endpoint], async () => {
+    const { data } = await httpClient().get(endpoint + "/table");
+    return data;
+  });
+};
+
 export const useUserGetCompany = (id: string) => {
   return useQuery(
     [endpoint, id],

@@ -14,9 +14,11 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
+import { useRouter } from "next/router";
 
 const Customer = () => {
   const { data: users } = useGetBill();
+  const router = useRouter();
 
   return (
     <Box
@@ -39,7 +41,7 @@ const Customer = () => {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>No#</TableCell>
+                      <TableCell>Mã hóa đơn</TableCell>
                       <TableCell>Khách hàng</TableCell>
                       <TableCell>Bàn</TableCell>
                       <TableCell>Thời gian</TableCell>
@@ -50,7 +52,10 @@ const Customer = () => {
                     {users &&
                       users?.map((customer: any, index: number) => {
                         return (
-                          <TableRow key={index}>
+                          <TableRow
+                            onClick={() => router.push(`/bill/${customer.id}`)}
+                            key={index}
+                          >
                             <TableCell>{customer.bill_number}</TableCell>
                             <TableCell>{customer.customerName}</TableCell>
                             <TableCell>{customer.table}</TableCell>

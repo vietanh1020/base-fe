@@ -20,6 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const getRandomColor = (index: number) => {
@@ -46,6 +47,15 @@ const OrderList = () => {
   const [hasNoti, setHasNoti] = useState(false);
 
   const [order, setOrder] = useState<any>();
+  const router = useRouter();
+
+  useEffect(() => {
+    const { table = "" } = router.query;
+    if (!!table) {
+      setTable(table as string);
+      router.push("/order");
+    }
+  }, []);
 
   useEffect(() => {
     onMessageListener().then(async (data) => {
@@ -189,7 +199,7 @@ const OrderList = () => {
           ))}
         </Grid>
       </List>
-      {table && (
+      {table && orders?.length > 0 && (
         <Button
           variant="outlined"
           color="warning"
