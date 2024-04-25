@@ -53,7 +53,11 @@ const Customer = () => {
                       users?.map((customer: any, index: number) => {
                         return (
                           <TableRow
-                            onClick={() => router.push(`/bill/${customer.id}`)}
+                            onClick={() =>
+                              router.push(
+                                `/bill/${customer.id}?table=${customer.table}`
+                              )
+                            }
                             key={index}
                           >
                             <TableCell>{customer.bill_number}</TableCell>
