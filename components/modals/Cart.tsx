@@ -114,8 +114,8 @@ export default function CartDialog({ open, handleClose }: any) {
               component="img"
               src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${item?.food?.image}`}
               sx={{
-                marginLeft: 12,
-                width: 80,
+                marginLeft: 2,
+                width: 100,
               }}
             />
 

@@ -127,7 +127,7 @@ export default function CreateOrder({ handleClose, show, food }: any) {
           component="img"
           image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${image}`}
           alt={name}
-          sx={{ objectFit: "cover", height: "200px" }}
+          sx={{ objectFit: "contain", height: "200px" }}
         />
         <CardContent>
           <Box

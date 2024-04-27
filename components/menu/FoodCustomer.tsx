@@ -1,4 +1,3 @@
-import { useDeleteFood } from "@/services/MenuService";
 import { formatNumber } from "@/utils/format";
 import TagIcon from "@heroicons/react/24/outline/TagIcon";
 import { Box, CardActionArea, Grid } from "@mui/material";
@@ -12,8 +11,7 @@ import CreateOrder from "../modals/CreateOrder";
 
 export default function FoodShop(food: any) {
   const [show, setShow] = useState("");
-  const [currentFood, setCurrentFood] = useState<any>();
-  const { price, priceOrigin, name, image, description, listCategory } = food;
+  const { price, priceOrigin, name, image, listCategory } = food;
   const { data: session } = useSession();
 
   const handleShow = () => {
@@ -21,11 +19,6 @@ export default function FoodShop(food: any) {
   };
   const handleClose = () => {
     setShow("");
-  };
-
-  const handleFood = (food: any) => {
-    setShow("updateFood");
-    setCurrentFood(food);
   };
 
   return (
@@ -37,6 +30,9 @@ export default function FoodShop(food: any) {
             height="100"
             image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
             alt="green iguana"
+            sx={{
+              objectFit: "contain",
+            }}
           />
           <CardContent
             sx={{
