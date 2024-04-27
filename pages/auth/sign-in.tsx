@@ -103,12 +103,10 @@ const LoginForm: MyNextPage = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Quên mật khẩu?
-              </Link>
+              <Link href="#">Quên mật khẩu?</Link>
             </Grid>
             <Grid item>
-              <Link href="/auth/sign-up" variant="body2">
+              <Link href="/auth/sign-up">
                 {"Bạn không có tài khoản? Đăng ký"}
               </Link>
             </Grid>

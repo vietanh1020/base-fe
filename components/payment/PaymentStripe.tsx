@@ -159,9 +159,9 @@ const CheckoutForm = () => {
       </CardInfo>
 
       <Footer className="mt-5 mb-5">
-        <Col md={7} className="text-end">
-          <Button onClick={handleSubmit}>Submit</Button>
-        </Col>
+        {/* <Col md={7} className="text-end">
+          <Button onClick={() => handleSubmit()}>Submit</Button>
+        </Col> */}
       </Footer>
     </Form>
   );

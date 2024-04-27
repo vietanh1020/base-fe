@@ -441,7 +441,7 @@ export default function CreateFood({
                 display: "flex",
               }}
               autoFocus
-              onClick={handleSubmit}
+              onClick={() => handleSubmit()}
             >
               Lưu
             </Button>

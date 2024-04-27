@@ -155,7 +155,7 @@ export default function InviteUser({ show, handleClose }: any) {
               display: "flex",
             }}
             autoFocus
-            onClick={handleSubmit}
+            onClick={() => handleSubmit()}
           >
             Lưu
           </Button>
