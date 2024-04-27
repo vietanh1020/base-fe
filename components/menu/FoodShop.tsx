@@ -39,7 +39,7 @@ export default function FoodShop(food: any) {
             height="200"
             image={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder${image}`}
             alt="green iguana"
-            sx={{ objectFit: "cover" }}
+            sx={{ objectFit: "contain" }}
           />
           <CardContent
             sx={{
