@@ -245,7 +245,8 @@ export default function UpdateFood({
                   alignItems: "center",
                 }}
               >
-                <img
+                <Box
+                  component="img"
                   src={
                     previewSource ||
                     `${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${food?.image}` ||

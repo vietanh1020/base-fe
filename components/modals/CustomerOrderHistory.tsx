@@ -3,7 +3,7 @@ import { useCancelFoodOrder, useCustomerGetOrder } from "@/services";
 import { formatNumber } from "@/utils/format";
 import { FoodColor, FoodStatus } from "@/utils/status";
 import CloseIcon from "@mui/icons-material/Close";
-import { Card, CardContent } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -99,12 +99,13 @@ export default function CustomerOrderHistoryDialog({ open, handleClose }: any) {
                 margin: "4px 12px",
               }}
             >
-              <img
+              <Box
+                component="img"
                 src={`${process.env.NEXT_PUBLIC_MINIO_URL}/zorder/${order?.detail?.image}`}
-                style={{
+                alt="Order"
+                sx={{
                   width: 100,
                 }}
-                alt="Order"
               />
 
               <CardContent sx={{ flex: 1 }}>

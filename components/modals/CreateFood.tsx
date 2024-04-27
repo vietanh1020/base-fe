@@ -17,7 +17,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
 import { useFormik } from "formik";
-import Image from "next/image";
 import { useState } from "react";
 import * as Yup from "yup";
 
@@ -299,10 +298,14 @@ export default function CreateFood({
                   alignItems: "center",
                 }}
               >
-                <img
+                <Box
+                  component="img"
                   src={previewSource || "images/errors/empty.jpg"}
                   alt="Preview"
-                  style={{ width: "260px", objectFit: "cover" }}
+                  sx={{
+                    width: "260px",
+                    objectFit: "cover",
+                  }}
                 />
 
                 <Input
