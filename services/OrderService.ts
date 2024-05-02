@@ -25,7 +25,7 @@ export const useGetOrderDetail = (id: string) => {
 
 export const useCustomerGetOrder = (id: string) => {
   return useQuery(
-    [endpoint, id, , "customerGet"],
+    [endpoint, id],
     async () => {
       const { data } = await httpClient().get(`/order/customer/${id}`);
       return data;
@@ -62,7 +62,7 @@ export const useCancelFoodOrder = () => {
     },
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries(["customerGet"]);
+        queryClient.invalidateQueries([endpoint]);
       },
     }
   );

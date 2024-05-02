@@ -123,7 +123,6 @@ const Menu = ({ id }: any) => {
         show={toggleName}
         food={{}}
       />
-      toggleName
     </Box>
   );
 };
