@@ -1,12 +1,13 @@
 import { EmptyLayout } from "@/components/layouts/EmptyLayout";
 import FoodCustomer from "@/components/menu/FoodCustomer";
 import CreateFood from "@/components/modals/CreateFood";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import UserInformation from "@/components/modals/UserInformation";
 import { useUserGetCompany } from "@/services/CompanyService";
 import { useCustomerGetMenu, useUserGetCategory } from "@/services/MenuService";
 import ClockIcon from "@heroicons/react/24/solid/ClockIcon";
 import MapPinIcon from "@heroicons/react/24/solid/MapPinIcon";
 import { Box, Divider, Grid } from "@mui/material";
+import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
 const Menu = ({ id }: any) => {
@@ -17,11 +18,11 @@ const Menu = ({ id }: any) => {
   const { data: listCategory } = useUserGetCategory(id);
   const [toggleName, setToggleName] = useState(false);
 
-  const [userName, setUserName] = useLocalStorage("userName", []);
-
   const { data } = useCustomerGetMenu(id, search);
 
   useEffect(() => {
+    const userName = getCookie("customerName");
+
     if (!userName) {
       setToggleName(true);
     }
@@ -49,7 +50,6 @@ const Menu = ({ id }: any) => {
         src="https://images.foody.vn/res/g117/1168187/prof/s640x400/foody-upload-api-foody-mobile-fo-a72ffcba-230418142410.jpeg"
         style={{ objectFit: "cover", width: "100%" }}
       />
-
       <div
         style={{
           width: "260px",
@@ -90,7 +90,6 @@ const Menu = ({ id }: any) => {
       <Divider />
       <Divider />
       <Divider />
-
       <div>
         {data &&
           Object?.keys(data)?.map((category: any) => (
@@ -118,10 +117,13 @@ const Menu = ({ id }: any) => {
             </>
           ))}
       </div>
-
       <CreateFood handleClose={handleClick} show={toggle} food={{}} />
-
-      <CreateFood handleClose={handleClick} show={toggle} food={{}} />
+      <UserInformation
+        handleClose={() => setToggleName(false)}
+        show={toggleName}
+        food={{}}
+      />
+      toggleName
     </Box>
   );
 };

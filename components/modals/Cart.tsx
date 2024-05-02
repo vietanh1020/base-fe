@@ -44,9 +44,10 @@ export default function CartDialog({ open, handleClose }: any) {
     const { id, table } = router.query;
 
     const deviceToken = getCookie("device_token");
+    const customerName = getCookie("customerName");
 
     const data = {
-      customerName: "AnhVV",
+      customerName,
       companyId: id,
       tableId: table,
       foods: cartItems,
