@@ -51,8 +51,8 @@ export const useUpdateCompany = () => {
   const queryClient = useQueryClient();
   return useMutation(
     [endpoint],
-    async (id) => {
-      const res = await httpClient().delete(`${endpoint}/${id}`);
+    async (data) => {
+      const res = await httpClient().put(endpoint, data);
       return res.data;
     },
     {

@@ -1,4 +1,4 @@
-import { useGetCompany } from "@/services/CompanyService";
+import { useGetCompany, useUpdateCompany } from "@/services/CompanyService";
 import {
   Box,
   Button,
@@ -6,6 +6,7 @@ import {
   CardActions,
   CardContent,
   Divider,
+  InputLabel,
   TextField,
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
@@ -13,12 +14,9 @@ import { useCallback, useEffect, useState } from "react";
 export const SettingCompany = () => {
   const { data: company } = useGetCompany();
 
-  const [values, setValues] = useState({
-    name: "",
-    description: "",
-    address: "",
-    coverImage: "",
-  });
+  const { mutateAsync: updateCompany } = useUpdateCompany();
+
+  const [values, setValues] = useState({} as any);
 
   useEffect(() => {
     if (company) {
@@ -27,18 +25,14 @@ export const SettingCompany = () => {
   }, [company]);
 
   const handleChange = useCallback((event: any) => {
-    setValues((prevState) => ({
+    setValues((prevState: any) => ({
       ...prevState,
       [event.target.name]: event.target.value,
     }));
   }, []);
 
-  const handleSubmit = useCallback((event: any) => {
-    event.preventDefault();
-  }, []);
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <Card>
         <CardContent
           sx={{ display: "flex", gap: "40px", alignItems: "center" }}
@@ -47,12 +41,13 @@ export const SettingCompany = () => {
             <Box
               component="img"
               style={{ objectFit: "cover", height: "300px" }}
-              src="https://images.foody.vn/res/g117/1168187/prof/s640x400/foody-upload-api-foody-mobile-fo-a72ffcba-230418142410.jpeg"
+              src="https://afamilycdn.com/150157425591193600/2022/12/13/photo-1-1670904586512934218460-1670908755530-16709087556271475070156.png"
               alt=""
             />
           </div>
           <div>
             <h3 style={{ margin: 0 }}>Cửa hàng</h3>
+            {/* <InputLabel>Tên cửa hàng</InputLabel> */}
             <TextField
               sx={{ mt: 2 }}
               fullWidth
@@ -62,6 +57,7 @@ export const SettingCompany = () => {
               type="text"
               value={values.name}
             />
+            {/* <InputLabel>Mô tả</InputLabel> */}
             <TextField
               sx={{ mt: 2 }}
               fullWidth
@@ -72,6 +68,7 @@ export const SettingCompany = () => {
               value={values.description}
             />
 
+            {/* <InputLabel>Địa chỉ</InputLabel> */}
             <TextField
               sx={{ mt: 2 }}
               fullWidth
@@ -90,7 +87,11 @@ export const SettingCompany = () => {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button sx={{ mr: "16px" }} variant="contained">
+          <Button
+            sx={{ mr: "16px" }}
+            onClick={() => updateCompany(values)}
+            variant="contained"
+          >
             Cập nhật
           </Button>
         </CardActions>

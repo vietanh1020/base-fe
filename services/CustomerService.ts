@@ -45,3 +45,10 @@ export const useChangeAvt = () => {
     return res.data;
   });
 };
+
+export const useChangePassword = () => {
+  return useMutation([`/auth/change-password`], async (data: any) => {
+    const res = await httpClient().post("/auth/change-password", data);
+    return res.data;
+  });
+};

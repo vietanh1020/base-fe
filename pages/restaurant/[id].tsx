@@ -47,7 +47,7 @@ const Menu = ({ id }: any) => {
       <Box
         component="img"
         alt="Under development"
-        src="https://images.foody.vn/res/g117/1168187/prof/s640x400/foody-upload-api-foody-mobile-fo-a72ffcba-230418142410.jpeg"
+        src="https://afamilycdn.com/150157425591193600/2022/12/13/photo-1-1670904586512934218460-1670908755530-16709087556271475070156.png"
         style={{ objectFit: "cover", width: "100%" }}
       />
       <div

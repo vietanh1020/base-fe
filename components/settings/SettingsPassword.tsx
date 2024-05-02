@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useChangePassword } from "@/services";
 import {
   Button,
   Card,
@@ -6,15 +6,18 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  Stack,
   TextField,
 } from "@mui/material";
+import { useCallback, useState } from "react";
+import { toast } from "react-toastify";
 
 export const SettingsPassword = () => {
   const [values, setValues] = useState({
+    newPassword: "",
     password: "",
-    confirm: "",
   });
+
+  const { mutateAsync: changePassword } = useChangePassword();
 
   const handleChange = useCallback((event: any) => {
     setValues((prevState) => ({
@@ -23,12 +26,16 @@ export const SettingsPassword = () => {
     }));
   }, []);
 
-  const handleSubmit = useCallback((event: any) => {
-    event.preventDefault();
-  }, []);
+  const handleSubmit = async () => {
+    const data = await changePassword(values);
+
+    if (data) {
+      toast.success("Thay đổi mật khẩu thành công");
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <Card>
         <CardHeader title="Thay đổi mật khẩu tài khoản" />
         <Divider />
@@ -36,7 +43,7 @@ export const SettingsPassword = () => {
           <div style={{ display: "flex", gap: 40 }}>
             <TextField
               fullWidth
-              label="Mật khẩu mới"
+              label="Mật khẩu cũ"
               name="password"
               onChange={handleChange}
               type="password"
@@ -44,17 +51,21 @@ export const SettingsPassword = () => {
             />
             <TextField
               fullWidth
-              label="Xác nhận mật khẩu mới"
-              name="confirm"
+              label="Mật khẩu mới"
+              name="newPassword"
               onChange={handleChange}
               type="password"
-              value={values.confirm}
+              value={values.newPassword}
             />
           </div>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button style={{ marginRight: "16px" }} variant="contained">
+          <Button
+            style={{ marginRight: "16px" }}
+            onClick={handleSubmit}
+            variant="contained"
+          >
             Cập nhật
           </Button>
         </CardActions>
