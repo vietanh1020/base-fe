@@ -49,7 +49,7 @@ const Page: MyNextPage = () => {
             <OverviewSales
               chartSeries={[
                 {
-                  name: "This year",
+                  name: "Số lượng",
                   data: foodDate?.map((item) => item.count) || [],
                 },
               ]}
@@ -70,7 +70,7 @@ const Page: MyNextPage = () => {
               title="Sản phẩm bán ra trong tháng"
               chartSeries={[
                 {
-                  name: "This year",
+                  name: "Số lượng",
                   data: foodMonth?.map((item) => item.count) || [],
                 },
               ]}

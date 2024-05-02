@@ -28,7 +28,7 @@ const useChartOptions = (label: any) => {
       alpha(theme.palette.primary.main, 0.25),
     ],
     dataLabels: {
-      // enabled: false,
+      enabled: false,
     },
     fill: {
       opacity: 1,

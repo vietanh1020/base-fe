@@ -115,13 +115,62 @@ export const AdminSideLink: ItemLink[] = [
 ];
 
 export const UserSideLink: ItemLink[] = [
-  // {
-  //   title: "Menu",
-  //   path: "/menu",
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <CogIcon />
-  //     </SvgIcon>
-  //   ),
-  // },
+  {
+    title: "Thống kê",
+    path: "/",
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    ),
+  },
+  {
+    title: "Đơn hàng",
+    path: "/order",
+    icon: (
+      <SvgIcon fontSize="small">
+        <NewspaperIcon />
+      </SvgIcon>
+    ),
+  },
+
+  {
+    title: "Thực đơn",
+    path: "/menu",
+    icon: (
+      <SvgIcon fontSize="small">
+        <MenuBookOutlined />
+      </SvgIcon>
+    ),
+  },
+
+  {
+    title: "Hóa đơn",
+    path: "/bill",
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    ),
+  },
+
+  {
+    title: "Lịch sử đơn hàng",
+    path: "/history",
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserIcon />
+      </SvgIcon>
+    ),
+  },
+
+  {
+    title: "Bàn",
+    path: "/table",
+    icon: (
+      <SvgIcon fontSize="small">
+        <OfficeBuildingCog />
+      </SvgIcon>
+    ),
+  },
 ];

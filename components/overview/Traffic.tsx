@@ -51,7 +51,7 @@ const useChartOptions = (labels: any) => {
       "#FFC0CB",
     ],
     dataLabels: {
-      // enabled: false,
+      enabled: false,
     },
     labels,
     legend: {

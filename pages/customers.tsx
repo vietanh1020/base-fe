@@ -1,9 +1,5 @@
-import { CustomersSearch } from "@/components/customers/CustomerSearch";
 import { CustomersTable } from "@/components/customers/CustomerTable";
 import InviteUser from "@/components/modals/InviteUser";
-import { useGetUser } from "@/services/CustomerService";
-import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
-import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import {
   Box,
