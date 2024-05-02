@@ -39,6 +39,13 @@ export const TopNav = () => {
 
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
 
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    if (!session?.user?.role && location?.href?.includes("restaurant"))
+      setShowTop(true);
+  }, []);
+
   const accountPopover = usePopover();
 
   const handleClose = () => {
@@ -46,7 +53,7 @@ export const TopNav = () => {
   };
 
   const hadOrder = getCookie("orderId") || "";
-  const listOrder = hadOrder?.split("+");
+  const listOrder = hadOrder ? hadOrder?.split("+") : [];
 
   useEffect(() => {
     if (cartItems) setCart(cartItems);
@@ -83,7 +90,7 @@ export const TopNav = () => {
         >
           <Stack alignItems="center" direction="row" spacing={2}></Stack>
           <Stack alignItems="center" direction="row" spacing={2}>
-            {!session?.user?.role && (
+            {showTop && (
               <>
                 <Tooltip title="Giỏ hàng">
                   <IconButton onClick={() => setShow("cart")}>
@@ -116,7 +123,6 @@ export const TopNav = () => {
                  </Badge>
                </IconButton>
              </Tooltip> */}
-
             <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}

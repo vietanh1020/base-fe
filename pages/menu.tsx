@@ -74,7 +74,9 @@ export default function Menu() {
         {data &&
           Object?.keys(data)?.map((category: any) => (
             <>
-              <h2>{searchCate(category)}</h2>
+              <h2 style={{ textAlign: "center", marginTop: "40px" }}>
+                {searchCate(category)}
+              </h2>
               <Grid container spacing={{ xs: 2, md: 3 }}>
                 {data?.[category]?.map((food: any) => {
                   return (

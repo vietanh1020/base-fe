@@ -11,7 +11,9 @@ import { OverviewTraffic } from "@/components/overview/Traffic";
 import { useGetFoodDaily, useGetFoodMonthly, useGetTurnover } from "@/services";
 import { MyNextPage } from "@/types";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 const now = new Date();
 
@@ -19,8 +21,16 @@ const Page: MyNextPage = () => {
   const [date, setDate] = useState(new Date());
   const { data: foodDate } = useGetFoodDaily(moment(date).format("YYYY-MM-DD"));
 
+  const router = useRouter();
+
   const { data: foodMonth } = useGetFoodMonthly(moment(date).format("YYYY-MM"));
   const { data: turnOver } = useGetTurnover(moment(date).format("YYYY-MM"));
+
+  useEffect(() => {
+    const cookie = getCookie("ztoken");
+
+    if (!cookie) router.push("/auth/sign-in");
+  }, []);
 
   return (
     <Box
