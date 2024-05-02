@@ -55,7 +55,8 @@ const useChartOptions = (labels: any) => {
     },
     labels,
     legend: {
-      // show: false,
+      position: "bottom",
+      horizontalAlign: "left",
     },
     plotOptions: {
       pie: {
@@ -105,8 +106,8 @@ export const OverviewTraffic = (props: any) => {
       <CardHeader title="% Doanh số" />
       <CardContent>
         <Chart
-          height={300}
-          options={chartOptions}
+          height={350}
+          options={chartOptions as any}
           series={chartSeries}
           type="donut"
           width="100%"
