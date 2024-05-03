@@ -26,7 +26,7 @@ export default function ResponsiveGrid() {
       <Grid
         container
         spacing={{ xs: 2, md: 3, lg: 4 }}
-        columns={{ lg: 8, xs: 4, sm: 8, md: 12 }}
+        columns={{ xs: 4, sm: 8, md: 12, lg: 4 }}
       >
         {Array.from(Array(10)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>

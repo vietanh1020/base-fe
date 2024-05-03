@@ -238,7 +238,7 @@ export default function CreateFood({
                     value={values.priceOrigin}
                     error={!!errors?.priceOrigin && touched.priceOrigin}
                     name="priceOrigin"
-                    label="Giá gốc (đồng)"
+                    label="Giá gốc(đồng)"
                     type="number"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -250,7 +250,7 @@ export default function CreateFood({
                     value={values.price}
                     error={!!errors?.price && touched.price}
                     name="price"
-                    label="Giá bán (đồng)"
+                    label="Giá khuyến mãi (đồng)"
                     type="number"
                     onBlur={handleBlur}
                     onChange={handleChange}
