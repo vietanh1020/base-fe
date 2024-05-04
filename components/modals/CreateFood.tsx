@@ -71,7 +71,7 @@ export default function CreateFood({
     data: [initialOption],
   };
 
-  const [foodOptions, setFoodOptions] = useState<any>([initialFoodOption]);
+  const [foodOptions, setFoodOptions] = useState<any>([]);
 
   const handleAddOption = () => {
     setFoodOptions([...foodOptions, initialFoodOption]);
