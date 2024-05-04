@@ -36,8 +36,6 @@ const getStatusFood = (foodId: string, detail: any) => {
   return data;
 };
 
-const names = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
 const OrderList = () => {
   const [table, setTable] = useState("");
   const { data: orders, refetch } = useGetOrder(table);
@@ -93,9 +91,10 @@ const OrderList = () => {
               input={<OutlinedInput label="Name" />}
             >
               <MenuItem value={""}>--------</MenuItem>
-              {names?.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {`Bàn ${name}`}
+
+              {Array.from(Array(12)).map((_, index) => (
+                <MenuItem key={index} value={index + 1}>
+                  {`Bàn ${index + 1}`}
                 </MenuItem>
               ))}
             </Select>

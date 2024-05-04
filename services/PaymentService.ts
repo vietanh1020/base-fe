@@ -1,5 +1,6 @@
 import { httpClient } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
 
 export const useGetOrder = (table: string) => {
   return useQuery([`/order`, table], async () => {
@@ -8,9 +9,13 @@ export const useGetOrder = (table: string) => {
   });
 };
 
-export const useGetOrderHistory = (table: string) => {
-  return useQuery([`/order/history`, table], async () => {
-    const res = await httpClient().get(`/order/history?tableId=${table}`);
+export const useGetOrderHistory = (table: string, date: any) => {
+  return useQuery([`/order/history`, table, date], async () => {
+    const res = await httpClient().get(
+      `/order/history?tableId=${table}&date=${
+        date ? moment(date).format("YYYY-MM-DD") : ""
+      }`
+    );
     return res.data;
   });
 };

@@ -2,8 +2,8 @@ import { onMessageListener } from "@/firebase";
 import { useGetOrderHistory } from "@/services/PaymentService";
 import { formatNumber } from "@/utils/format";
 import { FoodColor, FoodStatus } from "@/utils/status";
+
 import {
-  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import DatePicker from "react-date-picker";
 
 const getRandomColor = (index: number) => {
   return "#d6d6d7";
@@ -33,15 +34,16 @@ const getStatusFood = (foodId: string, detail: any) => {
   return data;
 };
 
-const names = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
 const OrderList = () => {
   const [table, setTable] = useState("");
-  const { data: orders, refetch } = useGetOrderHistory(table);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const { data: orders, refetch } = useGetOrderHistory(table, selectedDate);
 
   const [hasNoti, setHasNoti] = useState(false);
 
-  const [order, setOrder] = useState<any>();
+  const handleDateChange = (date: any) => {
+    setSelectedDate(date);
+  };
 
   useEffect(() => {
     onMessageListener().then(async (data) => {
@@ -90,7 +92,20 @@ const OrderList = () => {
           Lịch sử đặt hàng
         </Typography>
 
-        <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <DatePicker
+            className="dateCustom"
+            onChange={handleDateChange}
+            locale="vi-VN"
+            value={selectedDate}
+          />
+
           <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel>Chọn bàn</InputLabel>
             <Select
@@ -99,9 +114,9 @@ const OrderList = () => {
               input={<OutlinedInput label="Name" />}
             >
               <MenuItem value={""}>--------</MenuItem>
-              {names?.map((name) => (
-                <MenuItem key={name} value={name}>
-                  {`Bàn ${name}`}
+              {Array.from(Array(12)).map((_, index) => (
+                <MenuItem key={index} value={index + 1}>
+                  {`Bàn ${index + 1}`}
                 </MenuItem>
               ))}
             </Select>

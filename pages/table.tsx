@@ -26,16 +26,15 @@ export default function ResponsiveGrid() {
       <Grid
         container
         spacing={{ xs: 2, md: 3, lg: 4 }}
-        columns={{ xs: 4, sm: 8, md: 12, lg: 4 }}
+        columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}
       >
-        {Array.from(Array(10)).map((_, index) => (
+        {Array.from(Array(12)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
             <Item
               sx={{ background: data?.includes(index + 1) ? "#ccc" : "#fff" }}
               onClick={() => router.push(`/order?table=${index + 1}`)}
             >
-              <div style={{ height: "100px" }}>Bàn {index + 1}</div>
-              {/* {data?.includes(index + 1) ? <div>Đang phục vụ</div> : ""} */}
+              <div style={{ height: "50px" }}>Bàn {index + 1}</div>
             </Item>
           </Grid>
         ))}

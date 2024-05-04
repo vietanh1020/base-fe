@@ -23,6 +23,18 @@ body {
   text-align: center;
 }
 
+
+.dateCustom{
+  width: 200px;
+  height: 57px;
+  padding : 0 12px;
+}
+
+.react-date-picker__wrapper{
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+}
+
 .form-container .field-container:first-of-type {
   grid-area: name;
 }

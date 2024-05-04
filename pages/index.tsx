@@ -14,12 +14,17 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
-
-const now = new Date();
+import DatePicker from "react-date-picker";
 
 const Page: MyNextPage = () => {
   const [date, setDate] = useState(new Date());
-  const { data: foodDate } = useGetFoodDaily(moment(date).format("YYYY-MM-DD"));
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const { data: foodDate } = useGetFoodDaily(selectedDate);
+
+  const handleDateChange = (date: any) => {
+    setSelectedDate(date);
+  };
 
   const router = useRouter();
 
@@ -40,9 +45,25 @@ const Page: MyNextPage = () => {
         py: 8,
       }}
     >
-      <Typography variant="h5" sx={{ marginLeft: "80px" }} gutterBottom>
-        Thống kê
+      <Typography
+        variant="h5"
+        sx={{
+          margin: "0 120px ",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+        gutterBottom
+      >
+        <h5>Thống kê</h5>
+        <DatePicker
+          className="dateCustom"
+          onChange={handleDateChange}
+          locale="vi-VN"
+          value={selectedDate}
+        />
       </Typography>
+
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid xs={12} lg={8}>
