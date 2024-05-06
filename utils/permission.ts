@@ -1,11 +1,4 @@
-export const adminPages = [
-  "/",
-  "/customers",
-  "/account",
-  "/settings",
-  "/theme",
-  "/menu",
-];
+export const adminPages = ["/", "/customers", "/account", "/settings", "/menu"];
 
 export const userPages = ["/", "/account", "/settings", "/menu"];
 
@@ -22,6 +15,5 @@ export const allPages = [
   "/customers",
   "/account",
   "/settings",
-  "/theme",
   ...publicPages,
 ];

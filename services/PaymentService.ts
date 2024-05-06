@@ -9,6 +9,20 @@ export const useGetOrder = (table: string) => {
   });
 };
 
+export const useGetTableOrder = (table: string) => {
+  return useQuery([`/orderTable`, table], async () => {
+    const { data } = await httpClient().get(`/order?tableId=${table}`);
+    const res: any = {};
+    data.forEach((element: any) => {
+      res[element.tableId] = res?.[element.tableId]
+        ? [...res?.[element.tableId], ...element.details]
+        : element.details;
+    });
+
+    return res;
+  });
+};
+
 export const useGetOrderHistory = (table: string, date: any) => {
   return useQuery([`/order/history`, table, date], async () => {
     const res = await httpClient().get(

@@ -1,10 +1,13 @@
-import * as React from "react";
-import { experimentalStyled as styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
+import { onMessageListener } from "@/firebase";
 import { useGetTableStatus } from "@/services/CompanyService";
+import { useGetTableOrder } from "@/services/PaymentService";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import { experimentalStyled as styled } from "@mui/material/styles";
+import moment from "moment";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -18,8 +21,30 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ResponsiveGrid() {
-  const { data } = useGetTableStatus();
+  const [hasNoti, setHasNoti] = useState(false);
+
+  const { data, refetch: refetchTable } = useGetTableStatus();
+  const { data: orders, refetch: refetchOrder } = useGetTableOrder("");
+
+  useEffect(() => {
+    onMessageListener().then(async (data) => {
+      refetchOrder();
+      refetchTable();
+      setHasNoti(!hasNoti);
+    });
+  }, [hasNoti]);
+
   const router = useRouter();
+
+  const getMinTime = (foods: any) => {
+    if (foods) {
+      const dates = foods.map((item: any) => new Date(item.createdAt));
+      const minDate = new Date(Math.min(...dates));
+      return moment(minDate).format("HH:mm");
+    }
+
+    return "";
+  };
 
   return (
     <Box sx={{ flexGrow: 1, margin: "0 150px" }}>
@@ -31,10 +56,20 @@ export default function ResponsiveGrid() {
         {Array.from(Array(12)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
             <Item
-              sx={{ background: data?.includes(index + 1) ? "#ccc" : "#fff" }}
+              sx={{
+                background: data && data?.includes(index + 1) ? "#ccc" : "#fff",
+              }}
               onClick={() => router.push(`/order?table=${index + 1}`)}
             >
-              <div style={{ height: "50px" }}>Bàn {index + 1}</div>
+              <div style={{ height: "50px" }}>
+                Bàn {index + 1}
+                {orders?.[index + 1] && (
+                  <div>Số món: {orders?.[index + 1]?.length}</div>
+                )}
+                {orders?.[index + 1] && (
+                  <div>Thời gian: {getMinTime(orders?.[index + 1])}</div>
+                )}
+              </div>
             </Item>
           </Grid>
         ))}
