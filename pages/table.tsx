@@ -13,7 +13,6 @@ const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
   ...theme.typography.body2,
   border: "4px solid #ccc",
-  padding: "50px",
   textAlign: "center",
   fontSize: "20px",
   fontWeight: 600,
@@ -61,7 +60,7 @@ export default function ResponsiveGrid() {
               }}
               onClick={() => router.push(`/order?table=${index + 1}`)}
             >
-              <div style={{ height: "50px" }}>
+              <div style={{ height: "100px" }}>
                 Bàn {index + 1}
                 {orders?.[index + 1] && (
                   <div>Số món: {orders?.[index + 1]?.length}</div>
