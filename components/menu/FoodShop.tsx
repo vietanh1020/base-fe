@@ -32,7 +32,7 @@ export default function FoodShop(food: any) {
 
   return (
     <Grid item xs={6} md={3}>
-      <Card sx={{ bg: "transparent", border: "none", position: "relative" }}>
+      <Card sx={{ border: "none", position: "relative" }}>
         <CardActionArea>
           <CardMedia
             component="img"

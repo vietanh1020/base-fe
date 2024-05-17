@@ -78,10 +78,13 @@ export default function UpdateFood({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const imageUrl = await handleSaveImage();
+
+      console.log(imageUrl);
+
       const data = {
         ...values,
-        image: imageUrl,
         foodOption: foodOptions,
+        image: imageUrl,
       };
 
       const res = await updateFood(data);

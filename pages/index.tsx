@@ -92,7 +92,7 @@ const Page: MyNextPage = () => {
               title="Số lượng đơn hàng trong tháng"
               chartSeries={[
                 {
-                  name: "This month",
+                  name: "Số lượng",
                   data: turnOver?.map((item: any) => item.count) || [],
                 },
               ]}
@@ -106,7 +106,7 @@ const Page: MyNextPage = () => {
               title="Thống kê doanh số trong tháng"
               chartSeries={[
                 {
-                  name: "This month",
+                  name: "Tổng tiền:",
                   data: turnOver?.map((item: any) => item.sum) || [],
                 },
               ]}

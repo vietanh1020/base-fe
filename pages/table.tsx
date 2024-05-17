@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { useGetTableStatus } from "@/services/CompanyService";
 import { useRouter } from "next/router";
+import { onMessageListener } from "@/firebase";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -18,7 +19,17 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ResponsiveGrid() {
-  const { data } = useGetTableStatus();
+  const { data, refetch } = useGetTableStatus() as any;
+
+  const [hasNoti, setHasNoti] = React.useState(false);
+
+  React.useEffect(() => {
+    onMessageListener().then(async (data) => {
+      refetch();
+      setHasNoti(!hasNoti);
+    });
+  }, [hasNoti]);
+
   const router = useRouter();
 
   return (
