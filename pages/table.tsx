@@ -46,33 +46,37 @@ export default function ResponsiveGrid() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, margin: "0 150px" }}>
-      <Grid
-        container
-        spacing={{ xs: 2, md: 3, lg: 4 }}
-        columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}
-      >
-        {Array.from(Array(12)).map((_, index) => (
-          <Grid item xs={2} sm={4} md={4} key={index}>
-            <Item
-              sx={{
-                background: data && data?.includes(index + 1) ? "#ccc" : "#fff",
-              }}
-              onClick={() => router.push(`/order?table=${index + 1}`)}
-            >
-              <div style={{ height: "100px" }}>
-                Bàn {index + 1}
-                {orders?.[index + 1] && (
-                  <div>Số món: {orders?.[index + 1]?.length}</div>
-                )}
-                {orders?.[index + 1] && (
-                  <div>Thời gian: {getMinTime(orders?.[index + 1])}</div>
-                )}
-              </div>
-            </Item>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+    <div>
+      <Box sx={{ flexGrow: 1, margin: "0 150px" }}>
+        <h1>Danh sách bàn ăn</h1>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3, lg: 4 }}
+          columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}
+        >
+          {Array.from(Array(12)).map((_, index) => (
+            <Grid item xs={2} sm={4} md={4} key={index}>
+              <Item
+                sx={{
+                  background:
+                    data && data?.includes(index + 1) ? "#ccc" : "#fff",
+                }}
+                onClick={() => router.push(`/order?table=${index + 1}`)}
+              >
+                <div style={{ height: "100px" }}>
+                  Bàn {index + 1}
+                  {orders?.[index + 1] && (
+                    <div>Số món: {orders?.[index + 1]?.length}</div>
+                  )}
+                  {orders?.[index + 1] && (
+                    <div>Thời gian: {getMinTime(orders?.[index + 1])}</div>
+                  )}
+                </div>
+              </Item>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </div>
   );
 }

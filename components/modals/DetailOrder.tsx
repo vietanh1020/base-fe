@@ -87,6 +87,7 @@ export default function DetailOrder({ handleClose, show, data }: any) {
 
                   <TableCell>
                     <Select
+                      sx={{ width: "200px" }}
                       value={food.status}
                       disabled={food.status === -1}
                       onChange={(e) =>
@@ -97,7 +98,9 @@ export default function DetailOrder({ handleClose, show, data }: any) {
                         })
                       }
                     >
-                      <MenuItem value={-1}>Đã hủy</MenuItem>
+                      {food.status === -1 && (
+                        <MenuItem value={-1}>Đã hủy</MenuItem>
+                      )}
                       {FoodStatus.map((item, index) => (
                         <MenuItem key={index} value={index}>
                           {item}
