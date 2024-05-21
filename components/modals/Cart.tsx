@@ -53,6 +53,7 @@ export default function CartDialog({ open, handleClose }: any) {
       foods: cartItems,
       deviceToken,
     };
+    handleClose();
     const res = await mutateAsync(data);
     if (res?.id) {
       setCartItems([]);
@@ -71,7 +72,6 @@ export default function CartDialog({ open, handleClose }: any) {
       }
 
       toast.success("Order Thành Công");
-      handleClose();
     }
   };
 

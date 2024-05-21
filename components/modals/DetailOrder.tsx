@@ -14,8 +14,6 @@ import {
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { styled } from "@mui/material/styles";
-import React from "react";
-
 const Modal = styled(Dialog)(({ theme }) => ({
   margin: 0,
   "& .MuiDialogContent-root": {
@@ -68,6 +66,7 @@ export default function DetailOrder({ handleClose, show, data }: any) {
                           marginTop: "6px",
                         }}
                       >
+                        {op?.label}:
                         {op?.data?.map((chose: any, index: number) => (
                           <div
                             key={index}

@@ -6,7 +6,6 @@ import {
   CardActions,
   CardContent,
   Divider,
-  InputLabel,
   TextField,
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
@@ -58,6 +57,7 @@ export const SettingCompany = () => {
               value={values.name}
             />
             {/* <InputLabel>Mô tả</InputLabel> */}
+
             <TextField
               sx={{ mt: 2 }}
               fullWidth
@@ -79,10 +79,42 @@ export const SettingCompany = () => {
               value={values.address}
             />
 
-            {/* <Button variant="contained" component="label">
-              Upload File
-              <input type="file" hidden />
-            </Button> */}
+            <div
+              style={{
+                display: "flex",
+                gap: "12px",
+              }}
+            >
+              <TextField
+                sx={{ mt: 2 }}
+                fullWidth
+                label="Thời gian mở cửa"
+                name="openAt"
+                onChange={handleChange}
+                type="text"
+                value={values.openAt}
+              />
+
+              <TextField
+                sx={{ mt: 2 }}
+                fullWidth
+                label="Thời gian đóng cửa"
+                name="closeAt"
+                onChange={handleChange}
+                type="text"
+                value={values.closeAt}
+              />
+            </div>
+
+            <TextField
+              sx={{ mt: 2 }}
+              fullWidth
+              label="Ngày mở cửa"
+              name="openDay"
+              onChange={handleChange}
+              type="text"
+              value={values.openDay}
+            />
           </div>
         </CardContent>
         <Divider />

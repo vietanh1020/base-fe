@@ -26,6 +26,7 @@ import { useRecoilState } from "recoil";
 import { cartState } from "@/store";
 import CustomerOrderHistoryDialog from "../modals/CustomerOrderHistory";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -40,6 +41,8 @@ export const TopNav = () => {
   const [cartItems, setCartItems] = useLocalStorage("cartItems", []);
 
   const [showTop, setShowTop] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!session?.user?.role && location?.href?.includes("restaurant"))
@@ -123,16 +126,18 @@ export const TopNav = () => {
                  </Badge>
                </IconButton>
              </Tooltip> */}
-            <Avatar
-              onClick={accountPopover.handleOpen}
-              ref={accountPopover.anchorRef}
-              sx={{
-                cursor: "pointer",
-                height: 40,
-                width: 40,
-              }}
-              src={session?.user.image}
-            />
+            {!showTop && router.pathname !== "/auth/sign-in" && (
+              <Avatar
+                onClick={accountPopover.handleOpen}
+                ref={accountPopover.anchorRef}
+                sx={{
+                  cursor: "pointer",
+                  height: 40,
+                  width: 40,
+                }}
+                src={session?.user.image}
+              />
+            )}
           </Stack>
         </Stack>
       </Box>

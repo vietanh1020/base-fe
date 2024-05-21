@@ -45,24 +45,22 @@ const Page: MyNextPage = () => {
         py: 8,
       }}
     >
-      <Typography
-        variant="h5"
-        sx={{
+      <div
+        style={{
           margin: "0 120px ",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
-        gutterBottom
       >
-        <h5>Thống kê</h5>
+        <h2>Thống kê</h2>
         <DatePicker
           className="dateCustom"
           onChange={handleDateChange}
           locale="vi-VN"
           value={selectedDate}
         />
-      </Typography>
+      </div>
 
       <Container maxWidth="xl">
         <Grid container spacing={3}>

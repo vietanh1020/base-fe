@@ -77,6 +77,7 @@ function RestaurantDetailPage({ id, table }: any) {
                           marginTop: "6px",
                         }}
                       >
+                        {op?.label}:
                         {op?.data?.map((chose: any, index: number) => (
                           <div
                             key={index}
